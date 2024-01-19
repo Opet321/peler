@@ -68,7 +68,7 @@ async def pencuri(client, message):
     except Exception as e:
         print(e)
 
-@bots.on_message(filters.command(["copy"], cmd) & filters.me)
+@bots.on_message(filters.command(["copy"], cmd))
 async def copy_bot_msg(client, message):
     if message.from_user.id not in ubot._get_my_id:
         return
@@ -137,7 +137,7 @@ async def download_media_copy(get, client, infomsg, message):
                     if thumbnail:
                         os.remove(thumbnail)
 
-@bots.on_message(filters.command(["copy"], cmd) & filters.me)
+@bots.on_message(filters.command(["copy"], cmd))
 async def copy_ubot_msg(client, message):
     msg = message.reply_to_message or message
     infomsg = await message.reply("<b>sᴇᴅᴀɴɢ ᴍᴇᴍᴘʀᴏsᴇs ᴄᴏᴘʏ ᴍᴏʜᴏɴ ʙᴇʀsᴀʙᴀʀ</b>")
