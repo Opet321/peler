@@ -56,10 +56,10 @@ async def chatgpt_support(client: Client, message: Message):
         await pro.edit_text("Berikan permintaan dari chatgpt")
         return
     try:
-        hacking = RendyDevChat(biji).get_response(message, latest_version=True)
+        hacking = RendyDevChat(biji).get_response.model(model_id=5, re_json=True, is_models=True, status_ok=True)
         await client.send_message(
             message.chat.id,
-            hacking,
+            hacking["randydev"].get("message"),
             reply_to_message_id=message.id
         )
         await pro.delete()
