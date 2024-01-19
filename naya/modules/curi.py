@@ -70,7 +70,7 @@ async def pencuri(client, message):
 
 @bots.on_message(filters.command(["copy"], cmd))
 async def copy_bot_msg(client, message):
-    if message.from_user.id not in bot._bots:
+    if message.from_user.id not in _ubot:
         return
 
     Tm = await message.reply("ᴛᴜɴɢɢᴜ sᴇʙᴇɴᴛᴀʀ")
