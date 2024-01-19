@@ -82,3 +82,24 @@ class RendyDevChat:
                 return f"Error Api {e}"
         else:
             return f"WTF THIS {self.query}"
+    def get_response_model(
+        self,
+        model_id: int = None,
+        is_models: bool = False,
+        re_json: bool = False,
+        status_ok: bool = False,
+    ):
+        url = "https://randydev-ryuzaki-api.hf.space/ryuzaki/chatgpt-model"
+        params = {"query": self.query, "model_id": model_id, "is_models": is_models}
+        response = requests.post(url, json=params)
+        if response.status_code != 200:
+            return f"Error status: {response.status_code}"
+
+        if status_ok:
+            if re_json:
+                check_response = response.json()
+            else:
+                check_response = response
+            return check_response
+        else:
+            return f"WTF THIS {self.query}"
