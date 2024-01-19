@@ -16,22 +16,20 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
-import openai
+import base64
+import json
+import os
+from base64 import b64decode as idk
+
 import requests
 from pyrogram import Client, filters
 from pyrogram.types import Message
-import base64
-from base64 import b64decode as idk
-import os
-import json 
-
-
 
 
 class RendyDevChat:
     def __init__(
         self,
-        query,
+        query: str = None,
         binary="01101000 01110100 01110100 01110000 01110011 00111010 00101111 00101111 01100001 01110000 01101001 00101110 01110011 01100001 01100110 01101111 01101110 01100101 00101110 01100100 01100101 01110110 00101111 01100011 01101000 01100001 01110100 01100111 01110000 01110100",
     ):
         self.query = query
@@ -51,54 +49,36 @@ class RendyDevChat:
         except FileNotFoundError:
             return set()
 
-    def get_response(self, message):
+    def get_response(
+        self,
+        message,
+        version: int = 3,
+        chat_mode: str = "assistant",
+        latest_version: bool = False,
+    ):
         if isinstance(message, Message):
             blacklist = self.get_blacklist_from_file()
             if message.from_user.id in blacklist:
                 return "Blocked User"
-        response_url = self.knowledge_hack(self.binary)
-        payloads = {
-            "message": self.query,
-            "version": 3,
-            "chat_mode": "assistant",
-            "dialog_messages": "[{'bot': '', 'user': ''}]"
-        }
-        try:
-            response = requests.post(
-                f"{response_url}",
-                json=payloads,
-                headers={"Content-Type": "application/json"}
-            ).json()
-            if not (response and "message" in response):
-                print(response)
-                raise ValueError("Invalid Response from Server")
-            return response.get("message")
-        except Exception as e:
-            return f"Error Api {e}"
-
-
-class OpenAiToken:
-    def __init__(self, apikey):
-        self.apikey = apikey
-        openai.api_key = self.apikey
-
-    def message_output(self, query):
-        response = openai.Completion.create(
-            model="text-davinci-003",
-            prompt=f"{query}\n:",
-            temperature=0,
-            max_tokens=500,
-            top_p=1.0,
-            frequency_penalty=0.0,
-            presence_penalty=0.0,
-        )
-        return response.choices[0].text
-
-    def photo_output(self, query):
-        response = openai.Image.create(prompt=query, n=1, size="1024x1024")
-        return response["data"][0]["url"]
-
-    def audio_transcribe(self, file_path):
-        with open(file_path, "rb") as path:
-            transcript = openai.Audio.transcribe("whisper-1", path)
-        return transcript
+        if latest_version:
+            response_url = self.knowledge_hack(self.binary)
+            payloads = {
+                "message": self.query,
+                "version": version,
+                "chat_mode": chat_mode,
+                "dialog_messages": "[{'bot': '', 'user': ''}]",
+            }
+            try:
+                response = requests.post(
+                    f"{response_url}",
+                    json=payloads,
+                    headers={"Content-Type": "application/json"},
+                ).json()
+                if not (response and "message" in response):
+                    print(response)
+                    raise ValueError("Invalid Response from Server")
+                return response.get("message")
+            except Exception as e:
+                return f"Error Api {e}"
+        else:
+            return f"WTF THIS {self.query}"
