@@ -106,9 +106,12 @@ class Ubot(Client):
     async def start(self):
         await super().start()
         if self not in self._bots: 
-        if self._get_my_id.append(self.me.id)
+        # Memastikan bahwa self._get_my_id adalah list sebelum menambahkan nilai
+            if self._get_my_id is None:
+                self._get_my_id = []
+        self._get_my_id.append(self.me.id)
         self._translate[self.me.id] = "id"
-            self._bots.append(self)
+        self._bots.append(self)
 
     async def stop(self, *args):
         await super().stop()
