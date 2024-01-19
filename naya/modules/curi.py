@@ -68,7 +68,7 @@ async def pencuri(client, message):
     except Exception as e:
         print(e)
 
-@bots.on_message(filters.command(["copy"], cmd))
+@bots.on_message(filters.command(["copy2"], cmd))
 async def copy_bot_msg(client, message):
     if message.from_user.id not in bots._get_my_id:
         return
