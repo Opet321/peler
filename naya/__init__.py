@@ -89,7 +89,8 @@ class Bot(Client):
 class Ubot(Client):
     __module__ = "kymang.client"
     _bots = []
-
+    _get_my_id = [] 
+    
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.group_call = GroupCallFactory(self).get_group_call()
@@ -104,7 +105,8 @@ class Ubot(Client):
 
     async def start(self):
         await super().start()
-        if self not in self._bots:
+        if self not in self._bots: 
+        self._get_my_id.append(self.me.id)
             self._bots.append(self)
 
     async def stop(self, *args):
