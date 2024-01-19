@@ -106,7 +106,7 @@ class Ubot(Client):
     async def start(self):
         await super().start()
         if self not in self._bots: 
-        self._get_my_id.append(self.me.id)
+        if self._get_my_id.append(self.me.id)
         self._translate[self.me.id] = "id"
             self._bots.append(self)
 
