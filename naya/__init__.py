@@ -90,6 +90,7 @@ class Ubot(Client):
     __module__ = "kymang.client"
     _bots = []
     _get_my_id = [] 
+    _translate = {}
     
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
