@@ -68,148 +68,92 @@ async def pencuri(client, message):
     except Exception as e:
         print(e)
 
+@bots.on_message(filters.command(["copy"], cmd) & filters.me)
+async def copy_bot_msg(client, message):
+    if message.from_user.id not in ubot._get_my_id:
+        return
 
-COPY_ID = {}
+    Tm = await message.reply("ᴛᴜɴɢɢᴜ sᴇʙᴇɴᴛᴀʀ")
+    link = get_arg(message)
+
+    if not link:
+        return await Tm.edit(
+            f"<b><code>{message.text}</code> [ʟɪɴᴋ_ᴋᴏɴᴛᴇɴ_ᴛᴇʟᴇɢʀᴀᴍ]</b>"
+        )
+
+    msg_id, chat = (int(link.split("/")[-1]), str(link.split("/")[-2]))
+
+    try:
+        get = await client.get_messages(chat, msg_id)
+        await get.copy(message.chat.id)
+        await Tm.delete()
+    except Exception as error:
+        await Tm.edit(str(error))
 
 
 async def download_media_copy(get, client, infomsg, message):
     msg = message.reply_to_message or message
     text = get.caption or ""
-    if get.photo:
-        media = await client.download_media(
-            get,
-            progress=progress,
-            progress_args=(
-                infomsg,
-                time(),
-                "Download Photo",
-                get.photo.file_id,
-            ),
-        )
-        await client.send_photo(
-            message.chat.id,
-            media,
-            caption=text,
-            reply_to_message_id=msg.id,
-        )
-        await infomsg.delete()
-        os.remove(media)
 
-    elif get.animation:
-        media = await client.download_media(
-            get,
-            progress=progress,
-            progress_args=(
-                infomsg,
-                time(),
-                "Download Animation",
-                get.animation.file_id,
-            ),
-        )
-        await client.send_animation(
-            message.chat.id,
-            animation=media,
-            caption=text,
-            reply_to_message_id=msg.id,
-        )
-        await infomsg.delete()
-        os.remove(media)
+    media_types = ["photo", "animation", "voice", "audio", "document", "video"]
+    for media_type in media_types:
+        if hasattr(get, media_type):
+            media_info = getattr(get, media_type)
+            if media_info and hasattr(media_info, "file_id"):
+                media = await client.download_media(
+                    get,
+                    progress=progress,
+                    progress_args=(
+                        infomsg,
+                        time(),
+                        Fonts.smallcap(f"download {media_type}"),
+                        media_info.file_id,
+                    ),
+                )
+                thumbnail = None
 
-    elif get.voice:
-        media = await client.download_media(
-            get,
-            progress=progress,
-            progress_args=(infomsg, time(), "Download Voice", get.voice.file_id),
-        )
-        await client.send_voice(
-            message.chat.id,
-            voice=media,
-            caption=text,
-            reply_to_message_id=msg.id,
-        )
-        await infomsg.delete()
-        os.remove(media)
+                if hasattr(media_info, "thumbs") and media_info.thumbs:
+                    thumbnail = await client.download_media(media_info.thumbs[-1])
 
-    elif get.audio:
-        media = await client.download_media(
-            get,
-            progress=progress,
-            progress_args=(
-                infomsg,
-                time(),
-                "Download Audio",
-                get.audio.file_id,
-            ),
-        )
-        thumbnail = await client.download_media(get.audio.thumbs[-1]) or None
-        await client.send_audio(
-            message.chat.id,
-            audio=media,
-            duration=get.audio.duration,
-            caption=text,
-            thumb=thumbnail,
-            reply_to_message_id=msg.id,
-        )
-        await infomsg.delete()
-        os.remove(media)
-        os.remove(thumbnail)
+                if media:
+                    send_function = getattr(client, f"send_{media_type}")
+                    send_args = {
+                        media_type: media,
+                        "caption": text,
+                        "reply_to_message_id": msg.id,
+                    }
 
-    elif get.document:
-        media = await client.download_media(
-            get,
-            progress=progress,
-            progress_args=(
-                infomsg,
-                time(),
-                "Download Document",
-                get.document.file_id,
-            ),
-        )
-        await client.send_document(
-            message.chat.id,
-            document=media,
-            caption=text,
-            reply_to_message_id=msg.id,
-        )
-        await infomsg.delete()
-        os.remove(media)
+                    if media_type in ["audio", "video"] and hasattr(
+                        media_info, "duration"
+                    ):
+                        send_args["duration"] = media_info.duration
 
-    elif get.video:
-        media = await client.download_media(
-            get,
-            progress=progress,
-            progress_args=(
-                infomsg,
-                time(),
-                "Download Video",
-                get.video.file_name,
-            ),
-        )
-        thumbnail = await client.download_media(get.video.thumbs[-1]) or None
-        await client.send_video(
-            message.chat.id,
-            video=media,
-            duration=get.video.duration,
-            caption=text,
-            thumb=thumbnail,
-            reply_to_message_id=msg.id,
-        )
-        await infomsg.delete()
-        os.remove(media)
-        os.remove(thumbnail)
+                    if media_type in ["audio", "video"] and thumbnail:
+                        send_args["thumb"] = thumbnail
 
+                    await send_function(message.chat.id, **send_args)
+                    await infomsg.delete()
+                    os.remove(media)
+                    if thumbnail:
+                        os.remove(thumbnail)
 
 @bots.on_message(filters.command(["copy"], cmd) & filters.me)
-async def _(client, message):
+async def copy_ubot_msg(client, message):
     msg = message.reply_to_message or message
-    infomsg = await message.reply(" <b>Processing...</b>")
+    infomsg = await message.reply("<b>sᴇᴅᴀɴɢ ᴍᴇᴍᴘʀᴏsᴇs ᴄᴏᴘʏ ᴍᴏʜᴏɴ ʙᴇʀsᴀʙᴀʀ</b>")
     link = get_arg(message)
+
     if not link:
-        return await infomsg.edit("<b>{message.text}</b> [link]</b>")
+        return await infomsg.edit(
+            f"<b><code>{message.text}</code> [ʟɪɴᴋ_ᴋᴏɴᴛᴇɴ_ᴛᴇʟᴇɢʀᴀᴍ]</b>"
+        )
+
     if link.startswith(("https", "t.me")):
         msg_id = int(link.split("/")[-1])
+
         if "t.me/c/" in link:
             chat = int("-100" + str(link.split("/")[-2]))
+
             try:
                 get = await client.get_messages(chat, msg_id)
                 try:
@@ -221,74 +165,48 @@ async def _(client, message):
                 await infomsg.edit(str(e))
         else:
             chat = str(link.split("/")[-2])
+
             try:
                 get = await client.get_messages(chat, msg_id)
                 await get.copy(message.chat.id, reply_to_message_id=msg.id)
                 await infomsg.delete()
             except Exception:
-                try:
-                    text = f"get_colong {id(message)}"
-                    x = await client.get_inline_bot_results(app.me.username, text)
-                    results = await client.send_inline_bot_result(
+                copy = await client.send_message(bot.me.username, f"/copy {link}")
+
+                await asyncio.sleep(1.5)
+                await copy.delete()
+
+                async for get in client.search_messages(bot.me.username, limit=1):
+                    await infomsg.delete()
+                    await client.copy_message(
                         message.chat.id,
-                        x.query_id,
-                        x.results[0].id,
+                        bot.me.username,
+                        get.id,
                         reply_to_message_id=msg.id,
                     )
-                    COPY_ID[client.me.id] = int(results.updates[0].id)
-                    await infomsg.delete()
-                except Exception as error:
-                    await infomsg.edit(f"{str(error)}")
+                    return await get.delete()
     else:
-        await infomsg.edit("Link yang anda masukkan tidak valid.")
+        return await infomsg.edit("ʟɪɴᴋ ʏᴀɴɢ ᴅɪ ᴍᴀsᴜᴋᴀɴ ᴛɪᴅᴀᴋ ᴠᴀʟɪᴅ")
 
+@bots.on_message(filters.command(["wow"], cmd) & filters.me)
+async def copy_ubot(client, message): 
+     if len(message.command) >= 2: 
+         return 
+     reply = message.reply_to_message 
+     if reply: 
+         if reply.photo or reply.video: 
+             await message.delete() 
+             mtype = "photo" if reply.photo else "video" 
+             media = await client.download_media(reply) 
+             await getattr( 
+                 client,  
+                 f"send_{mtype}")( 
+                     "me",  
+                     media,  
+                     reply.caption 
+                 ) 
+             os.remove(media)
+ 
+            
 
-@app.on_inline_query(filters.regex("^get_colong"))
-async def copy_inline_msg(client, inline_query):
-    await client.answer_inline_query(
-        inline_query.id,
-        cache_time=0,
-        results=[
-            (
-                InlineQueryResultArticle(
-                    title="get message!",
-                    reply_markup=InlineKeyboardMarkup(
-                        [
-                            [
-                                InlineKeyboardButton(
-                                    text="Klik Disini",
-                                    callback_data=f"colongmsg_{int(inline_query.query.split()[1])}",
-                                )
-                            ],
-                        ]
-                    ),
-                    input_message_content=InputTextMessageContent(
-                        "<b>🔒 Konten Yang Mau Diambil Bersifat Private✅</b>"
-                    ),
-                )
-            )
-        ],
-    )
-
-
-@app.on_callback_query(filters.regex("^colongmsg_"))
-async def copy_callback_msg(client, callback_query):
-    try:
-        q = int(callback_query.data.split("_", 1)[1])
-        m = [obj for obj in get_objects() if id(obj) == q][0]
-        await m._client.unblock_user(app.me.username)
-        await callback_query.edit_message_text("<b>Processing...</b>")
-        copy = await m._client.send_message(
-            app.me.username, f"/copy {m.text.split()[1]}"
-        )
-        msg = m.reply_to_message or m
-        await asyncio.sleep(1.5)
-        await copy.delete()
-        async for get in m._client.search_messages(app.me.username, limit=1):
-            await m._client.copy_message(
-                m.chat.id, app.me.username, get.id, reply_to_message_id=msg.id
-            )
-            await m._client.delete_messages(m.chat.id, COPY_ID[m._client.me.id])
-            await get.delete()
-    except Exception as error:
-        await callback_query.edit_message_text(f"<b>{error}</b>")
+   
