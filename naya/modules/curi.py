@@ -30,7 +30,7 @@ async def log_(client, message, _):
     try:
         await message.reply_document(document="log.txt")
     except:
-        await message.reply_text("ketik logs")
+        await message.reply_text("gagal mendapatkan log")
 
 
 @bots.on_message(filters.command(["curi", "love"], cmd) & filters.me)
