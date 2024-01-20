@@ -31,45 +31,27 @@ async def _start(client: Client, message: Message):
         await message.reply_text("<b>Kirim saya pesan Anda dan saya akan meneruskannya!</b>", reply_to_message_id=message.id)
 
 
-@app.on_message(filters.chat(int(owner)))
+@app.on_message(filters.chat(int(OWNER)))
 async def _owner(client: Client, message: Message):
-    result = [_ async for _ in messages.find()]
-    if result:  # Cek apakah hasil tidak kosong
-        last_msg = result[-1]  # Akses elemen terakhir jika hasilnya tidak kosong
-    else:
-        last_msg = None  # Atau tentukan nilai default jika hasilnya kosong
-
+    last_msg = [_ async for _ in messages.find()][-1]
     if message.reply_to_message:
-        message_id = await _message_id(message.reply_to_message.message_id)
-        if message_id:
-            await message.copy(int(message_id['user_id']), reply_to_message_id=int(message_id['message_id']))
-            response_message = await message.reply_text(f"<b>Pesan Anda telah terkirim ke {message_id['user_id']}</b>", reply_to_message_id=message.id, disable_notification=True)
-            if last_msg and int(last_msg['user_id']) != int(message_id['user_id']):
-                message_data = {
-                    "forward_id": f"{message_id['forward_id']}",
-                    "message_id": f"{message_id['message_id']}",
-                    "user_id": f"{message_id['user_id']}"
-                }
-                await messages.insert_one(message_data)
-            await sleep(5)
-            await message.delete()
-        else:
-            # Handle ketika message_id tidak ditemukan
-            await message.reply_text("Maaf, pesan yang anda balas tidak ditemukan", reply_to_message_id=message.id, disable_notification=True)
+        message_id = await _message_id(message_id=message.reply_to_message.id)
+        await message.copy(int(message_id['user_id']), reply_to_message_id=int(message_id['message_id']))
+        message = await message.reply_text(f"<b>Pesan Anda telah terkirim ke {(message_id['user_id'])}</b>", reply_to_message_id=message.id, disable_notification=True)
+        if int(last_msg['user_id']) != int(message_id['user_id']):
+            message_data = {"forward_id": f"{message_id['forward_id']}",
+                            "message_id": f"{message_id['message_id']}",
+                            "user_id": f"{message_id['user_id']}"}
+            await messages.insert_one(message_data)
+        await sleep(5)
+        await message.delete()
+
     else:
-        if last_msg:
-            message_id = await _message_id(last_msg['forward_id'])
-            if message_id:
-                await message.copy(int(message_id['user_id']))
-                response_message = await message.reply_text(f"<b>Pesan Anda telah terkirim ke {message_id['user_id']}</b>", reply_to_message_id=message.id, disable_notification=True)
-                await sleep(5)
-                await message.delete()
-            else:
-                # Handle ketika message_id tidak ditemukan
-                await message.reply_text("Maaf, pesan tidak ditemukan", reply_to_message_id=message.id, disable_notification=True)
-        else:
-            # Handle ketika last_msg kosong
-            await message.reply_text("Maaf, tidak ada pesan sebelumnya", reply_to_message_id=message.id, disable_notification=True)
+        message_id = await _message_id(message_id=last_msg['forward_id'])
+        await message.copy(int(message_id['user_id']))
+        message = await message.reply_text(f"<b>Pesan Anda telah terkirim ke {(message_id['user_id'])}</b>", reply_to_message_id=message.id, disable_notification=True)
+        await sleep(5)
+        await message.delete()
 
 
 @app.on_message(filters.all & ~filters.incoming & ~filters.private & ~filters.me & ~filters.forwarded & ~filters.via_bot & ~filters.bot)
@@ -78,7 +60,7 @@ async def _user(client: Client, message: Message):
     if not user_db:
         await message.reply_text(f"<b>You are not in the database, enter /start to use the bot!</b>", reply_to_message_id=message.id)
     else:
-        forwarded_message = await message.forward(owner)
+        forwarded_message = await message.forward(OWNER)
         message_data = {"forward_id": f"{forwarded_message.id}",
                         "message_id": f"{message.id}",
                         "user_id": f"{message.from_user.id}"}
