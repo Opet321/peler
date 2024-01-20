@@ -1,12 +1,30 @@
 from asyncio import sleep
-
+from motor import motor_asyncio
+import configparser
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
-from .utils import owner, _message_id, users, messages
+from . import *
+
+config = configparser.ConfigParser()
+config.read("config.ini")
+
+db_url = config.get("mongo", "url")
+owner = config.get("owner", "id")
+
+connect = motor_asyncio.AsyncIOMotorClient(db_url)
+create = connect.database
+
+users = create.users
+messages = create.messages
 
 
-@Client.on_message(filters.command("start"))
+async def _message_id(message_id):
+	message_id = await messages.find_one({"forward_id": f"{message_id}"})
+	return message_id
+
+
+@bots.on_message(filters.command("start"))
 async def _start(client: Client, message: Message):
     user_db = await users.find_one({"user_id": f"{message.from_user.id}"})
     if not user_db:
@@ -18,7 +36,7 @@ async def _start(client: Client, message: Message):
         await message.reply_text("<b>Kirim saya pesan Anda dan saya akan meneruskannya!</b>", reply_to_message_id=message.id)
 
 
-@Client.on_message(filters.chat(int(owner)))
+@bots.on_message(filters.chat(int(owner)))
 async def _owner(client: Client, message: Message):
     last_msg = [_ async for _ in messages.find()][-1]
     if message.reply_to_message:
@@ -41,7 +59,7 @@ async def _owner(client: Client, message: Message):
         await message.delete()
 
 
-@Client.on_message(filters.all & filters.private & ~filters.me)
+@bots.on_message(filters.all & filters.private & ~filters.me)
 async def _user(client: Client, message: Message):
     user_db = await users.find_one({"user_id": f"{message.from_user.id}"})
     if not user_db:
