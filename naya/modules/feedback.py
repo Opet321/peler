@@ -6,7 +6,7 @@ from . import *
 
 @bots.on_message(filters.command("start"))
 async def _start(client: Client, message: Message):
-    user_db = await users.find_one({"user_id": f"{message.from_user.id}"})
+    user_db = await usersdb.find_one({"user_id": f"{message.from_user.id}"})
     if not user_db:
         await message.reply_text(f"<b>Hello, {message.from_user.mention}!</b>", reply_to_message_id=message.id)
         user_id = {"user_id": f"{message.from_user.id}"}
@@ -49,7 +49,7 @@ async def _owner(client: Client, message: Message):
     group=69,
 )
 async def _user(client: Client, message: Message):
-    user_db = await users.find_one({"user_id": f"{message.from_user.id}"})
+    user_db = await usersdb.find_one({"user_id": f"{message.from_user.id}"})
     if not user_db:
         await message.reply_text(f"<b>You are not in the database, enter /start to use the bot!</b>", reply_to_message_id=message.id)
     else:
