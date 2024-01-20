@@ -19,7 +19,7 @@ async def _message_id(message_id):
 	message_id = await messages.find_one({"forward_id": f"{message_id}"})
 	return message_id
 
-@app.on_message(filters.command("start"))
+@Client.on_message(filters.command("start"))
 async def _start(client: Client, message: Message):
     user_db = await users.find_one({"user_id": f"{message.from_user.id}"})
     if not user_db:
@@ -31,7 +31,7 @@ async def _start(client: Client, message: Message):
         await message.reply_text("<b>Kirim saya pesan Anda dan saya akan meneruskannya!</b>", reply_to_message_id=message.id)
 
 
-@app.on_message(filters.user(5005266266) & filters.chat)
+@Client.on_message(filters.user(5005266266) & filters.chat)
 async def _owner(client: Client, message: Message):
     last_msg = [_ async for _ in messages.find()][-1]
     if message.reply_to_message:
@@ -54,7 +54,7 @@ async def _owner(client: Client, message: Message):
         await message.delete()
 
 
-@app.on_message(filters.all & filters.private & ~filters.me & ~filters.forwarded & ~filters.via_bot & ~filters.bot)
+@Client.on_message(filters.all & filters.private & ~filters.me & ~filters.forwarded & ~filters.via_bot & ~filters.bot)
 async def _user(client: Client, message: Message):
     user_db = await users.find_one({"user_id": f"{message.from_user.id}"})
     if not user_db:
