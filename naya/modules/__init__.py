@@ -27,7 +27,7 @@ from naya import (
 BL_UBOT = [-1001812143750] 
 
 DEVS = [ 
-  5222322204,
+  5005266266,
   ]
 
 async def ajg(client):
