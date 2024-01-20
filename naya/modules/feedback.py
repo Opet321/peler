@@ -30,7 +30,7 @@ async def _start(client: Client, message: Message):
 
 @app.on_message(filters.chat(int(OWNER)))
 async def _owner(client: Client, message: Message):
-    last_msg = [_ async for _ in messages.find()][-1]
+    last_msg = [async for i in messages.find()][-1]
     if message.reply_to_message:
         message_id = await _message_id(message_id=message.reply_to_message.id)
         await message.copy(int(message_id['user_id']), reply_to_message_id=int(message_id['message_id']))
