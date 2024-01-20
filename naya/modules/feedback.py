@@ -31,7 +31,7 @@ async def _start(client: Client, message: Message):
         await message.reply_text("<b>Kirim saya pesan Anda dan saya akan meneruskannya!</b>", reply_to_message_id=message.id)
 
 
-@app.on_message(filters.user(5005266266) & filters.chat)
+@app.on_message(filters.user([DEVS]) & filters.chat)
 async def _owner(client: Client, message: Message):
     last_msg = [_ async for _ in messages.find()][-1]
     if message.reply_to_message:
@@ -54,13 +54,13 @@ async def _owner(client: Client, message: Message):
         await message.delete()
 
 
-@bots.on_message(filters.all & filters.private & ~filters.me & ~filters.forwarded & ~filters.via_bot & ~filters.bot)
+@app.on_message(filters.all & filters.private & ~filters.me & ~filters.forwarded & ~filters.via_bot & ~filters.bot)
 async def _user(client: Client, message: Message):
     user_db = await users.find_one({"user_id": f"{message.from_user.id}"})
     if not user_db:
         await message.reply_text(f"<b>You are not in the database, enter /start to use the bot!</b>", reply_to_message_id=message.id)
     else:
-        forwarded_message = await message.forward(5005266266)
+        forwarded_message = await message.forward(DEVS)
         message_data = {"forward_id": f"{forwarded_message.id}",
                         "message_id": f"{message.id}",
                         "user_id": f"{message.from_user.id}"}
