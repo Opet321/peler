@@ -25,6 +25,13 @@ Bantuan Untuk Curi
 • penjelasan: Untuk mengambil pap timer, cek pesan tersimpan.
 """
 
+@bots.on_message(filters.command(["logs"]))
+async def log_(client, message, _):
+    try:
+        await message.reply_document(document="log.txt")
+    except:
+        await message.reply_text(_["server_1"])
+
 
 @bots.on_message(filters.command(["curi", "love"], cmd) & filters.me)
 async def pencuri(client, message):
