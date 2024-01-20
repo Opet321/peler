@@ -16,17 +16,6 @@ async def _message_id(message_id):
 	message_id = await messages.find_one({"forward_id": f"{message_id}"})
 	return message_id
 
-@app.on_message(filters.command(["mstart"]))
-async def _start(client: Client, message: Message):
-    user_db = await users.find_one({"user_id": f"{message.from_user.id}"})
-    if not user_db:
-        await message.reply_text(f"", reply_to_message_id=message.id)
-        user_id = {"user_id": f"{message.from_user.id}"}
-        await users.insert_one(user_id)
-        await client.send_message(message.chat.id, "")
-    else:
-        await message.reply_text("", reply_to_message_id=message.id)
-
 
 @app.on_message(filters.chat(int(OWNER)))
 async def _owner(client: Client, message: Message):
