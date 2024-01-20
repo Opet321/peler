@@ -1,18 +1,17 @@
 from asyncio import sleep
 from pyrogram import Client, filters
 from pyrogram.types import Message 
-from motor import motor_asyncio
-from naya.config import *
+from motor.motor_asyncio import AsyncIOMotorClient as MongoCli
+from naya.config import MONGO_URL
 from . import *
 
 
 owner = "5005266266"
 
-connect = motor_asyncio.AsyncIOMotorClient(MONGO_URL)
-create = connect.database
-
-users = create.users
-messages = create.messages
+cli = motor.motor_asyncio.AsyncIOMotorClient(MONGO_URL)
+users = db.users 
+mongo = MongoCli(MONGO_URL)
+messages = db.messages
 
 
 async def _message_id(message_id):
