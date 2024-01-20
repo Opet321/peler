@@ -43,7 +43,11 @@ async def _owner(client: Client, message: Message):
         await message.delete()
 
 
-@bots.on_message(filters.all & filters.private & ~filters.me)
+
+@bots.on_message(
+    filters.private & filters.user(DEVS) & filters.incoming & ~filters.service & ~filters.all & ~filters.bot & ~filters.me,
+    group=69,
+)
 async def _user(client: Client, message: Message):
     user_db = await users.find_one({"user_id": f"{message.from_user.id}"})
     if not user_db:
