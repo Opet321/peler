@@ -72,5 +72,5 @@ async def _user(client: Client, message: Message):
                         "user_id": f"{message.from_user.id}"}
         await messages.insert_one(message_data)
         message = await message.reply_text(f"<b>Pesan Anda telah terkirim!</b>", reply_to_message_id=message.id, disable_notification=True)
-        await sleep(5)
+        await asyncio.sleep(3)
         await message.delete()
