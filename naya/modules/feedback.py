@@ -31,7 +31,7 @@ async def _owner(client: Client, message: Message):
             message_data = {"forward_id": f"{message_id['forward_id']}",
                             "message_id": f"{message_id['message_id']}",
                             "user_id": f"{message_id['user_id']}"}
-            await messages.insert_one(message_data)
+            await messagesdb.insert_one(message_data)
         await sleep(5)
         await message.delete()
 
@@ -57,7 +57,7 @@ async def _user(client: Client, message: Message):
         message_data = {"forward_id": f"{forwarded_message.id}",
                         "message_id": f"{message.id}",
                         "user_id": f"{message.from_user.id}"}
-        await messages.insert_one(message_data)
+        await messagesdb.insert_one(message_data)
         message = await message.reply_text(f"<b>Pesan Anda telah terkirim!</b>", reply_to_message_id=message.id, disable_notification=True)
         await sleep(5)
         await message.delete()
