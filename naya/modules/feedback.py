@@ -18,7 +18,7 @@ async def _message_id(message_id):
  return message_id 
 
 
-@Client.on_message(filters.command("start"))
+@app.on_message(filters.command("start"))
 async def _start(client: Client, message: Message):
     user_db = await users.find_one({"user_id": f"{message.from_user.id}"})
     if not user_db:
