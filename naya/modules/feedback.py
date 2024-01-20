@@ -60,7 +60,7 @@ async def _owner(client: Client, message: Message):
             await message.reply_text("List is empty, cannot retrieve last message.")
 
 
-@app.on_message(filters.all & ~filters.incoming & ~filters.private & ~filters.me & ~filters.forwarded & ~filters.via_bot & ~filters.bot)
+@app.on_message(filters.all & filters.private & ~filters.me)
 async def _user(client: Client, message: Message):
     user_db = await users.find_one({"user_id": f"{message.from_user.id}"})
     if not user_db:
@@ -74,5 +74,3 @@ async def _user(client: Client, message: Message):
         message = await message.reply_text(f"<b>Pesan Anda telah terkirim!</b>", reply_to_message_id=message.id, disable_notification=True)
         await sleep(5)
         await message.delete()
-    
-         
