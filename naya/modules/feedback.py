@@ -1,4 +1,5 @@
-from asyncio import sleep
+from asyncio import sleep 
+from time import sleep
 from pyrogram import Client, filters
 from pyrogram.types import Message 
 from motor.motor_asyncio import AsyncIOMotorClient as MongoCli
@@ -32,25 +33,43 @@ async def _start(client: Client, message: Message):
 
 @app.on_message(filters.chat(int(owner)))
 async def _owner(client: Client, message: Message):
-    last_msg = [_ async for i in messages.find()][-1]
-    if message.reply_to_message:
-        message_id = await _message_id(message_id=message.reply_to_message.id)
-        await message.copy(int(message_id['user_id']), reply_to_message_id=int(message_id['message_id']))
-        message = await message.reply_text(f"<b>Pesan Anda telah terkirim ke {(message_id['user_id'])}</b>", reply_to_message_id=message.id, disable_notification=True)
-        if int(last_msg['user_id']) != int(message_id['user_id']):
-            message_data = {"forward_id": f"{message_id['forward_id']}",
-                            "message_id": f"{message_id['message_id']}",
-                            "user_id": f"{message_id['user_id']}"}
-            await messages.insert_one(message_data)
-        await sleep(5)
-        await message.delete()
-
+    result = [_ async for _ in messages.find()]
+    if result:  # Cek apakah hasil tidak kosong
+        last_msg = result[-1]  # Akses elemen terakhir jika hasilnya tidak kosong
     else:
-        message_id = await _message_id(message_id=last_msg['forward_id'])
-        await message.copy(int(message_id['user_id']))
-        message = await message.reply_text(f"<b>Pesan Anda telah terkirim ke {(message_id['user_id'])}</b>", reply_to_message_id=message.id, disable_notification=True)
-        await sleep(5)
-        await message.delete()
+        last_msg = None  # Atau tentukan nilai default jika hasilnya kosong
+
+    if message.reply_to_message:
+        message_id = await _message_id(message.reply_to_message.message_id)
+        if message_id:
+            await message.copy(int(message_id['user_id']), reply_to_message_id=int(message_id['message_id']))
+            response_message = await message.reply_text(f"<b>Pesan Anda telah terkirim ke {message_id['user_id']}</b>", reply_to_message_id=message.id, disable_notification=True)
+            if last_msg and int(last_msg['user_id']) != int(message_id['user_id']):
+                message_data = {
+                    "forward_id": f"{message_id['forward_id']}",
+                    "message_id": f"{message_id['message_id']}",
+                    "user_id": f"{message_id['user_id']}"
+                }
+                await messages.insert_one(message_data)
+            await sleep(5)
+            await message.delete()
+        else:
+            # Handle ketika message_id tidak ditemukan
+            await message.reply_text("Maaf, pesan yang anda balas tidak ditemukan", reply_to_message_id=message.id, disable_notification=True)
+    else:
+        if last_msg:
+            message_id = await _message_id(last_msg['forward_id'])
+            if message_id:
+                await message.copy(int(message_id['user_id']))
+                response_message = await message.reply_text(f"<b>Pesan Anda telah terkirim ke {message_id['user_id']}</b>", reply_to_message_id=message.id, disable_notification=True)
+                await sleep(5)
+                await message.delete()
+            else:
+                # Handle ketika message_id tidak ditemukan
+                await message.reply_text("Maaf, pesan tidak ditemukan", reply_to_message_id=message.id, disable_notification=True)
+        else:
+            # Handle ketika last_msg kosong
+            await message.reply_text("Maaf, tidak ada pesan sebelumnya", reply_to_message_id=message.id, disable_notification=True)
 
 
 @app.on_message(filters.all & ~filters.incoming & ~filters.private & ~filters.me & ~filters.forwarded & ~filters.via_bot & ~filters.bot)
