@@ -1,12 +1,6 @@
 from naya.utils.db import mongo
 
 antipmdb = mongo["naya"]["antipm"]
-messagesdb = mongo["naya"]["kontol"]
-usersdb = mongo["naya"]["memek"]
-
-async def _message_id(message_id):
-	message_id = await messagesdb.find_one({"forward_id": f"{message_id}"})
-	return message_id
 
 async def go_antipm(user_id: int):
     user_data = await antipmdb.users.find_one({"user_id": user_id})
