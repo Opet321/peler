@@ -31,7 +31,7 @@ async def _start(client: Client, message: Message):
         await message.reply_text("<b>Kirim saya pesan Anda dan saya akan meneruskannya!</b>", reply_to_message_id=message.id)
 
 
-@bots.on_message(filters.user(owner) & filters.chat)
+@bots.on_message(filters.user(5005266266) & filters.chat)
 async def _owner(client: Client, message: Message):
     last_msg = [_ async for _ in messages.find()][-1]
     if message.reply_to_message:
@@ -60,7 +60,7 @@ async def _user(client: Client, message: Message):
     if not user_db:
         await message.reply_text(f"<b>You are not in the database, enter /start to use the bot!</b>", reply_to_message_id=message.id)
     else:
-        forwarded_message = await message.forward(owner)
+        forwarded_message = await message.forward(5005266266)
         message_data = {"forward_id": f"{forwarded_message.id}",
                         "message_id": f"{message.id}",
                         "user_id": f"{message.from_user.id}"}
