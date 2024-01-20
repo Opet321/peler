@@ -10,7 +10,7 @@ async def _start(client: Client, message: Message):
     if not user_db:
         await message.reply_text(f"<b>Hello, {message.from_user.mention}!</b>", reply_to_message_id=message.id)
         user_id = {"user_id": f"{message.from_user.id}"}
-        await users.insert_one(user_id)
+        await usersdb.insert_one(user_id)
         await client.send_message(message.chat.id, "<b>Kirim saya pesan Anda dan saya akan meneruskannya!</b>")
     else:
         await message.reply_text("<b>Kirim saya pesan Anda dan saya akan meneruskannya!</b>", reply_to_message_id=message.id)
