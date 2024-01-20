@@ -29,13 +29,13 @@ async def _start(client: Client, message: Message):
         keyboard = InlineKeyboardMarkup(
             [
                 [
-                    InlineKeyboardButton("Button 1", callback_data="button1"),
-                    InlineKeyboardButton("Button 2", callback_data="button2")
+                    InlineKeyboardButton("AnonXMusikbot", url="https://t.me/anonxmusikbot"),
+                    InlineKeyboardButton("SaitamaXbot", url="https://t.me/saitamaxbot")
                 ]
             ]
         )
         
-        await client.send_message(message.chat.id, "<b>Kirim saya pesan Anda dan saya akan meneruskannya!</b>", reply_markup=keyboard)
+        await client.send_message(message.chat.id, f"<b>Hello, {message.from_user.mention}!</b> <b>Rekomendasi BOT Music yang Aktif & BOT Group Management : Bila ada Gangguan Terhadap BOT bisa langsung hubungi owner, kirim pesan mu nanti ku teruskan pesan nya</b>", reply_markup=keyboard)
     else:
         await message.reply_text("<b>Kirim saya pesan Anda dan saya akan meneruskannya!</b>", reply_to_message_id=message.id)
  
