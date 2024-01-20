@@ -127,22 +127,22 @@ async def permitpm(client, message):
 
 
 @bots.on_message(filters.command(["ok", "a"], cmd) & filters.me)
-async def approve(client, message):
-    babi = await message.reply("`Processing...`")
-    chat_type = message.chat.type
+async def approve(client, msg):
+    babi = await msg.edit("Processing...")
+    chat_type = msg.chat.type
     if chat_type == "me":
-        return await babi.edit("`Apakah anda sudah gila ?`")
+        return await babi.edit("Apakah anda sudah gila ?")
     elif chat_type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
-        if not message.reply_to_message.from_user:
-            return await babi.edit("`Balas ke pesan pengguna, untuk disetujui.`")
-        user_id = message.reply_to_message.from_user.id
+        if not msg.reply_to_message.from_user:
+            return await babi.edit("Balas ke pesan pengguna, untuk disetujui")
+        user_id = msg.reply_to_message.from_user.id
     elif chat_type == enums.ChatType.PRIVATE:
-        user_id = message.chat.id
+        user_id = msg.chat.id
     else:
         return
-    already_apprvd = await check_user_approved(user_id)
-    if already_apprvd:
-        return await babi.edit("`Manusia ini sudah Di Setujui Untuk mengirim pesan.`")
+    already_approved = await check_user_approved(user_id)
+    if already_approved:
+        await babi.edit("Manusia ini sudah Di Setujui Untuk mengirim pesan")
     await add_approved_user(user_id)
     if user_id in PM_GUARD_WARNS_DB:
         PM_GUARD_WARNS_DB.pop(user_id)
@@ -152,12 +152,13 @@ async def approve(client, message):
             )
         except:
             pass
-    await babi.edit("**Baiklah, pengguna ini sudah disetujui untuk mengirim pesan.**")
+    await babi.edit("Baiklah, pengguna ini sudah disetujui untuk mengirim pesan.")
+    await babi.delete()
 
 
 @bots.on_message(filters.command(["no", "da"], cmd) & filters.me)
 async def disapprove(client, message):
-    babi = await message.reply("`Processing...`")
+    babi = await message.edit("`Processing...`")
     chat_type = message.chat.type
     if chat_type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
         if not message.reply_to_message.from_user:
@@ -169,11 +170,12 @@ async def disapprove(client, message):
         return
     already_apprvd = await check_user_approved(user_id)
     if not already_apprvd:
-        return await babi.edit(
+        await babi.edit(
             "`Manusia ini memang belum Di Setujui Untuk mengirim pesan.`"
         )
     await rm_approved_user(user_id)
     await babi.edit("**Baiklah, pengguna ini ditolak untuk mengirim pesan.**")
+    await babi.delete()
 
 
 @bots.on_message(filters.command(["setmsg"], cmd) & filters.me)
