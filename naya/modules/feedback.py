@@ -6,9 +6,6 @@ from motor.motor_asyncio import AsyncIOMotorClient as MongoCli
 from naya.config import MONGO_URL, OWNER
 from . import *
 
-
-owner = "5005266266"
-
 cli = motor.motor_asyncio.AsyncIOMotorClient(MONGO_URL)
 users = db.users 
 mongo = MongoCli(MONGO_URL)
