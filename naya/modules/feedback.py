@@ -2,14 +2,11 @@ from asyncio import sleep
 from pyrogram import Client, filters
 from pyrogram.types import Message 
 from motor import motor_asyncio
-import configparser
+from naya.config import *
 from . import *
 
-config = configparser.ConfigParser()
-config.read("config.py")
 
-db_url = config.get("mongo", "url")
-owner = config.get("owner", "id")
+owner = "5005266266"
 
 connect = motor_asyncio.AsyncIOMotorClient(MONGO_URL)
 create = connect.database
