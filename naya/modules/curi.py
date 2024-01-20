@@ -1,6 +1,7 @@
 import os
 import asyncio
 
+import time
 from pyrogram import *
 from gc import get_objects
 from time import time
