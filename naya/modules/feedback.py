@@ -1,7 +1,6 @@
 from asyncio import sleep
 from pyrogram import Client, filters
 from pyrogram.types import Message
-from naya.utils.db import _message_id
 from . import *
 
 
