@@ -3,6 +3,7 @@ from time import sleep
 from pyrogram import Client, filters 
 from pyrogram.types import Message  
 from motor.motor_asyncio import AsyncIOMotorClient as MongoCli 
+from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message
 from naya.config import MONGO_URL, OWNER 
 from . import * 
  
@@ -15,6 +16,29 @@ messages = db.messages
 async def _message_id(message_id): 
  message_id = await messages.find_one({"forward_id": f"{message_id}"}) 
  return message_id 
+
+
+@Client.on_message(filters.command("start"))
+async def _start(client: Client, message: Message):
+    user_db = await users.find_one({"user_id": f"{message.from_user.id}"})
+    if not user_db:
+        await message.reply_text(f"<b>Hello, {message.from_user.mention}!</b>", reply_to_message_id=message.id)
+        user_id = {"user_id": f"{message.from_user.id}"}
+        await users.insert_one(user_id)
+        
+        keyboard = InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton("Button 1", callback_data="button1"),
+                    InlineKeyboardButton("Button 2", callback_data="button2")
+                ]
+            ]
+        )
+        
+        await client.send_message(message.chat.id, "<b>Kirim saya pesan Anda dan saya akan meneruskannya!</b>", reply_markup=keyboard)
+    else:
+        await message.reply_text("<b>Kirim saya pesan Anda dan saya akan meneruskannya!</b>", reply_to_message_id=message.id)
+ 
  
  
 @app.on_message(filters.chat(int(OWNER))) 
