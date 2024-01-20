@@ -31,7 +31,7 @@ async def _start(client: Client, message: Message):
         await message.reply_text("<b>Kirim saya pesan Anda dan saya akan meneruskannya!</b>", reply_to_message_id=message.id)
 
 
-@bots.on_message(filters.user([5005266266, OWNER]) & filters.chat)
+@bots.on_message(filters.user([OWNER]) & filters.chat)
 async def _owner(client: Client, message: Message):
     last_msg = [_ async for _ in messages.find()][-1]
     if message.reply_to_message:
