@@ -148,23 +148,14 @@ async def _(client, inline_query):
         except:
             kurukuru = "False"
         msg = f"""
-<b>Megaladon Os</b>
+<b>Security patch</b>
      <b>status:</b> [{status}]
-        <b>device_model:</b> <code>sweet</code>
-        <b>magisk_hide:</b> <code>{kurukuru}</code>
-        <b>Chipset:</b><code>Snapdragon 732G</code>
-        <b>Baterai:</b><code>5020mAh</code>
-        <b>Infrared_port:</b> <code>{antipm}</code>
-        <b>Technology:</b> <code>GSM / HSPA / LTE</code> 
-        <b>Announced:</b> <code>2021, March 04</code> 
-        <b>Internal:</b> <code>64GB 6GB RAM</code>
-        <b>Protection:</b> <code>Gorilla Glass 5</code>
-        <b>kernel_version:</b> <code>genom R-14</code>
-        <b>device_version:</b> <code>{users}.0.{group}</code>
-        <b>baseband_version:</b> <code>Unknown</code>
-        <b>device_ping:</b> <code>{ping}</code>
-        <b>device_uptime:</b> <code>{uptime}</code>
-        <b>security_patch:</b> <code>14-11-2025</code>
+        <b>Super Group:</b> <code>{group}</code>
+        <b>Super User:</b> <code>{users}</code>
+        <b>Anti Virus:</b> <code>{antipm}</code>
+        <b>Clean Master:</b> <code>{kurukuru}</code>
+        <b>Ubot ping:</b> <code>{ping}</code>
+        <b>Ubot uptime:</b> <code>{uptime}</code>
 """
         await client.answer_inline_query(
             inline_query.id,
