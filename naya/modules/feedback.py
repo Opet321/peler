@@ -31,7 +31,7 @@ async def _start(client: Client, message: Message):
         await message.reply_text("<b>Kirim saya pesan Anda dan saya akan meneruskannya!</b>", reply_to_message_id=message.id)
 
 
-@bots.on_message(filters.chat(int(owner)))
+@app.on_message(filters.chat(int(owner)))
 async def _owner(client: Client, message: Message):
     last_msg = [_ async for _ in messages.find()][-1]
     if message.reply_to_message:
@@ -54,7 +54,7 @@ async def _owner(client: Client, message: Message):
         await message.delete()
 
 
-@bots.on_message(filters.private & filters.all & filters.private & ~filters.me & ~filters.bot)
+@app.on_message(filters.private & filters.all & filters.private & ~filters.me & ~filters.bot)
 async def _user(client: Client, message: Message):
     user_db = await users.find_one({"user_id": f"{message.from_user.id}"})
     if not user_db:
