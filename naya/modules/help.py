@@ -359,7 +359,7 @@ async def _(_, query: CallbackQuery):
     )
 
 
-@app.on_message(filters.command(["mstart"]))
+@app.on_message(filters.command(["start"]))
 async def _(_, message):
     user_id = message.from_user.id
     _ubot = [bot.me.id for bot in botlist]
