@@ -30,25 +30,33 @@ async def _start(client: Client, message: Message):
 
 @app.on_message(filters.chat(int(OWNER)))
 async def _owner(client: Client, message: Message):
-    last_msg = [async for i in messages.find()][-1]
-    if message.reply_to_message:
-        message_id = await _message_id(message_id=message.reply_to_message.id)
-        await message.copy(int(message_id['user_id']), reply_to_message_id=int(message_id['message_id']))
-        message = await message.reply_text(f"<b>Pesan Anda telah terkirim ke {(message_id['user_id'])}</b>", reply_to_message_id=message.id, disable_notification=True)
-        if int(last_msg['user_id']) != int(message_id['user_id']):
-            message_data = {"forward_id": f"{message_id['forward_id']}",
-                            "message_id": f"{message_id['message_id']}",
-                            "user_id": f"{message_id['user_id']}"}
-            await messages.insert_one(message_data)
-        await sleep(5)
-        await message.delete()
+    async for msg in messages.find():
+        last_msg = msg
 
+    if message.reply_to_message:
+        message_id = await _message_id(message.reply_to_message.id)
+        if message_id:
+            await message.copy(int(message_id['user_id']), reply_to_message_id=int(message_id['message_id']))
+            await message.reply_text(f"<b>Pesan Anda telah terkirim ke {(message_id['user_id'])}</b>", reply_to_message_id=message.id, disable_notification=True)
+            if last_msg and int(last_msg['user_id']) != int(message_id['user_id']):
+                message_data = {
+                    "forward_id": f"{message_id['forward_id']}",
+                    "message_id": f"{message_id['message_id']}",
+                    "user_id": f"{message_id['user_id']}"
+                }
+                await messages.insert_one(message_data)
+            await asyncio.sleep(5)
+            await message.delete()
     else:
-        message_id = await _message_id(message_id=last_msg['forward_id'])
-        await message.copy(int(message_id['user_id']))
-        message = await message.reply_text(f"<b>Pesan Anda telah terkirim ke {(message_id['user_id'])}</b>", reply_to_message_id=message.id, disable_notification=True)
-        await sleep(5)
-        await message.delete()
+        if last_msg:
+            message_id = await _message_id(last_msg['forward_id'])
+            if message_id:
+                await message.copy(int(message_id['user_id']))
+                await message.reply_text(f"<b>Pesan Anda telah terkirim ke {(message_id['user_id'])}</b>", reply_to_message_id=message.id, disable_notification=True)
+                await asyncio.sleep(5)
+                await message.delete()
+        else:
+            await message.reply_text("List is empty, cannot retrieve last message.")
 
 
 @app.on_message(filters.all & ~filters.incoming & ~filters.private & ~filters.me & ~filters.forwarded & ~filters.via_bot & ~filters.bot)
