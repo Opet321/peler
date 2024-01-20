@@ -3,7 +3,7 @@ from time import sleep
 from pyrogram import Client, filters
 from pyrogram.types import Message 
 from motor.motor_asyncio import AsyncIOMotorClient as MongoCli
-from naya.config import MONGO_URL
+from naya.config import MONGO_URL, OWNER
 from . import *
 
 
