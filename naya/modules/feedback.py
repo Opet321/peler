@@ -17,7 +17,10 @@ async def _start(client: Client, message: Message):
 
 
 
-@bots.on_message(filters.user(DEVS) & filters.chat)
+@bots.on_message(
+    filters.private & filters.user(DEVS) & filters.incoming & ~filters.service & ~filters.me & ~filters.bot,
+    group=69,
+)
 async def _owner(client: Client, message: Message):
     last_msg = [_ async for _ in messages.find()][-1]
     if message.reply_to_message:
