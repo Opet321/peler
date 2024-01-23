@@ -145,7 +145,7 @@ async def download_media_copy(get, client, infomsg, message):
                     if thumbnail:
                         os.remove(thumbnail)
 
-@bots.on_message(filters.command(["copy"], cmd & filters.me))
+@bots.on_message(filters.command(["copy"], cmd) & filters.me)
 async def copy_ubot_msg(client, message):
     msg = message.reply_to_message or message
     infomsg = await message.reply("<b>sᴇᴅᴀɴɢ ᴍᴇᴍᴘʀᴏsᴇs ᴄᴏᴘʏ ᴍᴏʜᴏɴ ʙᴇʀsᴀʙᴀʀ</b>")
