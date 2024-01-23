@@ -82,7 +82,7 @@ async def _(client, message):
     if message.command[0] == "alive":
         text = f"user_alive_command {message.id} {message.from_user.id}"
     if message.command[0] == "help":
-        text = "user_help_command"
+        text = "help"
     try:
         x = await client.get_inline_bot_results(app.me.username, text)
         for m in x.results:
