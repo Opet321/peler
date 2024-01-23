@@ -77,37 +77,19 @@ Copyright (C) 2023-present fvnky
 """
     return stats
 
-@bots.on_message(filters.command(["help"], cmd) & filters.me)
-async def help_cmd(client, message):
-    if not get_arg(message):
-        try:
-            x = await client.get_inline_bot_results(app.me.username, "help")
-            await message.reply_inline_bot_result(x.query_id, x.results[0].id)
-        except Exception as error:
-            await message.reply(error)
-    else:
-        module = get_arg(message)
-        if module in CMD_HELP:
-            await message.reply(
-                CMD_HELP[module].HELP + "\n<b> ©mengontol </b>",
-                quote=True,
-            )
-        else:
-            await message.reply(
-                f"<b>❌ ᴛɪᴅᴀᴋ ᴅᴀᴘᴀᴛ ᴅɪᴛᴇᴍᴜᴋᴀɴ ᴍᴏᴅᴜʟᴇ ᴅᴇɴɢᴀɴ ɴᴀᴍᴀ <code>{module}</code></b>"
-            ) 
-            await message.delete()
-
-
-@bots.on_message(filters.command(["alive"], cmd) & filters.me)
+@bots.on_message(filters.command(["help", "alive"], cmd) & filters.me)
 async def _(client, message):
+    if message.command[0] == "alive":
+        text = f"user_alive_command {message.id} {message.from_user.id}"
+    if message.command[0] == "help":
+        text = "user_help_command"
     try:
-        x = await client.get_inline_bot_results(
-            app.me.username, f"user_alive_command {message.id} {message.from_user.id}"
-        )
-        await message.reply_inline_bot_result(x.query_id, x.results[0].id)
+        x = await client.get_inline_bot_results(app.me.username, text)
+        for m in x.results:
+            await message.reply_inline_bot_result(x.query_id, m.id)
     except Exception as error:
         await message.reply(error)
+    return await message.delete()
 
 
 @app.on_inline_query(filters.regex("^user_alive_command"))
