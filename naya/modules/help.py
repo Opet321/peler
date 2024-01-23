@@ -95,7 +95,8 @@ async def help_cmd(client, message):
         else:
             await message.reply(
                 f"<b>❌ ᴛɪᴅᴀᴋ ᴅᴀᴘᴀᴛ ᴅɪᴛᴇᴍᴜᴋᴀɴ ᴍᴏᴅᴜʟᴇ ᴅᴇɴɢᴀɴ ɴᴀᴍᴀ <code>{module}</code></b>"
-            )
+            ) 
+        return await message.delete()
 
 
 @bots.on_message(filters.command(["alive"], cmd) & filters.me)
