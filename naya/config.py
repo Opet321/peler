@@ -6,7 +6,7 @@ load_dotenv(".env")
 
 
 API_ID = int(getenv("API_ID", "209235"))
-OWNER = int(getenv("OWNER", "5005266266"))
+OWNER = int(getenv("OWNER", "5628376737"))
 API_HASH = getenv("API_HASH", "169ee702e1df4b6e66d80311db36cc43")
 MONGO_URL = getenv("MONGO_URL", "mongodb+srv://apem:apem@cluster0.iraog.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
 BOT_TOKEN = getenv("BOT_TOKEN", "7620839975:AAHxITmSgT_6SD-TwT9CKGP_hveL8R4WkEI")
