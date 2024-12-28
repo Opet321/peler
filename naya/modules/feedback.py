@@ -25,16 +25,9 @@ async def _start(client: Client, message: Message):
         user_id = {"user_id": f"{message.from_user.id}"}
         await users.insert_one(user_id)
         
-        keyboard = InlineKeyboardMarkup(
-            [
-                [
-                    InlineKeyboardButton("AnonXMusikbot", url="https://t.me/anonxmusikbot"),
-                    InlineKeyboardButton("SaitamaXbot", url="https://t.me/saitamaxbot")
-                ]
-            ]
-        )
         
-        await client.send_message(message.chat.id, f"<b>Hello, {message.from_user.mention}!</b>\n\n<b>Saya Merekomendasikan BOT Music yang Aktif & BOT Group Management</b>\n\n<b>Bila ada Gangguan Terhadap BOT bisa langsung hubungi owner, kirim pesan lu disini nanti ku teruskan pesan nya</b>", reply_markup=keyboard)
+        
+        await client.send_message(message.chat.id, f"<b>Hello, {message.from_user.mention}!</b>\n\n<b>Ada yang bisa saya banting ?</b>", reply_markup=keyboard)
     else:
         await message.reply_text("<b>Kirim saya pesan Anda dan saya akan meneruskannya!</b>", reply_to_message_id=message.id)
  
