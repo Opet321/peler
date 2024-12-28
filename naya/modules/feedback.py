@@ -37,7 +37,7 @@ async def _start(client: Client, message: Message):
 async def _owner(client: Client, message: Message):
     last_msg = None  # Memberikan nilai awal untuk last_msg
     async for msg in messages.find():
-        last_msg = msg
+    last_msg = msg
 
     if message.reply_to_message:
         message_id = await _message_id(message.reply_to_message.id)
