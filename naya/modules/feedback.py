@@ -59,8 +59,7 @@ async def _owner(client: Client, message: Message):
             if message_id: 
                 await message.copy(int(message_id['user_id'])) 
                 await message.reply_text(f"<b>Pesan Anda telah terkirim ke {(message_id['user_id'])}</b>", reply_to_message_id=message.id, disable_notification=True) 
-                await asyncio.sleep(5) 
-                await message.delete() 
+                 
         else: 
             await message.reply_text("List is empty, cannot retrieve last message.") 
  
