@@ -35,7 +35,7 @@ async def _start(client: Client, message: Message):
  
 @app.on_message(filters.chat(int(OWNER)))
 async def _owner(client: Client, message: Message):
-   last_msg = None  
+    last_msg = None  
     async for msg in messages.find():
     last_msg = msg
 
