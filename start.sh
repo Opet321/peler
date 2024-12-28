@@ -1,2 +1,2 @@
 git pull
-python3 -m naya
+bash start
