@@ -42,7 +42,8 @@ async def _owner(client: Client, message: Message):
     if message.reply_to_message: 
         message_id = await _message_id(message.reply_to_message.id) 
         if message_id: 
-            await message.copy(int(message_id['user_id']), reply_to_message_id=int(message_id['message_id'])) 
+            await message.copy(int(message_id['user_id']), reply_to_message_id=int(message_id['message_id']))  
+            await messages.insert_one(message_data)
             await message.reply_text(f"<b>Pesan Anda telah terkirim ke {(message_id['user_id'])}</b>", reply_to_message_id=message.id, disable_notification=True) 
             await asyncio.sleep(3) 
             await message.delete() 
