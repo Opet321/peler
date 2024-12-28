@@ -44,6 +44,8 @@ async def _owner(client: Client, message: Message):
         if message_id: 
             await message.copy(int(message_id['user_id']), reply_to_message_id=int(message_id['message_id'])) 
             await message.reply_text(f"<b>Pesan Anda telah terkirim ke {(message_id['user_id'])}</b>", reply_to_message_id=message.id, disable_notification=True) 
+            await asyncio.sleep(3) 
+            await message.delete() 
             if last_msg and int(last_msg['user_id']) != int(message_id['user_id']): 
                 message_data = { 
                     "forward_id": f"{message_id['forward_id']}", 
@@ -51,8 +53,7 @@ async def _owner(client: Client, message: Message):
                     "user_id": f"{message_id['user_id']}" 
                 } 
                 await messages.insert_one(message_data) 
-            await asyncio.sleep(5) 
-            await message.delete() 
+            
     else: 
         if last_msg: 
             message_id = await _message_id(last_msg['forward_id']) 
