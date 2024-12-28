@@ -26,9 +26,9 @@ MSG_ON = """
 """
 
 
-async def main():
+async def main() -> None:
     await app.start()
-    LOGGER("Startup").info("Memulai Xel-Pyro Premium..")
+    LOGGER("Startup").info("Memulai Naya-Pyro Premium..")
     for bot in botlist:
         try:
             await bot.start()
@@ -48,16 +48,27 @@ async def main():
 
         except Exception as e:
             LOGGER("X").info(f"{e}")
-    await loadprem()
-    await idle()
-    await aiosession.close()
 
-
-if __name__ == "__main__":
-    install()
+ 
+async def starting_up():
     try:
-        loop.run_until_complete(main())
+        await loadprem()
+        await idle()
+    except BaseException as excp:
+        LOGGER("Logger").info(excp)
     except KeyboardInterrupt:
         pass
     finally:
         LOGGER("Logger").info("Stopping Bot! GoodBye")
+        loop.stop()
+        await aiosession.close()
+
+if __name__ == "__main__":
+    install()
+    loop.run_until_complete(main())
+    try:
+        asyncio.set_event_loop(loop)
+        loop.create_task(starting_up())
+        run(starting_up(), loop=loop, stop_on_unhandled_errors=True)
+    except BaseException as excp:
+        LOGGER("Logger").info(excp)
