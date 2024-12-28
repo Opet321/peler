@@ -29,7 +29,7 @@ humanize
 html2text
 removebg
 aiofiles
-aiohttp
+aiohttp==3.9.5
 gpytranslate
 gtts
 wget
