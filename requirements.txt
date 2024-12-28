@@ -4,7 +4,7 @@ pytz
 git+https://github.com/yt-dlp/yt-dlp.git
 youtube-search
 youtube-search-python
-motor==3.0.0
+motor
 dnspython==2.3.0
 aiosqlite<0.18.0,>=0.16.0
 pyaes==1.6.1
