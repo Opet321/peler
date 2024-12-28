@@ -33,50 +33,53 @@ async def _start(client: Client, message: Message):
  
  
  
+
+
 @app.on_message(filters.chat(int(OWNER)))
 async def _owner(client: Client, message: Message):
-    last_msg = None  
-    async for msg in messages.find():
-    last_msg = msg
+    last_msg = None  # Memberikan nilai awal untuk last_msg
+    async for msg in messages.find():
+        last_msg = msg
 
-    if message.reply_to_message:
-        message_id = await _message_id(message.reply_to_message.id)
-        if message_id:
-            sent_message = await message.copy(int(message_id['user_id']), reply_to_message_id=int(message_id['message_id']))
-            
-            reply_message = await message.reply_text(f"Pesan Anda telah terkirim ke {(message_id['user_id'])}", reply_to_message_id=message.id, disable_notification=True)
-            
-            await asyncio.sleep(3)
-            
-            try:
-                await reply_message.delete()  # Menghapus pesan pemberitahuan
-            except:
-                pass #abaikan jika pesan tidak bisa dihapus karena sudah dihapus atau ada masalah permission
-                
-            if last_msg and int(last_msg['user_id']) != int(message_id['user_id']):
-                message_data = {
-                    "forward_id": f"{message_id['forward_id']}",
-                    "message_id": f"{message_id['message_id']}",
-                    "user_id": f"{message_id['user_id']}"
-                }
-                await messages.insert_one(message_data)
+    if message.reply_to_message:
+        message_id = await _message_id(message.reply_to_message.id)
+        if message_id:
+            sent_message = await message.copy(int(message_id['user_id']), reply_to_message_id=int(message_id['message_id']))
+            
+            reply_message = await message.reply_text(f"Pesan Anda telah terkirim ke {message_id['user_id']}", reply_to_message_id=message.id, disable_notification=True)
+            
+            await asyncio.sleep(3)
+            
+            try:
+                await reply_message.delete()  # Menghapus pesan pemberitahuan
+            except:
+                pass #abaikan jika pesan tidak bisa dihapus karena sudah dihapus atau ada masalah permission
+                
+            if last_msg and int(last_msg['user_id']) != int(message_id['user_id']):
+                message_data = {
+                    "forward_id": f"{message_id['forward_id']}",
+                    "message_id": f"{message_id['message_id']}",
+                    "user_id": f"{message_id['user_id']}"
+                }
+                await messages.insert_one(message_data)
 
-    else:
-        if last_msg:
-            message_id = await _message_id(last_msg['forward_id'])
-            if message_id:
-                sent_message = await message.copy(int(message_id['user_id']))
-                
-                reply_message = await message.reply_text(f"Pesan Anda telah terkirim ke {(message_id['user_id'])}", reply_to_message_id=message.id, disable_notification=True)
-                
-                await asyncio.sleep(3)
-                try:
-                   await reply_message.delete()
-                except:
-                    pass #abaikan jika pesan tidak bisa dihapus karena sudah dihapus atau ada masalah permission
 
-        else:
-            await message.reply_text("List is empty, cannot retrieve last message.")
+    else:
+        if last_msg:
+            message_id = await _message_id(last_msg['forward_id'])
+            if message_id:
+                sent_message = await message.copy(int(message_id['user_id']))
+                
+                reply_message = await message.reply_text(f"Pesan Anda telah terkirim ke {message_id['user_id']}", reply_to_message_id=message.id, disable_notification=True)
+                
+                await asyncio.sleep(3)
+                try:
+                    await reply_message.delete()
+                except:
+                    pass #abaikan jika pesan tidak bisa dihapus karena sudah dihapus atau ada masalah permission
+
+        else:
+            await message.reply_text("List is empty, cannot retrieve last message.")
  
  
 @app.on_message(filters.all & filters.private & ~filters.me) 
