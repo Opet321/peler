@@ -27,7 +27,7 @@ async def _start(client: Client, message: Message):
         user_id = {"user_id": f"{message.from_user.id}"}
         await users.insert_one(user_id)
     else:
-        await message.reply_text(f"<blockquote>Status by React</b>\n👍: Delivered\n✍: edited</blockquote>", reply_to_message_id=message.id)
+        await message.reply_text(f"<blockquote><b>Status by React</b>\n👍: Delivered\n✍: edited</blockquote>", reply_to_message_id=message.id)
  
 
 @app.on_message(filters.chat(int(OWNER)))
@@ -85,11 +85,7 @@ async def _user(client: Client, message: Message):
     else:
         forwarded_message = await message.forward(OWNER)  
         chat_id = message.chat.id
-        await client.send_reaction(
-           chat_id=chat_id,
-           message_id=message.id,
-           emoji="🔥"
-        )
+        await message.react(emoji="🔥")
         message_data = {"forward_id": f"{forwarded_message.id}",
                         "message_id": f"{message.id}",
                         "user_id": f"{message.from_user.id}"}
