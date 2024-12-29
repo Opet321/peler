@@ -18,18 +18,24 @@ async def _message_id(message_id):
  return message_id 
 
 
+
+
 @app.on_message(filters.command("start"))
 async def _start(client: Client, message: Message):
-    user_db = await users.find_one({"user_id": f"{message.from_user.id}"})
-    if not user_db:
-        user_id = {"user_id": f"{message.from_user.id}"}
-        await users.insert_one(user_id)
-        
-        
-        
-        await client.send_message(message.chat.id, f"<b>Hello, {message.from_user.mention}!</b>\n\n<b>Ada yang bisa saya banting ?</b>", reply_markup=keyboard)
-    else:
-        await message.reply_text("<b>Kirim saya pesan Anda dan saya akan meneruskannya!</b>", reply_to_message_id=message.id)
+    try:
+        user_db = await users.find_one({"user_id": message.from_user.id})
+        if not user_db:
+            user_id = {"user_id": message.from_user.id}
+            await users.insert_one(user_id)
+            await client.send_message(
+                message.chat.id,
+                f"Hello, {message.from_user.mention}!\n\nAda yang bisa saya banting ?",
+            )
+        else:
+            await message.reply_text("Kirim saya pesan Anda dan saya akan meneruskannya!", reply_to_message_id=message.id)
+    except Exception as e:
+        print(f"Error: {e}")
+        await message.reply_text("Terjadi kesalahan saat memproses perintah. Coba lagi nanti.")
  
  
  
