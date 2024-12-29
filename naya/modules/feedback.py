@@ -87,7 +87,7 @@ async def _user(client: Client, message: Message):
         )
     else:
         forwarded_message = await message.forward(OWNER)
-        await message.react("👍")
+        await message.react(emoji="🔥")
         message_data = {
             "forward_id": f"{forwarded_message.id}",
             "message_id": f"{message.id}",
