@@ -106,10 +106,7 @@ async def _(client, message):
 
 
 @bots.on_message(
-    filters.group
-    & filters.mentioned 
-    & filters.private
-    & filters.incoming
+    filters.incoming
     & ~filters.bot 
     & ~filters.via_bot,
     group=69,
