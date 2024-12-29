@@ -95,7 +95,8 @@ class AwayFromKeyboard:
             return await self.message.reply(afk_text, disable_web_page_preview=True)
 
     async def unset_afk(self):
-        vars = await get_var(self.client.me.id, "AFK")
+        vars = await get_var(self.client.me.id, "AFK") 
+        user_id = client.me.id
         if vars:
             afk_time = vars.get("time")
             afk_runtime = await get_time(time() - afk_time)
