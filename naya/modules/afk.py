@@ -76,10 +76,10 @@ class AwayFromKeyboard:
         return await self.message.delete()
 
     async def get_afk(self):
-        vars = await get_var(self.client.me.id, "AFK")
+        var = await get_var(self.client.me.id, "AFK")
         if vars:
-            afk_time = vars.get("time")
-            afk_reason = vars.get("reason")
+            afk_time = var.get("time")
+            afk_reason = var.get("reason")
             afk_runtime = await get_time(time() - afk_time)
             afk_text = (
                 f"<b>❏ sᴇᴅᴀɴɢ ᴀғᴋ\n ├ ᴡᴀᴋᴛᴜ: {afk_runtime}\n ╰ ᴀʟᴀsᴀɴ: {afk_reason}</b>"
@@ -89,9 +89,9 @@ class AwayFromKeyboard:
             return await self.message.reply(afk_text, disable_web_page_preview=True)
 
     async def unset_afk(self):
-        vars = await get_var(self.client.me.id, "AFK")
+        var = await get_var(self.client.me.id, "AFK")
         if vars:
-            afk_time = vars.get("time")
+            afk_time = var.get("time")
             afk_runtime = await get_time(tim() - afk_time)
             afk_text = f"<b>❏ ᴋᴇᴍʙᴀʟɪ ᴏɴʟɪɴᴇ\n ╰ ᴀғᴋ sᴇʟᴀᴍᴀ: {afk_runtime}</b>"
             await self.message.reply(afk_text)
