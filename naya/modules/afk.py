@@ -106,7 +106,7 @@ async def _(client, message):
 
 
 @bots.on_message(
-    (filters.reply & filters.group) | (filters.reply & filters.private) & ~filters.bot,
+   (filters.reply & filters.group) | (filters.reply & filters.private) & ~filters.bot,
     group=69,
 )
 async def handle_message(client, message):
