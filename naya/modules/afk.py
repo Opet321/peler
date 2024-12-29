@@ -112,20 +112,19 @@ async def handle_message(client, message):
 
 @bots.on_message(filters.command(["unafk"], cmd) & filters.me)
 async def no_afke(client, message):
-    user_id = client.me.id
-    botlog = await get_log_groups(user_id) 
-    
-    if user_id in afk_users: # Pastikan waktu AFK tersimpan
-        afk_time = afk_users[user_id] # Ambil waktu AFK
-        del afk_users[user_id] # Hapus data AFK dari penyimpanan
+    user_id = client.me.id
+    botlog = await get_log_groups(user_id)
+    
+    if user_id in afk_users: # Pastikan waktu AFK tersimpan
+        afk_time = afk_users[user_id] # Ambil waktu AFK
+        del afk_users[user_id] # Hapus data AFK dari penyimpanan
 
-        afk_runtime = await get_time(time() - afk_time)
-        kk = await message.reply(
-            f"❏ Saya Kembali.\n ╰ AFK Selama : {afk_runtime}"
-        )
-        await kk.delete()
-        await no_afk(user_id)
-        await client.send_message(botlog, onlinestr.format(afk_runtime))
-    else:
-        await message.reply("Saya belum AFK!")
-   
+        afk_runtime = await get_time(time() - afk_time)
+        kk = await message.reply(
+            f"❏ Saya Kembali.\n ╰ AFK Selama : {afk_runtime}"
+        )
+        await kk.delete()
+        await no_afk(user_id)
+        await client.send_message(botlog, onlinestr.format(afk_runtime))
+    else:
+        await message.reply("Saya belum AFK!")
