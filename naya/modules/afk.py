@@ -57,6 +57,12 @@ __HELP__ = """
 
 from time import time
 
+async def is_afk_(f, client, message):
+    user_id = client.me.id
+    af_k_c = await check_afk(user_id)
+    return bool(af_k_c) 
+ 
+is_afk = filters.create(func=is_afk_, name="is_afk_")
 
 class AwayFromKeyboard:
     def __init__(self, client, message, reason=""):  # Perbaiki dari init ke __init__
@@ -106,7 +112,13 @@ async def _(client, message):
     await afk_handler.set_afk()
 
 
-@bots.on_message(True)
+@bots.on_message(
+    is_afk
+    & (filters.mentioned | filters.private)
+    & ~filters.me
+    & ~filters.bot
+    & filters.incoming
+)
 async def _(client, message):
     afk_handler = AwayFromKeyboard(client, message)
     await afk_handler.get_afk()
