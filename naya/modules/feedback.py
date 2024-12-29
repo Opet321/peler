@@ -78,20 +78,19 @@ async def _owner(client: Client, message: Message):
             await message.reply_text("List is empty, cannot retrieve last message.")
  
  
-@app.on_message(filters.all & filters.private & ~filters.me) 
-async def _user(client: Client, message: Message): 
-    user_db = await users.find_one({"user_id": f"{message.from_user.id}"}) 
-    if not user_db: 
-        await message.reply_text(f"<b>You are not in the database, enter /start to use the bot!</b>", reply_to_message_id=message.id) 
-    else: 
-        forwarded_message = await message.forward(OWNER) 
-        await forwarded_message.react (MessageReaction.THUMBS_UP)
-        message_data = {"forward_id": f"{forwarded_message.id}", 
-                        "message_id": f"{message.id}", 
-                        "user_id": f"{message.from_user.id}"} 
-        await messages.insert_one(message_data) 
-        message = await message.reply_text(f"Pesan Anda Telah Terkirim", reply_to_message_id=message.id, disable_notification=True) 
-        await asyncio.sleep(3) 
-        await message.delete()
-
+@Client.on_message(filters.all & filters.private & ~filters.me)
+async def _user(client: Client, message: Message):
+    user_db = await users.find_one({"user_id": f"{message.from_user.id}"})
+    if not user_db:
+        await message.reply_text(f"<b>You are not in the database, enter /start to use the bot!</b>", reply_to_message_id=message.id)
+    else:
+        forwarded_message = await message.forward(owner) 
+        await forwarded_message.react(MessageReaction.THUMBS_UP)
+        message_data = {"forward_id": f"{forwarded_message.id}",
+                        "message_id": f"{message.id}",
+                        "user_id": f"{message.from_user.id}"}
+        await messages.insert_one(message_data)
+        message = await message.reply_text(f"<b>Pesan Anda telah terkirim!!</b>", reply_to_message_id=message.id, disable_notification=True)
+        await sleep(5)
+        await message.delete()
         
