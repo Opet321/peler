@@ -102,7 +102,7 @@ class AwayFromKeyboard:
             afk_text = f"<b>❏ ᴋᴇᴍʙᴀʟɪ ᴏɴʟɪɴᴇ\n ╰ ᴀғᴋ sᴇʟᴀᴍᴀ: {afk_runtime}</b>"
             await self.message.reply(afk_text)
             await self.message.delete()
-            await no_afk(user_id)
+            return await remove_vars(self.client.me.id, "AFK")
 
 
 @bots.on_message(filters.command(["afk"], cmd) & filters.me)
