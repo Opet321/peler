@@ -73,9 +73,9 @@ class AwayFromKeyboard:
     async def set_afk(self):
         db_afk = {"time": time(), "reason": self.reason}
         msg_afk = (
-            f"<b>❏ sᴇᴅᴀɴɢ ᴀғᴋ\n ╰ ᴀʟᴀsᴀɴ: {self.reason}</b>"
+            f"<b><blockquote>❏ sᴇᴅᴀɴɢ ᴀғᴋ\n ╰ ᴀʟᴀsᴀɴ: {self.reason}</blockquote></b>"
             if self.reason
-            else "<b>❏ sᴇᴅᴀɴɢ ᴀғᴋ</b>"
+            else "<b><blockquote>❏ sᴇᴅᴀɴɢ ᴀғᴋ</blockquote></b>"
         )
         await set_var(self.client.me.id, "AFK", db_afk)
         await self.message.reply(msg_afk, disable_web_page_preview=True)
@@ -88,9 +88,9 @@ class AwayFromKeyboard:
             afk_reason = vars.get("reason")
             afk_runtime = await get_time(time() - afk_time)
             afk_text = (
-                f"<b>❏ sᴇᴅᴀɴɢ ᴀғᴋ\n ├ ᴡᴀᴋᴛᴜ: {afk_runtime}\n ╰ ᴀʟᴀsᴀɴ: {afk_reason}</b>"
+                f"<b><blockquote>❏ sᴇᴅᴀɴɢ ᴀғᴋ\n ├ ᴡᴀᴋᴛᴜ: {afk_runtime}\n ╰ ᴀʟᴀsᴀɴ: {afk_reason}</blockquote></b>"
                 if afk_reason
-                else f"<b>❏ sᴇᴅᴀɴɢ ᴀғᴋ\n ╰ ᴡᴀᴋᴛᴜ: {afk_runtime}</b>"
+                else f"<b><blockquote>❏ sᴇᴅᴀɴɢ ᴀғᴋ\n ╰ ᴡᴀᴋᴛᴜ: {afk_runtime}<blockquote></b>"
             )
             return await self.message.reply(afk_text, disable_web_page_preview=True)
 
@@ -99,7 +99,7 @@ class AwayFromKeyboard:
         if vars:
             afk_time = vars.get("time")
             afk_runtime = await get_time(time() - afk_time)
-            afk_text = f"<b>❏ ᴋᴇᴍʙᴀʟɪ ᴏɴʟɪɴᴇ\n ╰ ᴀғᴋ sᴇʟᴀᴍᴀ: {afk_runtime}</b>"
+            afk_text = f"<b><blockquote>❏ ᴋᴇᴍʙᴀʟɪ ᴏɴʟɪɴᴇ\n ╰ ᴀғᴋ sᴇʟᴀᴍᴀ: {afk_runtime}<blockquote></b>"
             await self.message.reply(afk_text)
             await self.message.delete()
             return await remove_vars(self.client.me.id, "AFK")
