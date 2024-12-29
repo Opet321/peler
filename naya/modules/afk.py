@@ -114,8 +114,7 @@ async def handle_message(client, message):
 async def no_afke(client, message):
     user_id = client.me.id
     botlog = await get_log_groups(user_id) 
-    lol = await check_afk(user_id)
-    afk_time = lol["time"]
+    afk_time = user_id("time")
     afk_runtime = await get_time(time() - afk_time)
     kk = await message.reply(
         f"<b>❏ Saya Kembali.</b>\n<b> ╰ AFK Selama</b> : <code>{afk_runtime}</code>"
