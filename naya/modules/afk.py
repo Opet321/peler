@@ -109,23 +109,37 @@ async def handle_message(client, message):
     afk_handler = AwayFromKeyboard(client, message)
     await afk_handler.get_afk()
 
-afk_users = {}
 
-@bots.on_message(filters.command(["unafk"], cmd) & filters.me)
-async def no_afke(client, message):
-    user_id = client.me.id
-    botlog = await get_log_groups(user_id)
-    
-    if user_id in afk_users: # Pastikan waktu AFK tersimpan
-        afk_time = afk_users[user_id] # Ambil waktu AFK
-        del afk_users[user_id] # Hapus data AFK dari penyimpanan
+class AwayFromKeyboard:
+    def __init__(self, client, message):
+        self.client = client
+        self.message = message
 
-        afk_runtime = await get_time(time() - afk_time)
-        kk = await message.reply(
-            f"❏ Saya Kembali.\n ╰ AFK Selama : {afk_runtime}"
-        )
-        await kk.delete()
-        await no_afk(user_id)
-        await client.send_message(botlog, onlinestr.format(afk_runtime))
-    else:
-        await message.reply("Saya belum AFK!")
+    async def unset_afk(self):
+        vars = await get_vars(self.client.me.id, "AFK")
+        if vars:
+            afk_time = vars.get("time")
+            afk_runtime = await get_time(time.time() - afk_time)  # Gunakan time.time()
+            afk_text = f"<b>❏ ᴋᴇᴍʙᴀʟɪ ᴏɴʟɪɴᴇ\n ╰ ᴀғᴋ sᴇʟᴀᴍᴀ: {afk_runtime}"
+            await self.message.reply(afk_text)
+            await self.message.delete()
+            return await remove_vars(self.client.me.id, "AFK")
+
+
+@app.on.on_message(filters.command(["unafk"], cmd) & filters.me)
+async def handle_ai_command(client, message):
+    afk_handler = AwayFromKeyboard(client, message)
+    await afk_handler.unset_afk()
+
+# Contoh placeholder untuk fungsi yang diasumsikan
+async def get_vars(user_id, key):
+    # Implementasi get_vars di sini
+    return {"time": time.time()}
+
+async def get_time(seconds):
+    # Implementasi get_time di sini
+    return f"{seconds} seconds"
+
+async def remove_vars(user_id, key):
+    # Implementasi remove_vars di sini
+    return True
