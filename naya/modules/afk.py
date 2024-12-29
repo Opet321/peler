@@ -76,10 +76,10 @@ class AwayFromKeyboard:
         return await self.message.delete()
 
     async def get_afk(self):
-        var = await get_var(self.client.me.id, "AFK")
+        vars = await get_var(self.client.me.id, "AFK")
         if vars:
-            afk_time = var.get("time")
-            afk_reason = var.get("reason")
+            afk_time = vars.get("time")
+            afk_reason = vars.get("reason")
             afk_runtime = await get_time(time() - afk_time)
             afk_text = (
                 f"<b>❏ sᴇᴅᴀɴɢ ᴀғᴋ\n ├ ᴡᴀᴋᴛᴜ: {afk_runtime}\n ╰ ᴀʟᴀsᴀɴ: {afk_reason}</b>"
