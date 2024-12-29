@@ -7,6 +7,9 @@ from time import time as waktunya
 start_time = waktunya()
 
 
+
+
+
 async def get_time(seconds):
     count = 0
     up_time = ""
@@ -51,6 +54,25 @@ __HELP__ = """
   • perintah: <code>{0}unafk</code>
   • penjelasan: untuk menonaktifkan afk
 """
+
+def AFK(afk_no):
+        def wrapper(func):
+            afk_check = (
+                (filters.mentioned | filters.private)
+                & ~filters.bot
+                & ~filters.me
+                & filters.incoming
+                if afk_no
+                else filters.me & ~filters.incoming
+            )
+
+            @ubot.on_message(afk_check, group=10)
+            async def wrapped_func(client, message):
+                await func(client, message)
+
+            return wrapped_func
+
+        return wrapper
 
 
 class AwayFromKeyboard:
