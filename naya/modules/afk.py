@@ -4,7 +4,7 @@ import re
 from pyrogram import Client, filters, enums
 from pyrogram.types import Message 
 from pyrogram import raw 
-from typing import Optional, Union
+from typing import Optional, Union, Callable
 from functools import wraps 
 from pyrate_limiter import BucketFullException, Duration, Limiter, RequestRate, MemoryListBucket
 from pyrogram import utils
