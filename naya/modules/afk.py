@@ -310,7 +310,7 @@ async def afk_watcher_func(self: Client, ctx: Message):
         for entity in ctx.entities:
             try:
                 if (
-                    entity.type == enums.MessageEntityType.BOT_COMMAND
+                    entity.type == enums.MessageEntityType.TEXT_MENTION
                     and (message_text[0 : 0 + entity.length]).lower() in possible
                 ):
                     return
