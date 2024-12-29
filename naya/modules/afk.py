@@ -83,16 +83,6 @@ class AwayFromKeyboard:
             )
             return await self.message.reply(afk_text, disable_web_page_preview=True)
 
-    async def unset_afk(self):
-        vars = await get_var(self.client.me.id, "AFK") 
-        if vars:
-            afk_time = vars.get("time")
-            afk_runtime = await get_time(time() - afk_time)
-            afk_text = f"<b><blockquote>❏ ᴋᴇᴍʙᴀʟɪ ᴏɴʟɪɴᴇ\n ╰ ᴀғᴋ sᴇʟᴀᴍᴀ: {afk_runtime}</blockquote></b>"
-            await self.message.reply(afk_text)
-            await self.message.delete() 
-            user_id = self.message.from_user.id
-            await no_afk(user_id)
 
 
 @bots.on_message(filters.command(["afk"], cmd) & filters.me)
@@ -113,7 +103,18 @@ async def handle_message(client, message):
     await afk_handler.get_afk()
 
 
-@bots.on_message(filters.command(["unafk"], cmd) & filters.me)
-async def _(client, message):
-    afk_handler = AwayFromKeyboard(client, message)
-    return await afk_handler.unset_afk()
+@bots.on_message(filters.outgoing & filters.me & is_afk)
+async def no_afke(client, message):
+    user_id = client.me.id
+    botlog = await get_log_groups(user_id)
+    lol = await check_afk(user_id)
+    back_alivee = datetime.now()
+    afk_start = lol["time"]
+    afk_end = back_alivee.replace(microsecond=0)
+    afk_runtime = str((afk_end - afk_start))
+    kk = await message.reply(
+        f"<b>❏ Saya Kembali.</b>\n<b> ╰ AFK Selama</b> : <code>{afk_runtime}</code>"
+    )
+    await kk.delete()
+    await no_afk(user_id)
+    await client.send_message(botlog, onlinestr.format(afk_runtime))
