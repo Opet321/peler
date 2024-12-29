@@ -2,6 +2,7 @@ from asyncio import sleep
 from time import sleep 
 from pyrogram import Client, filters 
 from pyrogram.types import Message  
+from pyrogram.enums import MessageReaction
 from motor.motor_asyncio import AsyncIOMotorClient as MongoCli 
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message
 from naya.config import MONGO_URL, OWNER 
@@ -78,27 +79,20 @@ async def _owner(client: Client, message: Message):
  
  
 
-@app.on_message(filters.private & ~filters.me)
+@app.on_message(filters.all & filters.private & ~filters.me)
 async def _user(client: Client, message: Message):
-    user_db = await users.find_one({"user_id": f"{message.from_user.id}"})
-    if not user_db:
-        await message.reply_text(
-            f"You are not in the database, enter /start to use the bot!",
-            reply_to_message_id=message.id,
-        )
-    else:
-        forwarded_message = await message.forward(OWNER)
-        await message.react("👍")
-        message_data = {
-            "forward_id": f"{forwarded_message.id}",
-            "message_id": f"{message.id}",
-            "user_id": f"{message.from_user.id}",
-        }
-        await messages.insert_one(message_data)
-        reply = await message.reply_text(
-            f"Pesan Anda Telah Terkirim",
-            reply_to_message_id=message.id,
-            disable_notification=True,
-        )
-        await asyncio.sleep(3)
-        await reply.delete()
+    user_db = await users.find_one({"user_id": f"{message.from_user.id}"})
+    if not user_db:
+        await message.reply_text(f"You are not in the database, enter /start to use the bot!", reply_to_message_id=message.id)
+    else:
+        forwarded_message = await message.forward(OWNER)
+        # Tambahkan reaksi pada pesan yang diteruskan
+        await forwarded_message.react(MessageReaction.THUMBS_UP)
+        
+        message_data = {"forward_id": f"{forwarded_message.id}",
+                        "message_id": f"{message.id}",
+                        "user_id": f"{message.from_user.id}"}
+        await messages.insert_one(message_data)
+        message = await message.reply_text(f"Pesan Anda Telah Terkirim", reply_to_message_id=message.id, disable_notification=True)
+        await asyncio.sleep(3)
+        await message.delete()
