@@ -109,7 +109,8 @@ async def _(client, message):
     filters.group
     & filters.mentioned
     & filters.incoming
-    & ~filters.bot
+    & ~filters.bot 
+    & ~filters.private
     & ~filters.via_bot,
     group=69,
 )
