@@ -32,8 +32,6 @@ async def _start(client: Client, message: Message):
         await message.reply_text("<b>Kirimi saya pesan Anda dan saya akan meneruskannya!!</b>", reply_to_message_id=message.id)
  
  
- 
-
 
 @app.on_message(filters.chat(int(OWNER)))
 async def _owner(client: Client, message: Message):
