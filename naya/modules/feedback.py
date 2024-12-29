@@ -24,13 +24,9 @@ async def _message_id(message_id):
 async def _start(client: Client, message: Message):
     user_db = await users.find_one({"user_id": f"{message.from_user.id}"})
     if not user_db:
-        await message.reply_text(f"<b>Hello, {message.from_user.mention}!</b>", reply_to_message_id=message.id)
+        await message.reply_text(f"Hello, {message.from_user.mention}!", reply_to_message_id=message.id)
         user_id = {"user_id": f"{message.from_user.id}"}
         await users.insert_one(user_id)
-        await client.send_message(message.chat.id, "<b>Kirimi saya pesan Anda dan saya akan meneruskannya!!</b>")
-    else:
-        await message.reply_text("<b>Kirimi saya pesan Anda dan saya akan meneruskannya!!</b>", reply_to_message_id=message.id)
- 
  
 
 @app.on_message(filters.chat(int(OWNER)))
