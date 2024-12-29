@@ -84,7 +84,11 @@ async def _user(client: Client, message: Message):
         await message.reply_text(f"<b>You are not in the database, enter /start to use the bot!</b>", reply_to_message_id=message.id)
     else:
         forwarded_message = await message.forward(OWNER) 
-        await app.send_reaction(chat_id, message_id, "🔥")
+        await client.send_reaction(
+           chat_id=chat_id,
+           message_id=message.id,
+           emoji="🔥"
+        )
         message_data = {"forward_id": f"{forwarded_message.id}",
                         "message_id": f"{message.id}",
                         "user_id": f"{message.from_user.id}"}
@@ -92,6 +96,5 @@ async def _user(client: Client, message: Message):
         message = await message.reply_text(f"<b>Pesan Anda telah terkirim!!</b>", reply_to_message_id=message.id, disable_notification=True)
         await sleep(5)
         await message.delete()
-
         
     
