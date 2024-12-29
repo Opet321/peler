@@ -90,7 +90,7 @@ class AwayFromKeyboard:
             afk_text = (
                 f"<b><blockquote>❏ sᴇᴅᴀɴɢ ᴀғᴋ\n ├ ᴡᴀᴋᴛᴜ: {afk_runtime}\n ╰ ᴀʟᴀsᴀɴ: {afk_reason}</blockquote></b>"
                 if afk_reason
-                else f"<b><blockquote>❏ sᴇᴅᴀɴɢ ᴀғᴋ\n ╰ ᴡᴀᴋᴛᴜ: {afk_runtime}<blockquote></b>"
+                else f"<b><blockquote>❏ sᴇᴅᴀɴɢ ᴀғᴋ\n ╰ ᴡᴀᴋᴛᴜ: {afk_runtime}</blockquote></b>"
             )
             return await self.message.reply(afk_text, disable_web_page_preview=True)
 
@@ -99,7 +99,7 @@ class AwayFromKeyboard:
         if vars:
             afk_time = vars.get("time")
             afk_runtime = await get_time(time() - afk_time)
-            afk_text = f"<b><blockquote>❏ ᴋᴇᴍʙᴀʟɪ ᴏɴʟɪɴᴇ\n ╰ ᴀғᴋ sᴇʟᴀᴍᴀ: {afk_runtime}<blockquote></b>"
+            afk_text = f"<b><blockquote>❏ ᴋᴇᴍʙᴀʟɪ ᴏɴʟɪɴᴇ\n ╰ ᴀғᴋ sᴇʟᴀᴍᴀ: {afk_runtime}</blockquote></b>"
             await self.message.reply(afk_text)
             await self.message.delete()
             return await remove_vars(self.client.me.id, "AFK")
