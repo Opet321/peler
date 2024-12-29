@@ -146,7 +146,7 @@ def get_readable_time2(seconds: int) -> str:
 
 
 
-@app.on_message(filters.command("afk", [".", "^", "-", "!", "/"]))
+@bots.on_message(filters.command("afk", [".", "^", "-", "!", "/"]))
 async def active_afk(_, ctx: Message):
     if ctx.sender_chat:
         return 
@@ -295,7 +295,7 @@ async def active_afk(_, ctx: Message):
 
 
 # Detect user that AFK based on Yukki Repo
-@app.on_message(
+@bots.on_message(
     filters.group & ~filters.bot & ~filters.me,
     group=1,
 )
