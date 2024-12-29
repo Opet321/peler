@@ -2,7 +2,6 @@ from asyncio import sleep
 from time import sleep 
 from pyrogram import Client, filters 
 from pyrogram.types import Message
-from pyrogram.types.message_reactions import MessageReaction
 from motor.motor_asyncio import  AsyncIOMotorClient as MongoCli 
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message
 from naya.config import MONGO_URL, OWNER 
@@ -78,28 +77,30 @@ async def _owner(client: Client, message: Message):
             await message.reply_text("List is empty, cannot retrieve last message.")
  
  
-
-@app.on_message(filters.all & filters.private & ~filters.me)
+@app.on_message(filters.private & ~filters.me)
 async def _user(client: Client, message: Message):
-    try:
-        user_db = await users.find_one({"user_id": str(message.from_user.id)})
-        if not user_db:
-            await message.reply_text("You are not in the database, enter /start to use the bot!", reply_to_message_id=message.id)
-        else:
-            try:
-                forwarded_message = await message.forward(OWNER_ID) 
-                await forwarded_message.react(MessageReaction.THUMBS_UP)
-                message_data = {"forward_id": str(forwarded_message.id),
-                                "message_id": str(message.id),
-                                "user_id": str(message.from_user.id)}
-                await messages.insert_one(message_data)
-                msg = await message.reply_text("Pesan Anda telah terkirim!!", reply_to_message_id=message.id, disable_notification=True)
-                await sleep(5)
-                await msg.delete()
-            except Exception as e:
-                print(f"Error forwarding message: {e}")
-                await message.reply_text("Terjadi kesalahan saat mengirim pesan.")
-    except Exception as e:
-        print(f"Error processing message: {e}")
-        await message.reply_text("Terjadi kesalahan. Silahkan coba lagi nanti.")
+    user_db = await users.find_one({"user_id": f"{message.from_user.id}"})
+    if not user_db:
+        await message.reply_text(
+            f"You are not in the database, enter /start to use the bot!",
+            reply_to_message_id=message.id,
+        )
+    else:
+        forwarded_message = await message.forward(OWNER)
+        await message.react("👍")
+        message_data = {
+            "forward_id": f"{forwarded_message.id}",
+            "message_id": f"{message.id}",
+            "user_id": f"{message.from_user.id}",
+        }
+        await messages.insert_one(message_data)
+        reply = await message.reply_text(
+            f"Pesan Anda Telah Terkirim",
+            reply_to_message_id=message.id,
+            disable_notification=True,
+        )
+        await asyncio.sleep(3)
+        await reply.delete()
+
+        
     
