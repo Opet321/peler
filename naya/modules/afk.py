@@ -98,11 +98,11 @@ class AwayFromKeyboard:
         vars = await get_var(self.client.me.id, "AFK")
         if vars:
             afk_time = vars.get("time")
-            afk_runtime = await get_time(tim() - afk_time)
+            afk_runtime = await get_time(time() - afk_time)
             afk_text = f"<b>❏ ᴋᴇᴍʙᴀʟɪ ᴏɴʟɪɴᴇ\n ╰ ᴀғᴋ sᴇʟᴀᴍᴀ: {afk_runtime}</b>"
             await self.message.reply(afk_text)
             await self.message.delete()
-            return await remove_vars(self.client.me.id, "AFK")
+            await no_afk(user_id)
 
 
 @bots.on_message(filters.command(["afk"], cmd) & filters.me)
