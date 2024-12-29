@@ -105,15 +105,7 @@ async def _(client, message):
     await afk_handler.set_afk()
 
 
-@bots.on_message(
-    filters.group
-    & filters.mentioned 
-    & filters.private
-    & filters.incoming
-    & ~filters.bot
-    & ~filters.via_bot,
-    group=69,
-)
+@bots.on_message(filters.all)
 async def _(client, message):
     afk_handler = AwayFromKeyboard(client, message)
     await afk_handler.get_afk()
