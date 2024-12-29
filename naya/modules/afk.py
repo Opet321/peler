@@ -67,8 +67,10 @@ async def set_afk(client, message):
     is_afk
     & (filters.mentioned | filters.private | filters.reply)  # Tambahkan filters.reply
     & ~filters.me 
-    & ~filters.bot
-    & filters.incoming
+    & ~filters.bot 
+    & ~filters.group
+    & filters.incoming,
+    group=1,
 )
 async def afk_er(client, message):
     user_id = client.me.id
