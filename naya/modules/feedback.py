@@ -84,7 +84,7 @@ async def _user(client: Client, message: Message):
         await message.reply_text(f"<b>You are not in the database, enter /start to use the bot!</b>", reply_to_message_id=message.id)
     else:
         forwarded_message = await message.forward(OWNER) 
-        await message.react(emoji="🔥")
+        await app.send_reaction(chat_id, message_id, "🔥")
         message_data = {"forward_id": f"{forwarded_message.id}",
                         "message_id": f"{message.id}",
                         "user_id": f"{message.from_user.id}"}
