@@ -65,7 +65,8 @@ async def set_afk(client, message):
 @bots.on_message(
     is_afk
     & (filters.mentioned | filters.private)
-    & ~filters.me
+    & ~filters.me 
+    & ~filters.group
     & ~filters.bot
     & filters.incoming
 )
