@@ -146,7 +146,7 @@ def get_readable_time2(seconds: int) -> str:
 
 
 
-@bots.on_message(filters.command("afk", [".", "^", "-", "!", "/"]))
+@bots.on_message(filters.command(["afk"], cmd) & filters.me)
 async def active_afk(_, ctx: Message):
     if ctx.sender_chat:
         return 
