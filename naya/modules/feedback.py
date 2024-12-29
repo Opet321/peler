@@ -2,7 +2,7 @@ from asyncio import sleep
 from time import sleep 
 from pyrogram import Client, filters 
 from pyrogram.types import Message
-from pyrogram.types message_reactions import MessageReaction
+from pyrogram.types.message_reactions import 
 from motor.motor_asyncio import  AsyncIOMotorClient as MongoCli 
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message
 from naya.config import MONGO_URL, OWNER 
@@ -19,7 +19,7 @@ async def _message_id(message_id):
  return message_id 
 
 
-
+ 
 @app.on_message(filters.command("start"))
 async def _start(client: Client, message: Message):
     user_db = await users.find_one({"user_id": f"{message.from_user.id}"})
@@ -28,7 +28,7 @@ async def _start(client: Client, message: Message):
         user_id = {"user_id": f"{message.from_user.id}"}
         await users.insert_one(user_id)
     else:
-        await message.reply_text("<blockquote>Status by React</blockquote>\n<blockquote>👍: Delivered</blockquote>\n<blockquote>✍: edited</blockquote>", reply_to_message_id=message.id)
+        await message.reply_text(f"<blockquote>Status by React</b>\n👍: Delivered\n✍: edited</blockquote>", reply_to_message_id=message.id)
  
 
 @app.on_message(filters.chat(int(OWNER)))
