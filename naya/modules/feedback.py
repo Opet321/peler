@@ -21,13 +21,18 @@ async def _message_id(message_id):
 
 @app.on_message(filters.command("start"))
 async def _start(client: Client, message: Message):
-    user_db = await users.find_one({"user_id": f"{message.from_user.id}"})
-    if not user_db:
-        await message.reply_text(f"Hello, {message.from_user.mention}!", reply_to_message_id=message.id)
-        user_id = {"user_id": f"{message.from_user.id}"}
-        await users.insert_one(user_id)
-    else:
-        await message.reply_text(f"<p><b>Status by React</b></p>\n<p>👍: Delivered</p>\n<p>✍: edited</p>", reply_to_message_id=message.id)
+    user_db = await users.find_one({"user_id": f"{message.from_user.id}"})
+    if not user_db:
+        await message.reply_text(f"Hello, {message.from_user.mention}!", reply_to_message_id=message.id)
+        user_id = {"user_id": f"{message.from_user.id}"}
+        await users.insert_one(user_id)
+    else:
+        status_text = (
+            "Status by React\n"
+            "👍: Delivered\n"
+            "✍: Edited"
+        )
+        await message.reply_text(status_text, reply_to_message_id=message.id)
  
 
 @app.on_message(filters.chat(int(OWNER)))
