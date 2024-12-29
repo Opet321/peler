@@ -296,7 +296,7 @@ async def active_afk(_, ctx: Message):
 
 # Detect user that AFK based on Yukki Repo
 @bots.on_message(
-    filters.group & ~filters.bot & ~filters.me,
+    filters.group & ~filters.me,
     group=1,
 )
 async def afk_watcher_func(self: Client, ctx: Message):
