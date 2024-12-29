@@ -1,8 +1,7 @@
 from asyncio import sleep  
 from time import sleep 
 from pyrogram import Client, filters 
-from pyrogram.types import Message  
-from pyrogram.enums import MessageReaction
+from pyrogram.types import Message, MessageReaction
 from motor.motor_asyncio import AsyncIOMotorClient as MongoCli 
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message
 from naya.config import MONGO_URL, OWNER 
