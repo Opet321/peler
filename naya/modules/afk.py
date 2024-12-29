@@ -1,4 +1,4 @@
-from time import time
+
 
 from . import *
 
@@ -55,12 +55,14 @@ __HELP__ = """
   • penjelasan: untuk menonaktifkan afk
 """
 
+from time import time
 
 class AwayFromKeyboard:
     def __init__(self, client, message, reason=""):
         self.client = client
         self.message = message
         self.reason = reason
+
 
     async def set_afk(self):
         db_afk = {"time": time(), "reason": self.reason}
