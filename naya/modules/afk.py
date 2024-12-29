@@ -62,11 +62,11 @@ async def set_afk(client, message):
     await pablo.edit(msg)
 
 
+
 @bots.on_message(
     is_afk
-    & (filters.mentioned | filters.private)
+    & (filters.mentioned | filters.private | filters.reply)  # Tambahkan filters.reply
     & ~filters.me 
-    & ~filters.group
     & ~filters.bot
     & filters.incoming
 )
@@ -78,13 +78,18 @@ async def afk_er(client, message):
         return
     if message.from_user.id == user_id:
         return
+    
+    # Cek apakah pesan reply ke bot dan bukan pesan reply ke user lain 
+    if message.reply_to_message and message.reply_to_message.from_user and message.reply_to_message.from_user.id != user_id:
+      return
+
     use_r = int(user_id)
     if use_r not in afk_sanity_check.keys():
         afk_sanity_check[use_r] = 1
     else:
         afk_sanity_check[use_r] += 1
     if afk_sanity_check[use_r] == 5:
-        await message.reply_text("<b>❏ Sedang AFK</b>.")
+        await message.reply_text("❏ Sedang AFK.")
         afk_sanity_check[use_r] += 1
         return
     if afk_sanity_check[use_r] > 5:
@@ -98,11 +103,12 @@ async def afk_er(client, message):
     afk_end = back_alivee.replace(microsecond=0)
     total_afk_time = str((afk_end - afk_start))
     message_to_reply = (
-        f"<b>❏ Sedang AFK</b>\n<b> ├ Waktu</b> :<code>{total_afk_time}</code>\n<b> ╰ Alasan</b> : <code>{reason}</code>"
+        f"❏ Sedang AFK\n ├ Waktu :{total_afk_time}\n ╰ Alasan : {reason}"
         if reason
-        else f"<b>❏ Sedang AFK</b>\n<b> ╰ Waktu</b> :<code>{total_afk_time}</code>"
+        else f"❏ Sedang AFK\n ╰ Waktu :{total_afk_time}"
     )
     await message.reply(message_to_reply)
+
 
 
 @bots.on_message(filters.outgoing & filters.me & is_afk)
