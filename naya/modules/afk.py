@@ -1,13 +1,19 @@
+__MODULE__ = "afk"
+__HELP__ = """
+ bantuan untuk afk
 
+  • perintah: <code>{0}afk</code>
+  • penjelasan: untuk mengaktifkan afk
+
+  • perintah: <code>{0}unafk</code>
+  • penjelasan: untuk menonaktifkan afk
+"""
 
 from . import *
 
 from time import time as waktunya
 
 start_time = waktunya()
-
-
-
 
 
 async def get_time(seconds):
@@ -44,16 +50,6 @@ async def get_time(seconds):
 
     return up_time
 
-__MODULE__ = "afk"
-__HELP__ = """
- bantuan untuk afk
-
-  • perintah: <code>{0}afk</code>
-  • penjelasan: untuk mengaktifkan afk
-
-  • perintah: <code>{0}unafk</code>
-  • penjelasan: untuk menonaktifkan afk
-"""
 
 from time import time
 
@@ -106,8 +102,10 @@ async def _(client, message):
 
 
 @bots.on_message(
-    ~filters.bot & (filters.reply & (filters.group | filters.private)),
-    group=69,
+    (filters.mentioned | filters.private)
+    & ~filters.bot
+    & ~filters.me
+    & filters.incoming 
 )
 async def handle_message(client, message):
     afk_handler = AwayFromKeyboard(client, message)
