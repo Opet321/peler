@@ -57,10 +57,6 @@ __HELP__ = """
 
 from time import time
 
-async def remove_vars(bot_id, vars_name, query="vars"):
-    remove_data = {"$unset": {f"{query}.{vars_name}": ""}}
-    await varsdb.update_one({"_id": bot_id}, remove_data)
-
 
 class AwayFromKeyboard:
     def __init__(self, client, message, reason=""):  # Perbaiki dari init ke __init__
@@ -100,7 +96,7 @@ class AwayFromKeyboard:
             afk_text = f"<b>❏ ᴋᴇᴍʙᴀʟɪ ᴏɴʟɪɴᴇ\n ╰ ᴀғᴋ sᴇʟᴀᴍᴀ: {afk_runtime}</b>"
             await self.message.reply(afk_text)
             await self.message.delete()
-            return await remove_var(self.client.me.id, "AFK")
+            return await del_var(self.client.me.id, "AFK")
 
 
 @bots.on_message(filters.command(["afk"], cmd) & filters.me)
