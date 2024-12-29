@@ -109,6 +109,7 @@ async def handle_message(client, message):
     afk_handler = AwayFromKeyboard(client, message)
     await afk_handler.get_afk()
 
+afk_users = {}
 
 @bots.on_message(filters.command(["unafk"], cmd) & filters.me)
 async def no_afke(client, message):
