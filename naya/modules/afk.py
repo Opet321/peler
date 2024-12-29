@@ -106,11 +106,8 @@ async def _(client, message):
 
 
 @bots.on_message(
-    filters.reply
-    & filters.incoming
-    & ~filters.bot 
-    & ~filters.via_bot,
-    group=69,
+    (filters.reply & filters.group) | (filters.reply & filters.private) & ~filters.bot,
+    group=69,
 )
 async def handle_message(client, message):
     afk_handler = AwayFromKeyboard(client, message)
