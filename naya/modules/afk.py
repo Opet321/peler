@@ -113,7 +113,8 @@ async def handle_message(client, message):
 @bots.on_message(filters.command(["unafk"], cmd) & filters.me)
 async def no_afke(client, message):
     user_id = client.me.id
-    botlog = await get_log_groups(user_id)
+    botlog = await get_log_groups(user_id) 
+    lol = await check_afk(user_id)
     afk_time = lol["time"]
     afk_runtime = await get_time(time() - afk_time)
     kk = await message.reply(
