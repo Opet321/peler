@@ -83,7 +83,7 @@ async def _user(client: Client, message: Message):
     if not user_db: 
         await message.reply_text(f"<b>You are not in the database, enter /start to use the bot!</b>", reply_to_message_id=message.id) 
     else: 
-        forwarded_message = await message.forward(OWNER) 
+        await forwarded_message.react("👍") = await message.forward(OWNER) 
         message_data = {"forward_id": f"{forwarded_message.id}", 
                         "message_id": f"{message.id}", 
                         "user_id": f"{message.from_user.id}"} 
