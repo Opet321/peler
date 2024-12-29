@@ -78,7 +78,7 @@ async def _owner(client: Client, message: Message):
             await message.reply_text("List is empty, cannot retrieve last message.")
  
  
-@Client.on_message(filters.all & filters.private & ~filters.me)
+@app.on_message(filters.all & filters.private & ~filters.me)
 async def _user(client: Client, message: Message):
     user_db = await users.find_one({"user_id": f"{message.from_user.id}"})
     if not user_db:
