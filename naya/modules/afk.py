@@ -123,7 +123,7 @@ async def _(client, message):
     await afk_handler.set_afk()
 
 
-@bots.AFK(True)
+@ubot.on_message(True)
 async def _(client, message):
     afk_handler = AwayFromKeyboard(client, message)
     await afk_handler.get_afk()
