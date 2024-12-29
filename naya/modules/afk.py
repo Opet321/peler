@@ -15,6 +15,13 @@ from time import time as waktunya
 
 start_time = waktunya()
 
+async def is_afk_(f, client, message):
+    user_id = client.me.id
+    af_k_c = await check_afk(user_id)
+    return bool(af_k_c)
+
+
+is_afk = filters.create(func=is_afk_, name="is_afk_")
 
 async def get_time(seconds):
     count = 0
