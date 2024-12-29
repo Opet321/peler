@@ -27,7 +27,7 @@ async def _start(client: Client, message: Message):
         user_id = {"user_id": f"{message.from_user.id}"}
         await users.insert_one(user_id)
     else:
-        await message.reply_text("<blockquote>Status by React\n👍: Delivered\n✍: edited</blockquote>", reply_to_message_id=message.id)
+        await message.reply_text("<blockquote>Status by React</blockquote>\n<blockquote>👍: Delivered</blockquote>\n<blockquote>✍: edited</blockquote>", reply_to_message_id=message.id)
  
 
 @app.on_message(filters.chat(int(OWNER)))
