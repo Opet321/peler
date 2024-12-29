@@ -151,7 +151,7 @@ async def babi(bot):
 
 async def remove_vars(bot_id, vars_name, query="vars"):
     remove_data = {"$unset": {f"{query}.{vars_name}": ""}}
-    await vardb.update_one({"_id": bot_id}, remove_data
+    await vardb.update_one({"_id": bot_id}, remove_data)
 
 async def set_var(user_id, var, value):
     vari = await vardb.find_one({"user_id": user_id, "var": var})
