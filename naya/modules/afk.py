@@ -88,11 +88,13 @@ async def _(client, message):
 )
 async def handle_message(client, message):
     user_id = await get_var(client.me.id, "AFK")  # Ambil data AFK
+    reason = ""  # Inisialisasi reason dengan string kosong
+    
     if user_id:  # Pastikan untuk menggunakan user_id, bukan var
         lol = await check_afk(user_id)  # Dapatkan data AFK terlebih dahulu
         
-        if reason == "":
-         reason = None
+        if lol.get("reason") is not None:  # Cek jika reason ada
+            reason = lol.get("reason")
         
         afk_time = lol.get("time")  # Gunakan .get() untuk menghindari KeyError
         afk_reason = lol.get("reason")
@@ -105,9 +107,7 @@ async def handle_message(client, message):
                 else f"<b><blockquote>❏ sᴇᴅᴀɴɢ ᴀғᴋ\n ╰ ᴡᴀᴋᴛᴜ: {afk_runtime}</blockquote></b>"
             )
             return await message.reply(afk_text, disable_web_page_preview=True)
-        else:
-            # Tindakan jika afk_time tidak tersedia
-            return await message.reply("Tidak ada informasi waktu AFK.", disable_web_page_preview=True)
+        
 
 @bots.on_message(filters.command(["unafk"], cmd) & filters.me)
 async def unset_afk(client, message): 
