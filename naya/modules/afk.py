@@ -71,15 +71,17 @@ class AwayFromKeyboard:
 async def _(client, message):
     reason = get_arg(message)
     afk_handler = AwayFromKeyboard(client, message, reason)
-        db_afk = {"time": time(), "reason": self.reason}
-        msg_afk = (
-            f"<b><blockquote>❏ sᴇᴅᴀɴɢ ᴀғᴋ\n ╰ ᴀʟᴀsᴀɴ: {self.reason}</blockquote></b>"
-            if self.reason
-            else "<b><blockquote>❏ sᴇᴅᴀɴɢ ᴀғᴋ</blockquote></b>"
-        )
-        await set_var(client.me.id, "AFK", db_afk)
-        await message.reply(msg_afk, disable_web_page_preview=True)
-        return await message.delete()
+    
+    db_afk = {"time": time(), "reason": reason}  # Ganti self.reason dengan reason
+    msg_afk = (
+        f"<b><blockquote>❏ sᴇᴅᴀɴɢ ᴀғᴋ\n ╰ ᴀʟᴀsᴀɴ: {reason}</blockquote></b>"
+        if reason
+        else "<b><blockquote>❏ sᴇᴅᴀɴɢ ᴀғᴋ</blockquote></b>"
+    )
+    
+    await set_var(client.me.id, "AFK", db_afk)
+    await message.reply(msg_afk, disable_web_page_preview=True)
+    return await message.delete()
 
 
 @bots.on_message(
