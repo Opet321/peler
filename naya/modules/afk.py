@@ -133,9 +133,9 @@ async def afk_er(client, message):
     afk_end = back_alivee.replace(microsecond=0)
     total_afk_time = str((afk_end - afk_start))
     message_to_reply = (
-        f"<b>❏ Sedang AFK</b>\n<b> ├ Waktu</b> :<code>{afk_runtime}</code>\n<b> ╰ Alasan</b> : <code>{reason}</code>"
+        f"<b>❏ Sedang AFK</b>\n<b> ├ Waktu</b> :<code>{total_afk_time}</code>\n<b> ╰ Alasan</b> : <code>{reason}</code>"
         if reason
-        else f"<b>❏ Sedang AFK</b>\n<b> ╰ Waktu</b> :<code>{afk_runtime}</code>"
+        else f"<b>❏ Sedang AFK</b>\n<b> ╰ Waktu</b> :<code>{total_afk_time}</code>"
     )
     await message.reply(message_to_reply)
 
@@ -149,7 +149,7 @@ async def no_afke(client, message):
     afk_end = back_alivee.replace(microsecond=0)
     total_afk_time = str((afk_end - afk_start))
     kk = await message.reply(
-        f"<b>❏ Saya Kembali.</b>\n<b> ╰ AFK Selama</b> : <code>{afk_runtime}</code>"
+        f"<b>❏ Saya Kembali.</b>\n<b> ╰ AFK Selama</b> : <code>{total_afk_time}</code>"
     )
     await kk.delete()
     await no_afk(user_id)
