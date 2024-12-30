@@ -98,7 +98,7 @@ async def handle_message(client, message):
 @bots.on_message(filters.command(["unafk"], cmd) & filters.me)
 async def unset_afk(client, message):
     afk_handler = AwayFromKeyboard(client, message)
-    vars = await get_var(client.me.id, "AFK")
+    vars = await get_var(client.me.id)
     
     if vars:
         afk_time = vars.get("time")
@@ -106,7 +106,7 @@ async def unset_afk(client, message):
         afk_text = f"<b>❏ ᴋᴇᴍʙᴀʟɪ ᴏɴʟɪɴᴇ\n ╰ ᴀғᴋ sᴇʟᴀᴍᴀ: {afk_runtime}"
         await message.reply(afk_text)
         await message.delete()
-        return await remove_vars(client.me.id, "AFK")
+        return await remove_vars(client.me.id)
 
 
 
