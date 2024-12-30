@@ -104,7 +104,7 @@ async def set_afk(client, message):
     & (filters.mentioned | filters.private)
     & ~filters.me
     & ~filters.bot
-    & filters.incoming 
+    & filters.incoming,
     group=69,
 )
 async def afk_er(client, message):
