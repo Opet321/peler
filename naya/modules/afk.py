@@ -91,8 +91,8 @@ async def handle_message(client, message):
     if user_id:  # Pastikan untuk menggunakan user_id, bukan var
         lol = await check_afk(user_id)  # Dapatkan data AFK terlebih dahulu
         
-        if lol is None:  # Periksa apakah lol adalah None
-            return  # Atau Anda bisa memberikan respons lain jika diperlukan
+        if reason == "":
+         reason = None
         
         afk_time = lol.get("time")  # Gunakan .get() untuk menghindari KeyError
         afk_reason = lol.get("reason")
