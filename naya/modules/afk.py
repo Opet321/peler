@@ -85,7 +85,7 @@ async def set_afk(client, message):
     pablo = await eor(message, "<code>Processing...</code>")
     msge = None
     msge = get_text(message)
-    start_1 = get_time(time() - afk_start)
+    start_1 = get_time.now()
     afk_start = start_1.replace(microsecond=0)
     if msge:
         msg = f"<b>❏ Sedang AFK</b>.\n<b> ╰ Alasan</b> : <code>{msge}</code>"
@@ -118,17 +118,17 @@ async def afk_er(client, message):
         afk_sanity_check[use_r] = 1
     else:
         afk_sanity_check[use_r] += 1
-    if afk_sanity_check[use_r] == 5:
+    if afk_sanity_check[use_r] == 50:
         await message.reply_text("<b>❏ Sedang AFK</b>.")
         afk_sanity_check[use_r] += 1
         return
-    if afk_sanity_check[use_r] > 5:
+    if afk_sanity_check[use_r] > 50:
         return
     lol = await check_afk(user_id)
     reason = lol["reason"]
     if reason == "":
         reason = None
-    back_alivee = get_time(time() - afk_start)
+    back_alivee = get_time.now()
     afk_start = lol["time"]
     afk_end = back_alivee.replace(microsecond=0)
     total_afk_time = str((afk_end - afk_start))
@@ -144,7 +144,7 @@ async def afk_er(client, message):
 async def no_afke(client, message):
     user_id = client.me.id
     botlog = await get_log_groups(user_id)
-    back_alivee = get_time(time() - afk_start)
+    back_alivee = get_time.now()
     afk_start = user_id["time"]
     afk_end = back_alivee.replace(microsecond=0)
     total_afk_time = str((afk_end - afk_start))
