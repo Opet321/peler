@@ -61,10 +61,10 @@ async def get_time(seconds):
 from time import time
 
 class AwayFromKeyboard:
-    def __init__(client, message, reason=""):  # Perbaiki dari init ke __init__
-        client = client
-        message = message
-        reason = reason
+    def __init__(self.client, message, reason=""):  # Perbaiki dari init ke __init__
+        self.client = client
+        self.message = message
+        self.reason = reason
 
 
 @bots.on_message(filters.command(["afk"], cmd) & filters.me)
