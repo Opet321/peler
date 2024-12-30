@@ -88,7 +88,7 @@ async def _(client, message):
 async def handle_message(client, message):
     user_id = await get_var(client.me.id, "AFK")  # Ambil data AFK
     if user_id:  # Pastikan untuk menggunakan user_id, bukan var
-        afk_time = user_id["time"]  # Akses dictionary dengan tanda kurung siku
+        afk_time = lol["time"]  # Akses dictionary dengan tanda kurung siku
         lol = await check_afk(user_id)
         afk_reason = lol["reason"] 
         afk_runtime = await get_time(time() - afk_time)
