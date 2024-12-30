@@ -123,9 +123,9 @@ async def handle_message(client, message):
 
 
 @bots.on_message(filters.command(["unafk"], cmd) & filters.me)
-async def handle_ai_command(client, message):
+async def _(client, message):
     afk_handler = AwayFromKeyboard(client, message)
-    await afk_handler.unset_afk()
+    return await afk_handler.unset_afk()
 
 # Contoh placeholder untuk fungsi yang diasumsikan
     async def get_vars(user_id, key):
