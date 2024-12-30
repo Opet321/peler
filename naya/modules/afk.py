@@ -1,59 +1,16 @@
-__MODULE__ = "afk"
-__HELP__ = """
- bantuan untuk afk
+from datetime import datetime
 
-  • perintah: <code>{0}afk</code>
-  • penjelasan: untuk mengaktifkan afk
-
-  • perintah: <code>{0}unafk</code>
-  • penjelasan: untuk menonaktifkan afk
-"""
+from pyrogram import filters
 
 from . import *
 
+__MODULE__ = "afk"
+__HELP__ = f"""
+ Bantuan Untuk Afk
 
-from naya.utils.db import * 
-
-from time import time as waktunya
-
-start_time = waktunya()
-
-async def get_time(seconds):
-    count = 0
-    up_time = ""
-    time_list = []
-    time_suffix_list = ["detik", "menit", "jam", "hari", "ᴡ", "ᴍᴏ"]
-
-    while count < 6:
-        count += 1
-        if count < 3:
-            remainder, result = divmod(seconds, 60)
-        elif count < 4:
-            remainder, result = divmod(seconds, 24)
-        elif count < 5:
-            remainder, result = divmod(seconds, 7)
-        else:
-            remainder, result = divmod(seconds, 30 * 24 * 60 * 60)
-
-        if seconds == 0 and remainder == 0:
-            break
-
-        time_list.append(int(result))
-        seconds = int(remainder)
-
-    for i in range(len(time_list)):
-        time_list[i] = str(time_list[i]) + time_suffix_list[i]
-
-    if len(time_list) >= 4:
-        up_time += time_list.pop() + ":"
-
-    time_list.reverse()
-    up_time += ":".join(time_list)
-
-    return up_time
-
-
-from time import time
+ • Perintah: <code>{cmd}afk</code> [alasan]
+ • Penjelasan: Untuk mengaktifkan mode afk.
+"""
 
 afk_sanity_check: dict = {}
 afkstr = """
@@ -99,13 +56,11 @@ async def set_afk(client, message):
 
 
 @bots.on_message(
-    is_afk 
-    & (filters.reply | filters.group)
+    is_afk
     & (filters.mentioned | filters.private)
     & ~filters.me
     & ~filters.bot
-    & filters.incoming,
-    group=69,
+    & filters.incoming
 )
 async def afk_er(client, message):
     user_id = client.me.id
@@ -120,11 +75,11 @@ async def afk_er(client, message):
         afk_sanity_check[use_r] = 1
     else:
         afk_sanity_check[use_r] += 1
-    if afk_sanity_check[use_r] == 50:
+    if afk_sanity_check[use_r] == 5:
         await message.reply_text("<b>❏ Sedang AFK</b>.")
         afk_sanity_check[use_r] += 1
         return
-    if afk_sanity_check[use_r] > 50:
+    if afk_sanity_check[use_r] > 5:
         return
     lol = await check_afk(user_id)
     reason = lol["reason"]
@@ -155,10 +110,7 @@ async def no_afke(client, message):
     )
     await kk.delete()
     await no_afk(user_id)
-    await client.send_message(botlog, onlinestr.format(afk_runtime))
-
-
-
+    await client.send_message(botlog, onlinestr.format(total_afk_time))
 
 
 
