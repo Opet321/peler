@@ -79,38 +79,43 @@ async def _(client, message):
     await message.reply(msg_afk, disable_web_page_preview=True)
     return await message.delete()
 
+@bots.on_message(
+    (filters.mentioned | filters.private)
+    & ~filters.bot
+    & ~filters.me
+    & filters.incoming 
+)
+async def handle_message(client, message):
+    user_id = await get_var(client.me.id, "AFK")  # Ambil data AFK
 
-   @bots.on_message(
-       (filters.mentioned | filters.private)
-       & ~filters.bot
-       & ~filters.me
-       & filters.incoming 
-   )
-   async def handle_message(client, message):
-       user_id = await get_var(client.me.id, "AFK")  # Ambil data AFK
-       
-       if user_id:  # Pastikan untuk menggunakan user_id
-           lol = await check_afk(user_id)  # Dapatkan data AFK terlebih dahulu
-           
-           if lol is None:  # Periksa jika lol adalah None
-               return await message.reply("Data AFK tidak ditemukan.", disable_web_page_preview=True)
+    if user_id:  # Pastikan user_id tidak None
+        lol = await check_afk(user_id)  # Dapatkan data AFK
 
-           reason = lol.get("reason", "")  # Dapatkan reason, default ke string kosong
-           afk_time = lol.get("time")  # Gunakan .get() untuk menghindari KeyError
+        if lol is None:  # Periksa jika lol adalah None
+            return await message.reply("Data AFK tidak ditemukan.", disable_web_page_preview=True)
 
-           if afk_time is not None:
-               afk_runtime = await get_time(time() - afk_time)
-               afk_text = (
-                   f"<b><blockquote>❏ sᴇᴅᴀɴɢ ᴀғᴋ\n ├ ᴡᴀᴋᴛᴜ: {afk_runtime}\n ╰ ᴀʟᴀsᴀɴ: {reason}</blockquote></b>"
-                   if reason
-                   else f"<b><blockquote>❏ sᴇᴅᴀɴɢ ᴀғᴋ\n ╰ ᴡᴀᴋᴛᴜ: {afk_runtime}</blockquote></b>"
-               )
-               return await message.reply(afk_text, disable_web_page_preview=True)
-           else:
-               return await message.reply("Tidak ada informasi waktu AFK.", disable_web_page_preview=True)
-   
+        # Ambil alasan dan waktu AFK dari data
+        reason = lol.get("reason", "")  # Dapatkan alasan, default ke string kosong
+        afk_time = lol.get("time")  # Gunakan .get() untuk menghindari KeyError
+
+        if afk_time is not None:
+            afk_runtime = await get_time(time() - afk_time)  # Hitung waktu AFK
+            
+            # Siapkan pesan AFK berdasarkan ada atau tidaknya alasan
+            if reason:
+                afk_text = (
+                    f"<b><blockquote>❏ sᴇᴅᴀɴɢ ᴀғᴋ\n"
+                    f" ├ ᴡᴀᴋᴛᴜ: {afk_runtime}\n"
+                    f" ╰ ᴀʟᴀsᴀɴ: {reason}</blockquote></b>"
+                )
+            else:
+                afk_text = (
+                    f"<b><blockquote>❏ sᴇᴅᴀɴɢ ᴀғᴋ\n"
+                    f" ╰ ᴡᴀᴋᴛᴜ: {afk_runtime}</blockquote></b>"
+                )
+
+            return await message.reply(afk_text, disable_web_page_preview=True)
         
-
 @bots.on_message(filters.command(["unafk"], cmd) & filters.me)
 async def unset_afk(client, message): 
     user_id = client.me.id
