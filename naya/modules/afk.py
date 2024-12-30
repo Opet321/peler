@@ -63,7 +63,8 @@ class AwayFromKeyboard:
 
 
 @bots.on_message(filters.command(["afk"], cmd) & filters.me)
-async def _(client, message):
+async def _(client, message): 
+    user_id = client.me.id
     reason = get_arg(message)
     afk_handler = AwayFromKeyboard(client, message, reason)
     
