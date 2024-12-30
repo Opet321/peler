@@ -68,14 +68,14 @@ async def _(client, message):
     reason = get_arg(message)
     afk_handler = AwayFromKeyboard(client, message, reason)
     
-    db_afk = {"time": time(), "reason": reason}  # Ganti self.reason dengan reason
+    go_afk = {"time": time(), "reason": reason}  # Ganti self.reason dengan reason
     msg_afk = (
         f"<b><blockquote>❏ sᴇᴅᴀɴɢ ᴀғᴋ\n ╰ ᴀʟᴀsᴀɴ: {reason}</blockquote></b>"
         if reason
         else "<b><blockquote>❏ sᴇᴅᴀɴɢ ᴀғᴋ</blockquote></b>"
     )
     
-    await set_var(user_id, "AFK", db_afk)
+    await set_var(user_id, "AFK", go_afk)
     await message.reply(msg_afk, disable_web_page_preview=True)
     return await message.delete()
 
@@ -121,10 +121,21 @@ async def unset_afk(client, message):
     user_id = client.me.id
     afk_handler = AwayFromKeyboard(client, message)
     user_id = await get_var(user_id, "AFK")
+    
+    # Mengambil waktu AFK
     afk_time = user_id["time"]
     afk_runtime = await get_time(time() - afk_time)
-    afk_text = f"<b>❏ ᴋᴇᴍʙᴀʟɪ ᴏɴʟɪɴᴇ\n ╰ ᴀғᴋ sᴇʟᴀᴍᴀ: {afk_runtime}"
-    await afk_text.delete()
+    
+    # Mengirim pesan dan menyimpan referensinya
+    afk_text_message = await client.send_message(
+        chat_id=message.chat.id,
+        text=f"<b>❏ ᴋᴇᴍʙᴀʟɪ ᴏɴʟɪɴᴇ\n ╰ ᴀғᴋ sᴇʟᴀᴍᴀ: {afk_runtime}",
+        parse_mode="html"
+    )
+    
+    # Menghapus pesan AFK jika diperlukan
+    await afk_text_message.delete()
+    
     await no_afk(user_id)
     await client.send_message(botlog, onlinestr.format(total_afk_time))
 
