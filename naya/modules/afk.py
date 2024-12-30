@@ -128,7 +128,7 @@ async def _(client, message):
     return await afk_handler.unset_afk()
 
 # Contoh placeholder untuk fungsi yang diasumsikan
-    async def get_vars(user_id, key):
+    async def get_var(user_id, key):
     # Implementasi get_vars di sini
         return {"time": time.time()}
 
