@@ -55,89 +55,106 @@ async def get_time(seconds):
 
 from time import time
 
-class AwayFromKeyboard:
-    def __init__(self, client, message, reason=""):  # Perbaiki dari init ke __init__
-        self.client = client
-        self.message = message
-        self.reason = reason
+afk_sanity_check: dict = {}
+afkstr = """
+#AFK Aktif\n Alasan {}
+"""
+onlinestr = """
+#AFK Tidak Aktif\nAlasan {}
+"""
 
 
-@bots.on_message(filters.command(["afk"], cmd) & filters.me)
-async def _(client, message): 
+async def is_afk_(f, client, message):
     user_id = client.me.id
-    reason = get_arg(message)
-    afk_handler = AwayFromKeyboard(client, message, reason)
-    
-    go_afk = {"time": time(), "reason": reason}  # Ganti self.reason dengan reason
-    msg_afk = (
-        f"<b><blockquote>❏ sᴇᴅᴀɴɢ ᴀғᴋ\n ╰ ᴀʟᴀsᴀɴ: {reason}</blockquote></b>"
-        if reason
-        else "<b><blockquote>❏ sᴇᴅᴀɴɢ ᴀғᴋ</blockquote></b>"
-    )
-    
-    await set_var(user_id, "AFK", go_afk)
-    await message.reply(msg_afk, disable_web_page_preview=True)
-    return await message.delete()
+    af_k_c = await check_afk(user_id)
+    return bool(af_k_c)
+
+
+is_afk = filters.create(func=is_afk_, name="is_afk_")
+
+
+@bots.on_message(filters.me & filters.command("afk", cmd))
+async def set_afk(client, message):
+    if len(message.command) == 1:
+        return await eor(
+            message,
+            f"<b>Gunakan format dengan berikan alasan</b>\n\n<b>Contoh</b> : <code>afk berak</code>",
+        )
+    user_id = client.me.id
+    botlog = await get_log_groups(user_id)
+    pablo = await eor(message, "<code>Processing...</code>")
+    msge = None
+    msge = get_text(message)
+    start_1 = get_time.now()
+    afk_start = start_1.replace(microsecond=0)
+    if msge:
+        msg = f"<b>❏ Sedang AFK</b>.\n<b> ╰ Alasan</b> : <code>{msge}</code>"
+        await client.send_message(botlog, afkstr.format(msge))
+        await go_afk(user_id, afk_start, msge)
+    else:
+        msg = "<b>❏ Sedang AFK</b>."
+        await client.send_message(botlog, afkstr.format(msge))
+        await go_afk(user_id, afk_start)
+    await pablo.edit(msg)
+
 
 @bots.on_message(
-    (filters.mentioned | filters.private)
-    & ~filters.bot
+    is_afk
+    & (filters.mentioned | filters.private)
     & ~filters.me
-    & filters.incoming 
+    & ~filters.bot
+    & filters.incoming
 )
-async def handle_message(client, message):
-    user_id = await get_var(client.me.id, "AFK")  # Ambil data AFK
-
-    if user_id:  # Pastikan user_id tidak None
-        lol = await check_afk(user_id)  # Dapatkan data AFK
-
-        if lol is None:  # Periksa jika lol adalah None
-            return await message.reply("Data AFK tidak ditemukan.", disable_web_page_preview=True)
-
-        # Ambil alasan dan waktu AFK dari data
-        reason = lol.get("reason", "")  # Dapatkan alasan, default ke string kosong
-        afk_time = lol.get("time")  # Gunakan .get() untuk menghindari KeyError
-
-        if afk_time is not None:
-            afk_runtime = await get_time(time() - afk_time)  # Hitung waktu AFK
-            
-            # Siapkan pesan AFK berdasarkan ada atau tidaknya alasan
-            if reason:
-                afk_text = (
-                    f"<b><blockquote>❏ sᴇᴅᴀɴɢ ᴀғᴋ\n"
-                    f" ├ ᴡᴀᴋᴛᴜ: {afk_runtime}\n"
-                    f" ╰ ᴀʟᴀsᴀɴ: {reason}</blockquote></b>"
-                )
-            else:
-                afk_text = (
-                    f"<b><blockquote>❏ sᴇᴅᴀɴɢ ᴀғᴋ\n"
-                    f" ╰ ᴡᴀᴋᴛᴜ: {afk_runtime}</blockquote></b>"
-                )
-
-            return await message.reply(afk_text, disable_web_page_preview=True)
-        
-@bots.on_message(filters.command(["unafk"], cmd) & filters.me)
-async def unset_afk(client, message): 
+async def afk_er(client, message):
     user_id = client.me.id
-    afk_handler = AwayFromKeyboard(client, message)
-    user_id = await get_var(user_id, "AFK")
-    
-    # Mengambil waktu AFK
-    afk_time = user_id["time"]
-    afk_runtime = await get_time(time() - afk_time)
-    
-    # Mengirim pesan dan menyimpan referensinya
-    afk_text_message = await client.send_message(
-        chat_id=message.chat.id,
-        text=f"<b>❏ ᴋᴇᴍʙᴀʟɪ ᴏɴʟɪɴᴇ\n ╰ ᴀғᴋ sᴇʟᴀᴍᴀ: {afk_runtime}",
-        parse_mode="html"
+    if not message:
+        return
+    if not message.from_user:
+        return
+    if message.from_user.id == user_id:
+        return
+    use_r = int(user_id)
+    if use_r not in afk_sanity_check.keys():
+        afk_sanity_check[use_r] = 1
+    else:
+        afk_sanity_check[use_r] += 1
+    if afk_sanity_check[use_r] == 5:
+        await message.reply_text("<b>❏ Sedang AFK</b>.")
+        afk_sanity_check[use_r] += 1
+        return
+    if afk_sanity_check[use_r] > 5:
+        return
+    lol = await check_afk(user_id)
+    reason = lol["reason"]
+    if reason == "":
+        reason = None
+    back_alivee = get_time.now()
+    afk_start = lol["time"]
+    afk_end = back_alivee.replace(microsecond=0)
+    total_afk_time = str((afk_end - afk_start))
+    message_to_reply = (
+        f"<b>❏ Sedang AFK</b>\n<b> ├ Waktu</b> :<code>{afk_runtime}</code>\n<b> ╰ Alasan</b> : <code>{reason}</code>"
+        if reason
+        else f"<b>❏ Sedang AFK</b>\n<b> ╰ Waktu</b> :<code>{afk_runtime}</code>"
     )
-    
-    # Menghapus pesan AFK jika diperlukan
-    await afk_text_message.delete()
-    
+    await message.reply(message_to_reply)
+
+
+@bots.on_message(filters.outgoing & filters.me & is_afk)
+async def no_afke(client, message):
+    user_id = client.me.id
+    botlog = await get_log_groups(user_id)
+    back_alivee = get_time.now()
+    afk_start = user_id["time"]
+    afk_end = back_alivee.replace(microsecond=0)
+    total_afk_time = str((afk_end - afk_start))
+    kk = await message.reply(
+        f"<b>❏ Saya Kembali.</b>\n<b> ╰ AFK Selama</b> : <code>{afk_runtime}</code>"
+    )
+    await kk.delete()
     await no_afk(user_id)
-    await client.send_message(botlog, onlinestr.format(total_afk_time))
+    await client.send_message(botlog, onlinestr.format(afk_runtime))
+
 
 
 
