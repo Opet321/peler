@@ -138,7 +138,7 @@ async def handle_ai_command(client, message):
 
     async def get_time(seconds):
     # Implementasi get_time di sini
-    return f"{seconds} seconds"
+        return f"{seconds} seconds"
 
     async def remove_vars(user_id, key):
     # Implementasi remove_vars di sini
