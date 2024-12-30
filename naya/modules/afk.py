@@ -123,20 +123,53 @@ async def handle_message(client, message):
 
 
 
+class FILTERS:
+    ME = filters.me
+    GROUP = filters.group
+    PRIVATE = filters.private
+    OWNER = filters.user(OWNER_ID)
+    ME_GROUP = filters.me & filters.group
+    ME_OWNER = filters.me & filters.user([5879882446, OWNER_ID])
+
+
+class PY:
+    def BOT(command, filter=FILTERS.PRIVATE):
+        def wrapper(func):
+            @bot.on_message(filters.command(command) & filter)
+            async def wrapped_func(client, message):
+                await func(client, message)
+
+            return wrapped_func
+
+        return wrapper 
+        
+def AFK(afk_no):
+        def wrapper(func):
+            afk_check = (
+                (filters.mentioned | filters.private)
+                & ~filters.bot
+                & ~filters.me
+                & filters.incoming
+                if afk_no
+                else filters.me & ~filters.incoming
+            )
+
+            @ubot.on_message(afk_check, group=10)
+            async def wrapped_func(client, message):
+                await func(client, message)
+
+            return wrapped_func
+
+        return wrapper 
+    
+    
+@PY.AFK(True) 
+async def _(client, message):
+    afk_handler = AwayFromKeyboard(client, message)
+    await afk_handler.get_afk()
+
+
 @bots.on_message(filters.command(["unafk"], cmd) & filters.me)
 async def _(client, message):
     afk_handler = AwayFromKeyboard(client, message)
     return await afk_handler.unset_afk()
-
-# Contoh placeholder untuk fungsi yang diasumsikan
-    async def get_var(user_id, key):
-    # Implementasi get_vars di sini
-        return {"time": time.time()}
-
-    async def get_time(seconds):
-    # Implementasi get_time di sini
-        return f"{seconds} seconds"
-
-    async def remove_vars(user_id, key):
-    # Implementasi remove_vars di sini
-        return True
