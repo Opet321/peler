@@ -92,17 +92,17 @@ async def _(client, message):
 )
 async def handle_message(client, message):
     afk_handler = AwayFromKeyboard(client, message)
-        vars = await get_var(client.me.id, "AFK")
-        if vars:
-            afk_time = vars.get("time")
-            afk_reason = vars.get("reason")
-            afk_runtime = await get_time(time() - afk_time)
-            afk_text = (
-                f"<b><blockquote>❏ sᴇᴅᴀɴɢ ᴀғᴋ\n ├ ᴡᴀᴋᴛᴜ: {afk_runtime}\n ╰ ᴀʟᴀsᴀɴ: {afk_reason}</blockquote></b>"
-                if afk_reason
-                else f"<b><blockquote>❏ sᴇᴅᴀɴɢ ᴀғᴋ\n ╰ ᴡᴀᴋᴛᴜ: {afk_runtime}</blockquote></b>"
-            )
-            return await message.reply(afk_text, disable_web_page_preview=True)
+    vars = await get_var(client.me.id, "AFK")  # Hapus indentasi di sini
+    if vars:
+        afk_time = vars.get("time")
+        afk_reason = vars.get("reason")
+        afk_runtime = await get_time(time() - afk_time)
+        afk_text = (
+            f"<b><blockquote>❏ sᴇᴅᴀɴɢ ᴀғᴋ\n ├ ᴡᴀᴋᴛᴜ: {afk_runtime}\n ╰ ᴀʟᴀsᴀɴ: {afk_reason}</blockquote></b>"
+            if afk_reason
+            else f"<b><blockquote>❏ sᴇᴅᴀɴɢ ᴀғᴋ\n ╰ ᴡᴀᴋᴛᴜ: {afk_runtime}</blockquote></b>"
+        )
+        return await message.reply(afk_text, disable_web_page_preview=True)  # Pastikan indentasi benar di sini
 
 @bots.on_message(filters.command(["unafk"], cmd) & filters.me)
 async def unset_afk(client, message):
