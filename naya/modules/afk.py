@@ -104,14 +104,12 @@ async def unset_afk(client, message):
     user_id = client.me.id
     afk_handler = AwayFromKeyboard(client, message)
     user_id = await get_var(user_id, "AFK")
-    
-    if var:
-        afk_time = user_id["time"]
-        afk_runtime = await get_time(time() - afk_time)
-        afk_text = f"<b>❏ ᴋᴇᴍʙᴀʟɪ ᴏɴʟɪɴᴇ\n ╰ ᴀғᴋ sᴇʟᴀᴍᴀ: {afk_runtime}"
-        await afk_text.delete()
-        await no_afk(user_id)
-        await client.send_message(botlog, onlinestr.format(total_afk_time))
+    afk_time = user_id["time"]
+    afk_runtime = await get_time(time() - afk_time)
+    afk_text = f"<b>❏ ᴋᴇᴍʙᴀʟɪ ᴏɴʟɪɴᴇ\n ╰ ᴀғᴋ sᴇʟᴀᴍᴀ: {afk_runtime}"
+    await afk_text.delete()
+    await no_afk(user_id)
+    await client.send_message(botlog, onlinestr.format(total_afk_time))
 
 
 
