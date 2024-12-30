@@ -15,14 +15,6 @@ from time import time as waktunya
 
 start_time = waktunya()
 
-async def is_afk_(f, client, message):
-    user_id = client.me.id
-    af_k_c = await check_afk(user_id)
-    return bool(af_k_c)
-
-
-is_afk = filters.create(func=is_afk_, name="is_afk_")
-
 async def get_time(seconds):
     count = 0
     up_time = ""
@@ -92,10 +84,10 @@ async def _(client, message):
 )
 async def handle_message(client, message):
     afk_handler = AwayFromKeyboard(client, message)
-    vars = await get_var(client.me.id, "AFK")  # Hapus indentasi di sini
-    if vars:
+    var = await get_var(client.me.id, "AFK")  # Hapus indentasi di sini
+    if var:
         afk_time = var.get("time")
-        afk_reason = var.get("reason")
+        afk_reason = var.get["reason"]
         afk_runtime = await get_time(time() - afk_time)
         afk_text = (
             f"<b><blockquote>❏ sᴇᴅᴀɴɢ ᴀғᴋ\n ├ ᴡᴀᴋᴛᴜ: {afk_runtime}\n ╰ ᴀʟᴀsᴀɴ: {afk_reason}</blockquote></b>"
