@@ -99,11 +99,13 @@ async def set_afk(client, message):
 
 
 @bots.on_message(
-    is_afk
+    is_afk 
+    & (filters.reply | filters.group)
     & (filters.mentioned | filters.private)
     & ~filters.me
     & ~filters.bot
-    & filters.incoming
+    & filters.incoming 
+    group=69,
 )
 async def afk_er(client, message):
     user_id = client.me.id
