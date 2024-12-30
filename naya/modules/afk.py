@@ -90,7 +90,9 @@ class AwayFromKeyboard:
             )
             return await self.message.reply(afk_text, disable_web_page_preview=True)
 
-    async def unset_afk(client):
+@bots.on_message(filters.command(["unafk"], cmd) & filters.me)
+async def unset_afk(client, message):
+    afk_handler = AwayFromKeyboard(client, message)
          vars = await get_var(client.me.id, "AFK")
          if vars:
              afk_time = vars.get("time")
@@ -122,7 +124,3 @@ async def handle_message(client, message):
     await afk_handler.get_afk()
 
 
-@bots.on_message(filters.command(["unafk"], cmd) & filters.me)
-async def _(client, message):
-    afk_handler = AwayFromKeyboard(client, message)
-    return await afk_handler.unset_afk()
