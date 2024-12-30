@@ -107,7 +107,7 @@ async def unset_afk(client, message):
         afk_text = f"<b>❏ ᴋᴇᴍʙᴀʟɪ ᴏɴʟɪɴᴇ\n ╰ ᴀғᴋ sᴇʟᴀᴍᴀ: {afk_runtime}"
         await message.reply(afk_text)
         await message.delete()
-        return await remove_vars(user_id, "AFK")
+        return await remove_vars(user_id)
 
 
 
