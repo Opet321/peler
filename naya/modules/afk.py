@@ -71,7 +71,7 @@ async def _(client, message):
         else "<b><blockquote>❏ sᴇᴅᴀɴɢ ᴀғᴋ</blockquote></b>"
     )
     
-    await set_var(client.me.id, "AFK", db_afk)
+    await set_var(user_id, "AFK", db_afk)
     await message.reply(msg_afk, disable_web_page_preview=True)
     return await message.delete()
 
