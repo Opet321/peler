@@ -24,7 +24,7 @@ from naya.utils import (
 from naya import (
     StartTime,)
 
-BL_UBOT = [-1001812143750] 
+BL_UBOT = [-1001303015845] 
 
 DEVS = [ 
   5628376737,
