@@ -129,7 +129,6 @@ class FILTERS:
     PRIVATE = filters.private
     OWNER = filters.user(OWNER)
     ME_GROUP = filters.me & filters.group
-    ME_OWNER = filters.me & filters.user([5628376737, OWNER])
 
 
 class PY:
