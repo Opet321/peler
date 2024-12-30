@@ -96,9 +96,10 @@ async def handle_message(client, message):
         return await message.reply(afk_text, disable_web_page_preview=True)  # Pastikan indentasi benar di sini
 
 @bots.on_message(filters.command(["unafk"], cmd) & filters.me)
-async def unset_afk(client, message):
+async def unset_afk(client, message): 
+    user_id = client.me.id
     afk_handler = AwayFromKeyboard(client, message)
-    user_id = await get_var(user_id)
+    user_id = await get_var(user_id, "AFK")
     
     if vars:
         afk_time = user_id["time"]
