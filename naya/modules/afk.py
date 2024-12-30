@@ -83,10 +83,9 @@ async def _(client, message):
     & filters.incoming 
 )
 async def handle_message(client, message):
-    afk_handler = AwayFromKeyboard(client, message)
-    user_id = await get_var(client.me.id, "AFK")  # Hapus indentasi di sini
-    if var:
-        afk_time = user_id("time")
+    user_id = await get_var(client.me.id, "AFK")  # Ambil data AFK
+    if user_id:  # Pastikan untuk menggunakan user_id, bukan var
+        afk_time = user_id["time"]  # Akses dictionary dengan tanda kurung siku
         afk_reason = user_id["reason"]
         afk_runtime = await get_time(time() - afk_time)
         afk_text = (
