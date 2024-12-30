@@ -11,6 +11,9 @@ __HELP__ = """
 
 from . import *
 
+
+from naya.utils.db import * 
+
 from time import time as waktunya
 
 start_time = waktunya()
