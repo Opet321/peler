@@ -84,10 +84,10 @@ async def _(client, message):
 )
 async def handle_message(client, message):
     afk_handler = AwayFromKeyboard(client, message)
-    var = await get_var(client.me.id, "AFK")  # Hapus indentasi di sini
+    user_id = await get_var(client.me.id, "AFK")  # Hapus indentasi di sini
     if var:
-        afk_time = var("time")
-        afk_reason = var["reason"]
+        afk_time = user_id("time")
+        afk_reason = user_id["reason"]
         afk_runtime = await get_time(time() - afk_time)
         afk_text = (
             f"<b><blockquote>❏ sᴇᴅᴀɴɢ ᴀғᴋ\n ├ ᴡᴀᴋᴛᴜ: {afk_runtime}\n ╰ ᴀʟᴀsᴀɴ: {afk_reason}</blockquote></b>"
