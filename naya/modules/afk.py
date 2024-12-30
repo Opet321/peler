@@ -112,7 +112,7 @@ async def handle_message(client, message):
 
 
     async def unset_afk(self):
-        vars = await get_vars(self.client.me.id, "AFK")
+        vars = await get_var(self.client.me.id, "AFK")
         if vars:
             afk_time = vars.get("time")
             afk_runtime = await get_time(time.time() - afk_time)  # Gunakan time.time()
