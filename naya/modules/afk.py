@@ -122,52 +122,6 @@ async def handle_message(client, message):
     await afk_handler.get_afk()
 
 
-
-class FILTERS:
-    ME = filters.me
-    GROUP = filters.group
-    PRIVATE = filters.private
-    OWNER = filters.user(OWNER)
-    ME_GROUP = filters.me & filters.group
-
-
-class PY:
-    def BOT(command, filter=FILTERS.PRIVATE):
-        def wrapper(func):
-            @bot.on_message(filters.command(command) & filter)
-            async def wrapped_func(client, message):
-                await func(client, message)
-
-            return wrapped_func
-
-        return wrapper 
-        
-def AFK(afk_no):
-        def wrapper(func):
-            afk_check = (
-                (filters.mentioned | filters.private)
-                & ~filters.bot
-                & ~filters.me
-                & filters.incoming
-                if afk_no
-                else filters.me & ~filters.incoming
-            )
-
-            @ubot.on_message(afk_check, group=10)
-            async def wrapped_func(client, message):
-                await func(client, message)
-
-            return wrapped_func
-
-        return wrapper 
-    
-    
-@PY.AFK(True) 
-async def _(client, message):
-    afk_handler = AwayFromKeyboard(client, message)
-    await afk_handler.get_afk()
-
-
 @bots.on_message(filters.command(["unafk"], cmd) & filters.me)
 async def _(client, message):
     afk_handler = AwayFromKeyboard(client, message)
