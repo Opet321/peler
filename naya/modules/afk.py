@@ -90,6 +90,18 @@ class AwayFromKeyboard:
             )
             return await self.message.reply(afk_text, disable_web_page_preview=True)
 
+   async def unset_afk(self):
+        vars = await get_vars(self.client.me.id, "AFK")
+        if vars:
+            afk_time = vars.get("time")
+            afk_runtime = await get_time(time() - afk_time)
+            afk_text = f"<b>❏ ᴋᴇᴍʙᴀʟɪ ᴏɴʟɪɴᴇ\n ╰ ᴀғᴋ sᴇʟᴀᴍᴀ: `{afk_runtime}`"
+            await self.message.reply(afk_text)
+            await self.message.delete()
+            return await remove_vars(self.client.me.id, "AFK")
+
+
+
 
 
 @bots.on_message(filters.command(["afk"], cmd) & filters.me)
@@ -109,17 +121,6 @@ async def handle_message(client, message):
     afk_handler = AwayFromKeyboard(client, message)
     await afk_handler.get_afk()
 
-
-
-    async def unset_afk(self):
-        vars = await get_var(self.client.me.id, "AFK")
-        if vars:
-            afk_time = vars.get("time")
-            afk_runtime = await get_time(time.time() - afk_time)  # Gunakan time.time()
-            afk_text = f"<b>❏ ᴋᴇᴍʙᴀʟɪ ᴏɴʟɪɴᴇ\n ╰ ᴀғᴋ sᴇʟᴀᴍᴀ: {afk_runtime}"
-            await self.message.reply(afk_text)
-            await self.message.delete()
-            return await remove_vars(self.client.me.id, "AFK")
 
 
 @bots.on_message(filters.command(["unafk"], cmd) & filters.me)
