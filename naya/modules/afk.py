@@ -91,14 +91,14 @@ class AwayFromKeyboard:
             return await self.message.reply(afk_text, disable_web_page_preview=True)
 
     async def unset_afk(self):
-         vars = await get_var(self.client.me.id)
+         vars = await get_var(user_id)
          if vars:
              afk_time = vars.get("time")
              afk_runtime = await get_time(time() - afk_time)
              afk_text = f"<b>❏ ᴋᴇᴍʙᴀʟɪ ᴏɴʟɪɴᴇ\n ╰ ᴀғᴋ sᴇʟᴀᴍᴀ: `{afk_runtime}`"
              await self.message.reply(afk_text)
              await self.message.delete()
-             return await remove_vars(self.client.me.id)
+             return await remove_vars(user_id)
 
 
 
