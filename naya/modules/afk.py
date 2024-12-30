@@ -89,7 +89,8 @@ async def handle_message(client, message):
     user_id = await get_var(client.me.id, "AFK")  # Ambil data AFK
     if user_id:  # Pastikan untuk menggunakan user_id, bukan var
         afk_time = user_id["time"]  # Akses dictionary dengan tanda kurung siku
-        afk_reason = user_id["reason"]
+        lol = await check_afk(user_id)
+        afk_reason = lol["reason"] 
         afk_runtime = await get_time(time() - afk_time)
         afk_text = (
             f"<b><blockquote>❏ sᴇᴅᴀɴɢ ᴀғᴋ\n ├ ᴡᴀᴋᴛᴜ: {afk_runtime}\n ╰ ᴀʟᴀsᴀɴ: {afk_reason}</blockquote></b>"
@@ -104,13 +105,13 @@ async def unset_afk(client, message):
     afk_handler = AwayFromKeyboard(client, message)
     user_id = await get_var(user_id, "AFK")
     
-    if vars:
+    if var:
         afk_time = user_id["time"]
         afk_runtime = await get_time(time() - afk_time)
         afk_text = f"<b>❏ ᴋᴇᴍʙᴀʟɪ ᴏɴʟɪɴᴇ\n ╰ ᴀғᴋ sᴇʟᴀᴍᴀ: {afk_runtime}"
-        await message.reply(afk_text)
-        await message.delete()
-        return await remove_vars(user_id, "AFK", no_afk)
+        await afk_text.delete()
+        await no_afk(user_id)
+        await client.send_message(botlog, onlinestr.format(total_afk_time))
 
 
 
