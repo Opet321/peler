@@ -110,10 +110,6 @@ async def handle_message(client, message):
     await afk_handler.get_afk()
 
 
-class AwayFromKeyboard:
-    def __init__(self, client, message):
-        self.client = client
-        self.message = message
 
     async def unset_afk(self):
         vars = await get_vars(self.client.me.id, "AFK")
