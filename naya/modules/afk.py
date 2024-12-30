@@ -61,24 +61,36 @@ async def get_time(seconds):
 from time import time
 
 class AwayFromKeyboard:
-    def __init__(self, client, message, reason=""):  # Perbaiki dari init ke __init__
-        self.client = client
-        self.message = message
-        self.reason = reason
+    def __init__(client, message, reason=""):  # Perbaiki dari init ke __init__
+        client = client
+        message = message
+        reason = reason
 
-    async def set_afk(self):
+
+@bots.on_message(filters.command(["afk"], cmd) & filters.me)
+async def _(client, message):
+    reason = get_arg(message)
+    afk_handler = AwayFromKeyboard(client, message, reason)
         db_afk = {"time": time(), "reason": self.reason}
         msg_afk = (
             f"<b><blockquote>❏ sᴇᴅᴀɴɢ ᴀғᴋ\n ╰ ᴀʟᴀsᴀɴ: {self.reason}</blockquote></b>"
             if self.reason
             else "<b><blockquote>❏ sᴇᴅᴀɴɢ ᴀғᴋ</blockquote></b>"
         )
-        await set_var(self.client.me.id, "AFK", db_afk)
-        await self.message.reply(msg_afk, disable_web_page_preview=True)
-        return await self.message.delete()
+        await set_var(client.me.id, "AFK", db_afk)
+        await message.reply(msg_afk, disable_web_page_preview=True)
+        return await message.delete()
 
-    async def get_afk(self):
-        vars = await get_var(self.client.me.id, "AFK")
+
+@bots.on_message(
+    (filters.mentioned | filters.private)
+    & ~filters.bot
+    & ~filters.me
+    & filters.incoming 
+)
+async def handle_message(client, message):
+    afk_handler = AwayFromKeyboard(client, message)
+        vars = await get_var(client.me.id, "AFK")
         if vars:
             afk_time = vars.get("time")
             afk_reason = vars.get("reason")
@@ -88,7 +100,7 @@ class AwayFromKeyboard:
                 if afk_reason
                 else f"<b><blockquote>❏ sᴇᴅᴀɴɢ ᴀғᴋ\n ╰ ᴡᴀᴋᴛᴜ: {afk_runtime}</blockquote></b>"
             )
-            return await self.message.reply(afk_text, disable_web_page_preview=True)
+            return await message.reply(afk_text, disable_web_page_preview=True)
 
 @bots.on_message(filters.command(["unafk"], cmd) & filters.me)
 async def unset_afk(client, message):
@@ -107,21 +119,9 @@ async def unset_afk(client, message):
 
 
 
-@bots.on_message(filters.command(["afk"], cmd) & filters.me)
-async def _(client, message):
-    reason = get_arg(message)
-    afk_handler = AwayFromKeyboard(client, message, reason)
-    await afk_handler.set_afk()
 
 
-@bots.on_message(
-    (filters.mentioned | filters.private)
-    & ~filters.bot
-    & ~filters.me
-    & filters.incoming 
-)
-async def handle_message(client, message):
-    afk_handler = AwayFromKeyboard(client, message)
-    await afk_handler.get_afk()
+
+
 
 
