@@ -132,14 +132,14 @@ async def handle_ai_command(client, message):
     await afk_handler.unset_afk()
 
 # Contoh placeholder untuk fungsi yang diasumsikan
-async def get_vars(user_id, key):
+    async def get_vars(user_id, key):
     # Implementasi get_vars di sini
-    return {"time": time.time()}
+        return {"time": time.time()}
 
-async def get_time(seconds):
+    async def get_time(seconds):
     # Implementasi get_time di sini
     return f"{seconds} seconds"
 
-async def remove_vars(user_id, key):
+    async def remove_vars(user_id, key):
     # Implementasi remove_vars di sini
-    return True
+        return True
