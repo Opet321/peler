@@ -122,7 +122,7 @@ async def handle_message(client, message):
             return await remove_vars(self.client.me.id, "AFK")
 
 
-@app.on_message(filters.command(["unafk"], cmd) & filters.me)
+@bots.on_message(filters.command(["unafk"], cmd) & filters.me)
 async def handle_ai_command(client, message):
     afk_handler = AwayFromKeyboard(client, message)
     await afk_handler.unset_afk()
