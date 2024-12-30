@@ -61,7 +61,7 @@ async def get_time(seconds):
 from time import time
 
 class AwayFromKeyboard:
-    def __init__(self.client, message, reason=""):  # Perbaiki dari init ke __init__
+    def __init__(self, client, message, reason=""):  # Perbaiki dari init ke __init__
         self.client = client
         self.message = message
         self.reason = reason
