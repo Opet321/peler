@@ -94,13 +94,13 @@ async def antipm_er(client, message):
         return
     if message.from_user.id == OWNER:
         return 
-    msg = await client.send_message(
-        message.chat.id,
-        "Sorry... No-PMs!"
-    )
-    for countdown in ["3", "2", "1"]:
-        await sleep(1)
-        await msg.edit(countdown)
+    #msg = await client.send_message(
+        #message.chat.id,
+        #"Sorry... No-PMs!"
+    #)
+    #for countdown in ["3", "2", "1"]:
+        #await sleep(1)
+        #await msg.edit(countdown)
     await client.invoke(DeleteHistory(peer=anuku, max_id=0, revoke=True))
 
 
