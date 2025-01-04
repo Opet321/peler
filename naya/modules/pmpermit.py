@@ -98,7 +98,7 @@ async def antipm_er(client, message):
         return 
     msg = await client.send_message(
     message.chat.id,
-        "<blockquote>Maaf saya tidak bisa menerima PM, Silahkan hubungi saya melalui @feedb4ckkk_bot</blockquote"
+        text="<blockquote>Maaf saya tidak bisa menerima PM, Silahkan hubungi saya melalui @feedb4ckkk_bot</blockquote"
     )
     for countdown in ["3", "2", "1"]:
         await sleep(1)
