@@ -80,6 +80,8 @@ async def set_antipm(client, message):
             kurukuru = "False"
         await message.reply(f"<b>Anti-PM status:</b> <code>{kurukuru}</code>\n<b>To Activate use</b> <code>antipm on/off</code>", quote=True)
         
+from pyrogram import InlineKeyboardButton, InlineKeyboardMarkup
+
 @bots.on_message(
     ~filters.me
     & ~filters.bot
@@ -94,13 +96,23 @@ async def antipm_er(client, message):
         return
     if message.from_user.id == OWNER:
         return 
-    #msg = await client.send_message(
-        #message.chat.id,
-        #"Sorry... No-PMs!"
-    #)
-    #for countdown in ["3", "2", "1"]:
-        #await sleep(1)
-        #await msg.edit(countdown)
+
+    # Membuat tombol
+    keyboard = InlineKeyboardMarkup(
+        [[InlineKeyboardButton("Hubungi Saya", url="https://t.me/feedb4ckkk_bot")]]
+    )
+
+    # Mengirim pesan dengan tombol
+    msg = await client.send_message(
+        message.chat.id,
+        "<blockquote><b>Maaf saya tidak bisa menerima PM, Silahkan hubungi saya melalui bot</b></blockquote>",
+        reply_markup=keyboard
+    )
+
+    for countdown in ["5", "4", "3", "2", "1"]:
+        await sleep(5)
+        await msg.edit(countdown)
+
     await client.invoke(DeleteHistory(peer=anuku, max_id=0, revoke=True))
 
 
