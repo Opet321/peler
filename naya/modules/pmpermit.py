@@ -3,7 +3,8 @@
 import asyncio
 
 from pyrogram import Client, filters
-from pyrogram.raw.functions.messages import DeleteHistory
+from pyrogram.raw.functions.messages import DeleteHistory 
+from pyrogram import InlineKeyboardButton, InlineKeyboardMarkup
 from pyrogram.raw import functions
 from asyncio import sleep
 from pyrogram import *
@@ -80,7 +81,6 @@ async def set_antipm(client, message):
             kurukuru = "False"
         await message.reply(f"<b>Anti-PM status:</b> <code>{kurukuru}</code>\n<b>To Activate use</b> <code>antipm on/off</code>", quote=True)
         
-from pyrogram import InlineKeyboardButton, InlineKeyboardMarkup
 
 @bots.on_message(
     ~filters.me
