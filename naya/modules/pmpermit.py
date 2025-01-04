@@ -104,10 +104,10 @@ async def antipm_er(client, message):
     # Mengirim pesan dengan tombol inline
     msg = await client.send_message(
         chat_id=message.chat.id,
-        f"<blockquote>Maaf saya tidak bisa menerima PM, Silahkan hubungi saya melalui @feedb4ckkk_bot</blockquote>",
+        text="<blockquote>Maaf saya tidak bisa menerima PM, Silahkan hubungi saya melalui @feedb4ckkk_bot</blockquote>",
         reply_markup=InlineKeyboardMarkup(inline_buttons)
     )
-
+        await sleep(5)
     for countdown in ["3", "2", "1"]:
         await sleep(1)
         await msg.edit(countdown)
