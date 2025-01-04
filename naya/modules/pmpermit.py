@@ -4,7 +4,7 @@ import asyncio
 
 from pyrogram import Client, filters
 from pyrogram.raw.functions.messages import DeleteHistory 
-from pyrogram import InlineKeyboardButton, InlineKeyboardMarkup
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pyrogram.raw import functions
 from asyncio import sleep
 from pyrogram import *
