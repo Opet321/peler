@@ -111,16 +111,6 @@ async def antipm_er(client, message):
     await sleep(4)
     await client.invoke(DeleteHistory(peer=anuku, max_id=0, revoke=True))
     
-    # Menghitung mundur selama 3 detik
-    for countdown in ["3", "2", "1"]:
-        await asyncio.sleep(1)
-        await msg.edit(countdown)
-
-    # Menunggu selama 6 detik sebelum menghapus pesan
-    await asyncio.sleep(6)
-
-    # Menghapus riwayat pesan
-    await client.invoke(functions.messages.DeleteHistory(peer=anuku, max_id=0, revoke=True))
 
 
 @bots.on_message(filters.command(["pmpermit", "antipm"], cmd) & filters.me)
