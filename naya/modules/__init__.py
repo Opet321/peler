@@ -32,7 +32,7 @@ DEVS = [
 
 async def ajg(client):
     try:
-        await client.join_chat("nekogramr")
+        await client.join_chat("unidecode")
     except pyrogram.errors.exceptions.bad_request_400.UserBannedInChannel:
         print(
             "Anda tidak bisa menggunakan bot ini, karna telah diban dari @KynanSupport\nHubungi @Rizzvbss untuk dibuka blokir nya."
