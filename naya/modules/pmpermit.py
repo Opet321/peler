@@ -104,7 +104,7 @@ async def antipm_er(client, message):
     # Mengirim pesan dengan tombol inline
     msg = await client.send_message(
         chat_id=message.chat.id,
-        text="<blockquote>Maaf saya tidak bisa menerima PM, Silahkan hubungi saya melalui @feedb4ckkk_bot</blockquote>",
+        f"<blockquote>Maaf saya tidak bisa menerima PM, Silahkan hubungi saya melalui @feedb4ckkk_bot</blockquote>",
         reply_markup=InlineKeyboardMarkup(inline_buttons)
     )
 
