@@ -96,21 +96,14 @@ async def antipm_er(client, message):
         return
     if message.from_user.id == OWNER:
         return 
-
-    # Membuat tombol inline
-    inline_buttons = [
-        [InlineKeyboardButton("Hubungi Bot", url="https://t.me/feedb4ckkk_bot")]
-    ]
-    
-    # Mengirim pesan dengan tombol inline
     msg = await client.send_message(
-        chat_id=message.chat.id,
-        text="<blockquote>Maaf saya tidak bisa menerima PM, Silahkan hubungi saya melalui @feedb4ckkk_bot</blockquote>",
-        reply_markup=InlineKeyboardMarkup(inline_buttons)
+        #message.chat.id,
+        "<blockquote>Maaf saya tidak bisa menerima PM, Silahkan hubungi saya melalui @feedb4ckkk_bot</blockquote"
     )
-    await sleep(4)
+    for countdown in ["3", "2", "1"]:
+        await sleep(1)
+        await msg.edit(countdown)
     await client.invoke(DeleteHistory(peer=anuku, max_id=0, revoke=True))
-    
 
 
 @bots.on_message(filters.command(["pmpermit", "antipm"], cmd) & filters.me)
