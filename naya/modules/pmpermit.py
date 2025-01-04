@@ -97,7 +97,7 @@ async def antipm_er(client, message):
     if message.from_user.id == OWNER:
         return 
     msg = await client.send_message(
-        #message.chat.id,
+    message.chat.id,
         "<blockquote>Maaf saya tidak bisa menerima PM, Silahkan hubungi saya melalui @feedb4ckkk_bot</blockquote"
     )
     for countdown in ["3", "2", "1"]:
