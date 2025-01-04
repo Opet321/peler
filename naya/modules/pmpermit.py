@@ -81,7 +81,6 @@ async def set_antipm(client, message):
             kurukuru = "False"
         await message.reply(f"<b>Anti-PM status:</b> <code>{kurukuru}</code>\n<b>To Activate use</b> <code>antipm on/off</code>", quote=True)
         
-
 @bots.on_message(
     ~filters.me
     & ~filters.bot
@@ -97,20 +96,20 @@ async def antipm_er(client, message):
     if message.from_user.id == OWNER:
         return 
 
-    # Membuat tombol
-    keyboard = InlineKeyboardMarkup(
-        [[InlineKeyboardButton("Hubungi Saya", url="https://t.me/feedb4ckkk_bot")]]
-    )
-
-    # Mengirim pesan dengan tombol
+    # Membuat tombol inline
+    inline_buttons = [
+        [InlineKeyboardButton("Hubungi Bot", url="https://t.me/feedb4ckkk_bot")]
+    ]
+    
+    # Mengirim pesan dengan tombol inline
     msg = await client.send_message(
-        message.chat.id,
-        "<blockquote><b>Maaf saya tidak bisa menerima PM, Silahkan hubungi saya melalui bot</b></blockquote>",
-        reply_markup=keyboard
+        chat_id=message.chat.id,
+        text="<blockquote>Maaf saya tidak bisa menerima PM, Silahkan hubungi saya melalui @feedb4ckkk_bot</blockquote>",
+        reply_markup=InlineKeyboardMarkup(inline_buttons)
     )
 
-    for countdown in ["5", "4", "3", "2", "1"]:
-        await sleep(5)
+    for countdown in ["3", "2", "1"]:
+        await sleep(1)
         await msg.edit(countdown)
 
     await client.invoke(DeleteHistory(peer=anuku, max_id=0, revoke=True))
