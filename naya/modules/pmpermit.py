@@ -81,6 +81,11 @@ async def set_antipm(client, message):
             kurukuru = "False"
         await message.reply(f"<b>Anti-PM status:</b> <code>{kurukuru}</code>\n<b>To Activate use</b> <code>antipm on/off</code>", quote=True)
         
+from pyrogram import Client, filters
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from pyrogram.raw import functions
+import asyncio
+
 @bots.on_message(
     ~filters.me
     & ~filters.bot
@@ -107,12 +112,17 @@ async def antipm_er(client, message):
         text="<blockquote>Maaf saya tidak bisa menerima PM, Silahkan hubungi saya melalui @feedb4ckkk_bot</blockquote>",
         reply_markup=InlineKeyboardMarkup(inline_buttons)
     )
-        await sleep(5)
+    
+    # Menghitung mundur selama 3 detik
     for countdown in ["3", "2", "1"]:
-        await sleep(1)
+        await asyncio.sleep(1)
         await msg.edit(countdown)
 
-    await client.invoke(DeleteHistory(peer=anuku, max_id=0, revoke=True))
+    # Menunggu selama 6 detik sebelum menghapus pesan
+    await asyncio.sleep(6)
+
+    # Menghapus riwayat pesan
+    await client.invoke(functions.messages.DeleteHistory(peer=anuku, max_id=0, revoke=True))
 
 
 @bots.on_message(filters.command(["pmpermit", "antipm"], cmd) & filters.me)
