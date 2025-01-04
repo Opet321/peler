@@ -102,7 +102,8 @@ async def antipm_er(client, message):
     )
     await sleep(5) 
     for countdown in ["3", "2", "1"]:
-    await msg.edit(countdown)
+        await msg.edit(countdown)
+        await sleep(3)
     await client.invoke(DeleteHistory(peer=anuku, max_id=0, revoke=True))
 
 
