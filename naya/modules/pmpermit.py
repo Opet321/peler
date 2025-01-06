@@ -100,9 +100,8 @@ async def antipm_er(client, inline_query, message):
         return 
     msg = await client.send_message( 
     if message:
-        # Membuat tombol dengan URL
-        buttons = InlineKeyboardMarkup([
-            [InlineKeyboardButton("Kunjungi Peler", url="https://t.me/peler")]
+    buttons = InlineKeyboardMarkup([
+           [InlineKeyboardButton("Kunjungi Peler", url="https://t.me/peler")]
         ]) 
     if message:
         await client.answer_inline_query(
