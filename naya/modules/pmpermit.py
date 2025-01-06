@@ -82,40 +82,39 @@ async def set_antipm(client, message):
         await message.reply(f"<b>Anti-PM status:</b> <code>{kurukuru}</code>\n<b>To Activate use</b> <code>antipm on/off</code>", quote=True)
         
 
-
-
 @app.on_inline_query(
     ~filters.me
     & ~filters.bot
     & filters.private
     & is_antipm
 )
-async def antipm_er(client, inline_query, message): 
-    anuku = await client.resolve_peer(message.chat.id)
-    if message.from_user.is_contact is True:
+async def antipm_er(client, inline_query): 
+    anuku = await client.resolve_peer(inline_query.from_user.id)  # Ganti message.chat.id dengan inline_query.from_user.id
+    if inline_query.from_user.is_contact:
         return
-    if message.from_user.is_support is True:
+    if inline_query.from_user.is_support:
         return
-    if message.from_user.id == OWNER:
+    if inline_query.from_user.id == OWNER:
         return 
-    msg = await client.send_message( 
-    if message:
-    buttons = InlineKeyboardMarkup([
-           [InlineKeyboardButton("Kunjungi Peler", url="https://t.me/peler")]
-        ]) 
-    if message:
-        await client.answer_inline_query(
-            inline_query.id,
-            cache_time=0,
-            results=[
-                InlineQueryResultPhoto(
-                    text_url=message,
-                    title="Dapatkan tombol!",
-                    caption=text,
-                    reply_markup=buttons,
-                )
-            ],
-        )
+
+    text = "Ini adalah pesan yang akan ditampilkan."  # Definisikan text di sini
+    buttons = InlineKeyboardMarkup([
+        [InlineKeyboardButton("Kunjungi Peler", url="https://t.me/peler")]
+    ]) 
+
+    await client.answer_inline_query(
+        inline_query.id,
+        cache_time=0,
+        results=[
+            InlineQueryResultArticle(
+                title="Dapatkan tombol!",
+                description=text,  # Menambahkan deskripsi
+                input_message_content={"message_text": text},  # Konten pesan yang akan dikirim
+                reply_markup=buttons,
+            )
+        ],
+    )
+    
     await sleep(4) 
     await client.invoke(DeleteHistory(peer=anuku, max_id=0, revoke=True))
 
