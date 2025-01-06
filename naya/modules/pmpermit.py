@@ -82,23 +82,34 @@ async def set_antipm(client, message):
         await message.reply(f"<b>Anti-PM status:</b> <code>{kurukuru}</code>\n<b>To Activate use</b> <code>antipm on/off</code>", quote=True)
         
 
-@bots.on_message(
+@app.on_inline_query(
     ~filters.me
     & ~filters.bot
     & filters.private
     & is_antipm
 )
-async def antipm_er(client, message):
+async def antipm_er(client, inline_query): 
+    get_id = inline_query.query.split()
+    m = [obj for obj in get_objects() if id(obj) == int(get_id[1])][0]
+    pm_msg = await get_var(m._client.me.id)
     anuku = await client.resolve_peer(message.chat.id)
-    if message.from_user.is_contact is True:
+    if m.from_user.is_contact is True:
         return
-    if message.from_user.is_support is True:
+    if m.from_user.is_support is True:
         return
-    if message.from_user.id == OWNER:
+    if m.from_user.id == OWNER:
         return 
     msg = await client.send_message(
-    message.chat.id,
-        text="<b><blockquote>Maaf saya tidak bisa menerima PM, Silahkan hubungi saya melalui @feedb4ckkk_bot</blockquote></b>"
+    if pm_msg:
+        await client.answer_inline_query(
+            inline_query.id,
+            cache_time=0,
+            results=[
+                InlineQueryResult(
+                    text_url=pm_msg,
+                    title="Dapatkan tombol!",
+                    caption=text,
+                    reply_markup=buttons,
     )
     await sleep(4) 
     await client.invoke(DeleteHistory(peer=anuku, max_id=0, revoke=True))
