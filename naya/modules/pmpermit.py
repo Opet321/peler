@@ -82,6 +82,8 @@ async def set_antipm(client, message):
         await message.reply(f"<b>Anti-PM status:</b> <code>{kurukuru}</code>\n<b>To Activate use</b> <code>antipm on/off</code>", quote=True)
         
 
+
+
 @app.on_inline_query(
     ~filters.me
     & ~filters.bot
@@ -92,27 +94,33 @@ async def antipm_er(client, inline_query):
     get_id = inline_query.query.split()
     m = [obj for obj in get_objects() if id(obj) == int(get_id[1])][0]
     pm_msg = await get_var(m._client.me.id)
-    anuku = await client.resolve_peer(message.chat.id)
-    if m.from_user.is_contact is True:
-        return
-    if m.from_user.is_support is True:
-        return
-    if m.from_user.id == OWNER:
+    anuku = await client.resolve_peer(inline_query.from_user.id)
+
+    if m.from_user.is_contact or m.from_user.is_support or m.from_user.id == OWNER:
         return 
-    msg = await client.send_message(
+
     if pm_msg:
+        # Membuat tombol dengan URL
+        buttons = InlineKeyboardMarkup([
+            [InlineKeyboardButton("Kunjungi Peler", url="https://t.me/peler")]
+        ])
+
         await client.answer_inline_query(
             inline_query.id,
             cache_time=0,
             results=[
                 InlineQueryResult(
-                    text_url=pm_msg,
+                    type="article",  # Pastikan untuk mendefinisikan tipe hasil
+                    id="unique_id",  # Ganti dengan ID unik untuk setiap hasil
                     title="Dapatkan tombol!",
-                    caption=text,
+                    description="Klik tombol di bawah ini.",
+                    input_message_content=InputTextMessageContent(pm_msg),  # Pastikan ini sesuai
                     reply_markup=buttons,
-    )
-    await sleep(4) 
-    await client.invoke(DeleteHistory(peer=anuku, max_id=0, revoke=True))
+                )
+            ]
+        )
+        await sleep(4) 
+        await client.invoke(DeleteHistory(peer=anuku, max_id=0, revoke=True))
 
 
 @bots.on_message(filters.command(["pmpermit", "antipm"], cmd) & filters.me)
