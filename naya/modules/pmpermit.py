@@ -74,12 +74,7 @@ async def set_antipm(client, message):
         await message.reply(f"<b>Anti-PM status:</b> <code>{kurukuru}</code>\n<b>To Activate use</b> <code>antipm on/off</code>", quote=True)
 
 
-@bots.on_inline_query(
-    ~filters.me
-    & ~filters.bot
-    & filters.private
-    & is_antipm
-)
+@app.on_inline_query(True)
 async def antipm_er(client, inline_query): 
     anuku = await client.resolve_peer(inline_query.from_user.id)  # Ganti message.chat.id dengan inline_query.from_user.id
     if inline_query.from_user.is_contact:
