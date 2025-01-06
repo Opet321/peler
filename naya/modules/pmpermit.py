@@ -48,7 +48,7 @@ async def is_antipm_(f, client, message):
 
 is_antipm = filters.create(func=is_antipm_, name="is_antipm_")
 
-@app.on_message(filters.command(["autopurge"], cmd) & filters.me)
+@bots.on_message(filters.command(["autopurge"], cmd) & filters.me)
 async def set_antipm(client, message):
     try:
         if len(message.command) < 2:
@@ -74,7 +74,7 @@ async def set_antipm(client, message):
         await message.reply(f"<b>Anti-PM status:</b> <code>{kurukuru}</code>\n<b>To Activate use</b> <code>antipm on/off</code>", quote=True)
 
 
-@app.on_inline_query(
+@bots.on_inline_query(
     ~filters.me
     & ~filters.bot
     & filters.private
