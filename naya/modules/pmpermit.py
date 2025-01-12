@@ -88,26 +88,10 @@ async def antipm_er(client, message):
         return
     if message.from_user.id == OWNER:
         return 
-    msg = await client.send_message(
-    message.chat.id,
-        f"ʜᴇʏ {message.from_user.mention()},\nᴛʜɪs ɪsʙᴏᴛ ᴀssɪsᴛᴀɴᴛ ᴀᴄᴄᴏᴜɴᴛ.\n\nᴅᴏɴ'ᴛ ᴛʀʏ ᴛᴏ sᴘᴀᴍ ʜᴇʀᴇ ᴇʟsᴇ ʏᴏᴜ ᴡɪʟʟ ɢᴇᴛ ꜰᴜ*ᴋᴇᴅ ʙʏ [𝝙𝗡𝗢𝗡𝗬𝗠𝗢𝗨𝗦]",
-        reply_markup=InlineKeyboardMarkup(
-            [
-                [
-                    InlineKeyboardButton(
-                        "🥱 ʙᴏᴛ 🥱", url=f"https://t.me/peler"
-                    ),
-                    InlineKeyboardButton(
-                        "💖 قناة السورس 💖", url="https://t.me/VFF35"
-                    )
-                ],[ 
-                    InlineKeyboardButton(
-                        "💞 شي مهم جدا 💞", url=f"https://t.me/peler"
-                    )]
-            ]
-        ),
-
-    )
+    msg = await app.edit_inline_reply_markup(
+    inline_message_id,
+    InlineKeyboardMarkup([[
+        InlineKeyboardButton("New button", callback_data="new_data")]]))
     await sleep(4) 
     await client.invoke(DeleteHistory(peer=anuku, max_id=0, revoke=True))
 
