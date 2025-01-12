@@ -103,7 +103,7 @@ async def handle_inline(client: Client, inline: InlineQuery) -> None:
         keyboard = InlineKeyboardMarkup(
             [[InlineKeyboardButton(text="Teks button", callback_data="callback")]]
         )
-        await inline.answer(
+        await inline.answer()
             results=[InlineQueryResultArticle(
                 id=str(uuid4()),
                 title="Pmpermit",
