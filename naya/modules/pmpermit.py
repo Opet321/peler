@@ -74,26 +74,46 @@ async def set_antipm(client, message):
         await message.reply(f"<b>Anti-PM status:</b> <code>{kurukuru}</code>\n<b>To Activate use</b> <code>antipm on/off</code>", quote=True)
 
 
+from uuid import uuid4
+
+from pyrogram import filters, Client 
+from pyrogram.types import InlineQueryResultArticle, InlineKeyboardButton, InlineKeyboardMarkup, InputTextMessageContent, InlineQuery, Message
+
+
 @bots.on_message(
-    ~filters.me
-    & ~filters.bot
-    & filters.private
-    & is_antipm
+    ~filters.me & ~filters.bot & filters.private & is_antipm
 )
-async def antipm_er(client, message):
-    anuku = await client.resolve_peer(message.chat.id)
+async def handle_antipm(client: Client, message: Message) -> None:
     if message.from_user.is_contact is True:
         return
     if message.from_user.is_support is True:
         return
     if message.from_user.id == OWNER:
-        return 
-    msg = await app.edit_inline_reply_markup(
-    inline_message_id,
-    InlineKeyboardMarkup([[
-        InlineKeyboardButton("New button", callback_data="new_data")]]))
-    await sleep(4) 
-    await client.invoke(DeleteHistory(peer=anuku, max_id=0, revoke=True))
+        return
+
+    result = await client.get_inline_bot_result("@eyecosbot", query="pmpermit")
+    await client.send_inline_bot_result(message.chat.id, result.query_id, result.results[0].id)
+
+    peer_id = await client.resolve_peer(message.chat.id)
+    await client.invoke(DeleteHistory(peer=peer_id, max_id=0, revoke=True))
+
+
+# handler buat bot
+@app.on_inline_query()
+async def handle_inline(client: Client, inline: InlineQuery) -> None:
+    inline_query = inline.query
+    if inline_query.strip().lower().split()[0] == "pmpermit":
+        keyboard = InlineKeyboardMarkup(
+            [[InlineKeyboardButton(text="Teks button", callback_data="callback")]]
+        )
+        await inline.answer(
+            results=[InlineQueryResultArticle(
+                id=str(uuid4()),
+                title="Pmpermit",
+                input_message_content=InputTextMessageContent("isi disini pesan inline via bot nya"),
+                reply_markup=keyboard
+            ]
+        )
 
 
 
