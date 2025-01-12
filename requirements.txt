@@ -1,5 +1,5 @@
 git+https://github.com/Mayuri-Chan/pyrofork 
-git+https://github.com/maya1503/pyrogram
+git+https://github.com/naya1503/pyrogram
 tgcrypto
 pytz
 git+https://github.com/yt-dlp/yt-dlp.git
