@@ -104,7 +104,7 @@ async def handle_inline(client: Client, inline: InlineQuery) -> None:
             [[InlineKeyboardButton(text="Teks button", callback_data="callback")]]
         )
         await inline.answer()
-            results=[InlineQueryResultArticle(
+            results=[InlineQueryResultArticle()
                 id=str(uuid4()),
                 title="Pmpermit",
                 input_message_content=InputTextMessageContent("isi disini pesan inline via bot nya"),
