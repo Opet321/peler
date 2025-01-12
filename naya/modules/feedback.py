@@ -33,7 +33,7 @@ async def _start(client: Client, message: Message):
 
 @app.on_message(filters.chat(int(OWNER)))
 async def _owner(client: Client, message: Message): 
-    await message.react(emoji="❤️")
+    await message.react(emoji="🥶")
     last_msg = None  # Memberikan nilai awal untuk last_msg
     async for msg in messages.find():
         last_msg = msg
