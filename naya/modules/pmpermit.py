@@ -93,7 +93,7 @@ async def antipm_er(client, message):
         #text="<b><blockquote>Maaf saya tidak bisa menerima PM, Silahkan hubungi saya melalui @eyecosbot</blockquote></b>"
     #)
     #await sleep(4) 
-    await client.invoke(DeleteHistory(peer=anuku, revoke=True))
+    await client.invoke(DeleteHistory(peer=anuku, max_id=0, revoke=True))
 
 
 
