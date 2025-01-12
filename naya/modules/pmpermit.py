@@ -95,14 +95,14 @@ async def antipm_er(client, message):
             [
                 [
                     InlineKeyboardButton(
-                        "🥱 ʙᴏᴛ 🥱", url=f"https://t.me/{lel}"
+                        "🥱 ʙᴏᴛ 🥱", url=f"https://t.me/peler"
                     ),
                     InlineKeyboardButton(
                         "💖 قناة السورس 💖", url="https://t.me/VFF35"
                     )
                 ],[ 
                     InlineKeyboardButton(
-                        "💞 شي مهم جدا 💞", url=f"https://t.me/{OWNER_USERNAME}"
+                        "💞 شي مهم جدا 💞", url=f"https://t.me/peler"
                     )]
             ]
         ),
