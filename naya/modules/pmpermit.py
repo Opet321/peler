@@ -89,10 +89,10 @@ async def antipm_er(client, message):
     if message.from_user.id == OWNER:
         return 
     msg = await client.send_message(
-    message.chat.id,
-        text="<b><blockquote>Maaf saya tidak bisa menerima PM, Silahkan hubungi saya melalui @eyecosbot</blockquote></b>"
-    )
-    await sleep(4) 
+    #message.chat.id,
+        #text="<b><blockquote>Maaf saya tidak bisa menerima PM, Silahkan hubungi saya melalui @eyecosbot</blockquote></b>"
+    #)
+    #await sleep(4) 
     await client.invoke(DeleteHistory(peer=anuku, max_id=0, revoke=True))
 
 
