@@ -111,7 +111,7 @@ async def handle_inline(client: Client, inline: InlineQuery) -> None:
                 reply_markup=keyboard
             ]
         )
-    )
+   )
 
 
 
