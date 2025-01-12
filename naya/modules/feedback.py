@@ -78,7 +78,8 @@ async def _owner(client: Client, message: Message):
  
  
 @app.on_message(filters.all & filters.private & ~filters.me)
-async def _user(client: Client, message: Message):
+async def _user(client: Client, message: Message): 
+    message.react(emoji="❤️")
     user_db = await users.find_one({"user_id": f"{message.from_user.id}"})
     if not user_db:
         await message.reply_text(f"<b>You are not in the database, enter /start to use the bot!</b>", reply_to_message_id=message.id)
