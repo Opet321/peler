@@ -74,10 +74,6 @@ async def set_antipm(client, message):
         await message.reply(f"<b>Anti-PM status:</b> <code>{kurukuru}</code>\n<b>To Activate use</b> <code>antipm on/off</code>", quote=True)
 
 
-from uuid import uuid4
-
-from pyrogram import filters, Client 
-from pyrogram.types import InlineQueryResultArticle, InlineKeyboardButton, InlineKeyboardMarkup, InputTextMessageContent, InlineQuery, Message
 
 
 @bots.on_message(
@@ -114,6 +110,7 @@ async def handle_inline(client: Client, inline: InlineQuery) -> None:
                 reply_markup=keyboard
             ]
         )
+    )
 
 
 
