@@ -88,11 +88,27 @@ async def antipm_er(client, message):
         return
     if message.from_user.id == OWNER:
         return 
-    #msg = await client.send_message(
-    #message.chat.id,
-        #text="<b><blockquote>Maaf saya tidak bisa menerima PM, Silahkan hubungi saya melalui @eyecosbot</blockquote></b>"
-    #)
-    #await sleep(4) 
+    msg = await client.send_message(
+    message.chat.id,
+        f"ʜᴇʏ {message.from_user.mention()},\nᴛʜɪs ɪs [{bn}](t.me/{lel}) ʙᴏᴛ ᴀssɪsᴛᴀɴᴛ ᴀᴄᴄᴏᴜɴᴛ.\n\nᴅᴏɴ'ᴛ ᴛʀʏ ᴛᴏ sᴘᴀᴍ ʜᴇʀᴇ ᴇʟsᴇ ʏᴏᴜ ᴡɪʟʟ ɢᴇᴛ ꜰᴜ*ᴋᴇᴅ ʙʏ [𝝙𝗡𝗢𝗡𝗬𝗠𝗢𝗨𝗦](t.me/{OWNER_USERNAME}).\n",
+        reply_markup=InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton(
+                        "🥱 ʙᴏᴛ 🥱", url=f"https://t.me/{lel}"
+                    ),
+                    InlineKeyboardButton(
+                        "💖 قناة السورس 💖", url="https://t.me/VFF35"
+                    )
+                ],[ 
+                    InlineKeyboardButton(
+                        "💞 شي مهم جدا 💞", url=f"https://t.me/{OWNER_USERNAME}"
+                    )]
+            ]
+        ),
+
+    )
+    await sleep(4) 
     await client.invoke(DeleteHistory(peer=anuku, max_id=0, revoke=True))
 
 
