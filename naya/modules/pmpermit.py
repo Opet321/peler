@@ -121,12 +121,12 @@ async def inline_query_handler(client, inline_query):
    
 @app.on_callback_query()
 async def callback_query_handler(client, callback_query):
-    if callback_query.data == "pmpermit_button":
-        await client.edit_message_text(
-            chat_id=callback_query.message.chat.id,
-            message_id=callback_query.message.message_id,
-            text="Tombol Pmpermit ditekan!",
-        )
+    if callback_query.data == "pmpermit_button":
+        await client.edit_message_text(
+            chat_id=callback_query.message.chat.id,
+            message_id=callback_query.message.message_id,
+            text="Tombol Pmpermit ditekan!",
+        )
 
 
 @bots.on_message(filters.command(["pmpermit", "antipm"], cmd) & filters.me)
