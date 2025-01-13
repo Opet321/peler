@@ -8,7 +8,7 @@ from pyrogram.types import Chat, Message, User
 
 from . import *
 
-from config import FORUM_CHAT_ID
+from naya.config import *
 
 
 @app.on_raw_update(group=1)
