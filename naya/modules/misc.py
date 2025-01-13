@@ -11,10 +11,11 @@ from pyrogram.types import (
     Message,
 )
 
+from . import *
 from config import FORUM_CHAT_ID
 
 
-@Client.on_message(filters.chat(FORUM_CHAT_ID) & filters.command("del"))
+@app.on_message(filters.chat(FORUM_CHAT_ID) & filters.command("del"))
 async def del_message_handler(client: Client, message: Message) -> None:
     if message.reply_to_message:
         user_id = await client.db.get_user_id_by_thread(message.message_thread_id)
@@ -38,7 +39,7 @@ async def del_message_handler(client: Client, message: Message) -> None:
     await message.delete()
 
 
-@Client.on_message(filters.chat(FORUM_CHAT_ID) & filters.command("start"))
+@app.on_message(filters.chat(FORUM_CHAT_ID) & filters.command("start"))
 async def user_profile_handler(client: Client, message: Message) -> None:
     user_id = await client.db.get_user_id_by_thread(message.message_thread_id)
     if not user_id:
@@ -75,7 +76,7 @@ async def user_profile_handler(client: Client, message: Message) -> None:
             await response.edit_text(caption_text, reply_markup=None)
 
 
-@Client.on_inline_query()
+@app.on_inline_query()
 async def inline_query_handler(_: Client, inline_query: InlineQuery) -> None:
     await inline_query.answer(
         [], cache_time=900, switch_pm_text='"Hello, World!"', switch_pm_parameter="_"
