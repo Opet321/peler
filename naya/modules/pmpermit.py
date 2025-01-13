@@ -97,20 +97,27 @@ async def handle_antipm(client: Client, message: Message) -> None:
 
 # handler buat bot
 @app.on_inline_query()
-async def handle_inline(client: Client, inline: InlineQuery) -> None:
-    inline_query = inline.query
-    if inline_query.strip().lower().split()[0] == "pmpermit":
-        keyboard = InlineKeyboardMarkup(
-            [[InlineKeyboardButton(text="Teks button", callback_data="callback")]]
-        )
-        await inline.answer()
-            results=[InlineQueryResultArticle()
-                id=str(uuid4()),
-                title="Pmpermit",
-                input_message_content=InputTextMessageContent("isi disini pesan inline via bot nya"),
-                reply_markup=keyboard
-             ]
-        )
+async def inline_query_handler(client, inline_query):
+    query = inline_query.query
+    if not query:
+        return
+
+    first_word = query.strip().lower().split()[0]
+    if first_word == "pmpermit":
+        keyboard = InlineKeyboardMarkup(
+            [[InlineKeyboardButton("Teks button", callback_data="pmpermit_button")]]
+        )
+        results = [
+            InlineQueryResultArticle(
+                id=str(uuid4()),
+                title="Pmpermit",
+                input_message_content=InputTextMessageContent("Isi pesan inline disini"),
+                reply_markup=keyboard,
+            )
+        ]
+        await client.answer_inline_query(
+            inline_query.id, results, cache_time=0
+        )
    
 
 
