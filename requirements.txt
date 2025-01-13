@@ -13,7 +13,6 @@ pysocks==1.7.1
 pytgcalls==3.0.0.dev24
 pytz 
 aiorun 
-
 tgcrypto
 GitPython
 pytube
