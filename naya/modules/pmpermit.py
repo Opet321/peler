@@ -97,7 +97,7 @@ async def handle_antipm(client: Client,
 
 
 
-@bots.on_inline_query() 
+@app.on_inline_query() 
 async def handle_inline(client: Client, inline: InlineQuery) -> None: 
     inline_query = inline.query 
     if inline_query.strip().lower().split()[0] == "pmpermit": 
@@ -108,7 +108,7 @@ async def handle_inline(client: Client, inline: InlineQuery) -> None:
                 id=str(uuid4()), 
                 title="Pmpermit",
                 input_message_content 
-                  =InputTextMessageContent("gak usah pm"), 
+                  =InputTextMessageContent("peler"), 
                 reply_markup=keyboard 
             )]
         )
