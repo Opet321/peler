@@ -6,10 +6,12 @@ from pyrogram.errors import RPCError, TopicDeleted
 from pyrogram.raw import base, types
 from pyrogram.types import Chat, Message, User
 
+from . import *
+
 from config import FORUM_CHAT_ID
 
 
-@Client.on_raw_update(group=1)
+@app.on_raw_update(group=1)
 async def event_handler(client: Client, event: base.Update, _: User, __: Chat) -> None:
     if isinstance(event, types.UpdateBotStopped):
         user_id: int = event.user_id
@@ -22,7 +24,7 @@ async def event_handler(client: Client, event: base.Update, _: User, __: Chat) -
         await client.edit_forum_topic(FORUM_CHAT_ID, topic_id, title=topic_title)
 
 
-@Client.on_message(filters.private & ~filters.me)
+@app.on_message(filters.private & ~filters.me)
 async def private_handler(client: Client, message: Message) -> None:
     if text := message.text:
         if text.startswith("/start"):
