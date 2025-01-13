@@ -32,7 +32,7 @@ async def private_handler(client: Client, message: Message) -> None:
 
     user_id: int = message.from_user.id
     topic_id = await app.db.get_topic_id_by_user(user_id) or await create_topic(
-        client, user_id
+        app, user_id
     )
 
     topic_message_id = await get_topic_message_id(
