@@ -77,7 +77,10 @@ async def set_antipm(client, message):
 
 
 @bots.on_message(
-    ~filters.me & ~filters.bot & filters.private & is_antipm
+    ~filters.me
+    & ~filters.bot
+    & filters.private
+    & is_antipm
 )
 async def handle_antipm(client: Client, message: Message) -> None:
     if message.from_user.is_contact is True:
