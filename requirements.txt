@@ -1,4 +1,4 @@
-pyrofork==2.3.50
+pyrotgfork
 git+https://github.com/naya1503/pyrogram
 tgcrypto
 pytz
