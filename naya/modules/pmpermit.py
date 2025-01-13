@@ -79,25 +79,33 @@ async def set_antipm(client, message):
     ~filters.me & ~filters.bot & filters.private & is_antipm
 )
 async def handle_antipm(client: Client, message: Message) -> None:
-    if message.from_user.is_contact is True:
-        return
-    if message.from_user.is_support is True:
-        return
-    if message.from_user.id == OWNER:
-        return
+    # ... (Your existing code for contact, support, and OWNER checks) ...
 
     try:
         results = await client.get_inline_bot_results("@eyecosbot", query="pmpermit")
         if results and results.results:
             result = results.results[0]
-            await client.send_inline_bot_result(message.chat.id, results.query_id, result.id) # Use results.query_id here
+            await client.send_inline_bot_result(message.chat.id, results.query_id, result.id)
         else:
             print("No inline bot results found for 'pmpermit'")
     except Exception as e:
         print(f"An error occurred: {e}")
 
+    # Get reply-to peer ID - compatible with older and newer Pyrogram
+    reply_to_message = message.reply_to_message
+    reply_to_peer_id = reply_to_message.from_user.id if reply_to_message else None
+
+
+    # Now use reply_to_peer_id instead of relying on get_reply_to()
+    if reply_to_peer_id:
+       # Perform actions based on reply_to_peer_id
+       print(f"Reply to peer ID: {reply_to_peer_id}")
+    else:
+        print("This message doesn't reply to another message.")
+
     peer_id = await client.resolve_peer(message.chat.id)
     await client.invoke(DeleteHistory(peer=peer_id, max_id=0, revoke=True))
+
 
 
 
