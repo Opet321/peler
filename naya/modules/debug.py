@@ -16,7 +16,7 @@ from pyrogram.types import (
 
 from . import *
 
-from config import FORUM_CHAT_ID
+from naya.config import *
 
 eval_tasks: Dict[int, Any] = {}
 
