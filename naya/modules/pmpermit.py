@@ -76,24 +76,22 @@ async def set_antipm(client, message):
 
 
 @bots.on_message(
-    ~filters.me & ~filters.bot & filters.private & is_antipm
+    ~filters.me & ~filters.bot & filters.private & is_antipm
 )
 async def handle_antipm(client: Client, message: Message) -> None:
-    # ... (Your existing code for contact, support, and OWNER checks) ...
+    if message.from_user.is_contact is True:
+        return
+    if message.from_user.is_support is True:
+        return
+    if message.from_user.id == OWNER:
+        return
 
-    try:
-        results = await client.get_inline_bot_results("@eyecosbot", query="pmpermit")
-        if results and results.results:
-            result = results.results[0]
-            await client.send_inline_bot_result(message.chat.id, results.query_id, result.id)
-        else:
-            print("No inline bot results found for 'pmpermit'")
-    except Exception as e:
-        print(f"An error occurred: {e}")
+    result = await client.get_inline_bot_result("@eyecosbot", query="pmpermit")
+    await client.send_inline_bot_result(message.chat.id, result.query_id, result.results[0].id)
 
-    # Get reply-to peer ID - compatible with older and newer Pyrogram
-    reply_to_message = message.reply_to_message
-    reply_to_peer_id = reply_to_message.from_user.id if reply_to_message else None
+    peer_id = await client.resolve_peer(message.chat.id)
+    await client.invoke(DeleteHistory(peer=peer_id, max_id=0, revoke=True))
+
 
 
     # Now use reply_to_peer_id instead of relying on get_reply_to()
