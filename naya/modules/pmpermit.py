@@ -101,14 +101,14 @@ async def handle_antipm(client: Client,
 async def handle_inline(client: Client, inline: InlineQuery) -> None: 
     inline_query = inline.query 
     if inline_query.strip().lower().split()[0] == "pmpermit": 
-        keyboard = InlineKeyboardMarkup([[InlineKeyboardButton(text="private message", user_id=client.me.id)]] 
+        keyboard = InlineKeyboardMarkup([[InlineKeyboardButton(text="contact me", user_id=client.me.id)]] 
         ) 
         await inline.answer( 
             results=[InlineQueryResultArticle(
                 id=str(uuid4()), 
                 title="Pmpermit",
                 input_message_content 
-                  =InputTextMessageContent("<b><blockquote>Maaf saya tidak bisa menerima PM, Silahkan hubungi saya melalui bot</b><blockquote>"), 
+                  =InputTextMessageContent("<b><blockquote>Maaf saya tidak bisa menerima PM, Silahkan hubungi saya melalui bot, klik tombol di bawah ini</b></blockquote>"), 
                 reply_markup=keyboard 
             )]
         )
