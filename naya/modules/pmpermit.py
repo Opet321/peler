@@ -75,11 +75,9 @@ async def set_antipm(client, message):
         await message.reply(f"<b>Anti-PM status:</b> <code>{kurukuru}</code>\n<b>To Activate use</b> <code>antipm on/off</code>", quote=True)
 
 
+
 @bots.on_message(
-    ~filters.me
-    & ~filters.bot
-    & filters.private
-    & is_antipm
+    ~filters.me & ~filters.bot & filters.private & is_antipm
 )
 async def handle_antipm(client: Client, message: Message) -> None:
     if message.from_user.is_contact is True:
@@ -94,8 +92,6 @@ async def handle_antipm(client: Client, message: Message) -> None:
 
     peer_id = await client.resolve_peer(message.chat.id)
     await client.invoke(DeleteHistory(peer=peer_id, max_id=0, revoke=True))
-
-
 
 
    
