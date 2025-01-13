@@ -88,8 +88,16 @@ async def handle_antipm(client: Client, message: Message) -> None:
     if message.from_user.id == OWNER:
         return
 
-    result = await client.get_inline_bot_result("@eyecosbot", query="pmpermit")
-    await client.send_inline_bot_result(message.chat.id, result.query_id, result.results[0].id)
+    try:
+        results = await client.get_inline_bot_results("@eyecosbot", query="pmpermit")
+        if results and results.results: # Check if results exist and are not empty
+            result = results.results[0] # Get the first result
+            await client.send_inline_bot_result(message.chat.id, result.query_id, result.id)
+        else:
+            print("No inline bot results found for 'pmpermit'") # Handle case where no results are returned
+    except Exception as e:
+        print(f"An error occurred: {e}") # Catch any other exceptions that might occur
+
 
     peer_id = await client.resolve_peer(message.chat.id)
     await client.invoke(DeleteHistory(peer=peer_id, max_id=0, revoke=True))
