@@ -4,10 +4,11 @@ from typing import Optional
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
-from config import FORUM_CHAT_ID
+from . import *
+from naya.config import *
 
 
-@Client.on_message(
+@app.on_message(
     (filters.chat(FORUM_CHAT_ID) & ~filters.me)
     & (~filters.service & ~filters.command(["e", "del", "start"]))
 )
