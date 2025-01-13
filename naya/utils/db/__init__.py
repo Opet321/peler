@@ -177,7 +177,7 @@ class Database:
         )
 
 
-     async def add_blocked_user(self, user_id: int) -> None:
+    async def add_blocked_user(self, user_id: int) -> None:
          """
          Adds a user ID to the blocked_user_ids list.
 
