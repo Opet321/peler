@@ -101,7 +101,7 @@ async def handle_antipm(client: Client,
 async def handle_inline(client: Client, inline: InlineQuery) -> None: 
     inline_query = inline.query 
     if inline_query.strip().lower().split()[0] == "pmpermit": 
-        keyboard = InlineKeyboardMarkup([[InlineKeyboardButton="Peler", callback_data="callback")]] 
+        keyboard = InlineKeyboardMarkup([[InlineKeyboardButton(text="Peler", callback_data="callback")]] 
         ) 
         await inline.answer( 
             results=[InlineQueryResultArticle(
