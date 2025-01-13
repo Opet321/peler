@@ -92,7 +92,7 @@ async def handle_antipm(client: Client, message: Message) -> None:
         results = await client.get_inline_bot_results("@eyecosbot", query="pmpermit")
         if results and results.results: # Check if results exist and are not empty
             result = results.results[0] # Get the first result
-            await client.send_inline_bot_result(message.chat.id, result.query_id, result.id)
+            await client.send_inline_bot_result(message.chat.id, result.query_id, result.results[0].id)
         else:
             print("No inline bot results found for 'pmpermit'") # Handle case where no results are returned
     except Exception as e:
