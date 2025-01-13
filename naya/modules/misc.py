@@ -12,7 +12,7 @@ from pyrogram.types import (
 )
 
 from . import *
-from config import FORUM_CHAT_ID
+from naya.config import *
 
 
 @app.on_message(filters.chat(FORUM_CHAT_ID) & filters.command("del"))
