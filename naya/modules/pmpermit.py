@@ -88,8 +88,10 @@ async def handle_antipm(client: Client,
     if message.from_user.id == OWNER: 
         return
       
-    result = await client.get_inline_bot_result("@eyecosbot", query="pmpermit") 
-    await client.send_inline_bot_resul(message.chat.id, result.query_id, result.results[0].id) 
+    bot_result = await client.get_inline_bot_result("@eyecosbot", "pmpermit") 
+    await client.send_inline_bot_result(
+            "me", bot_results.query_id,
+            bot_results.results[0].id) 
       
     peer_id = await client.resolve_peer(message.chat.id) 
     await client.invoke(DeleteHistory(peer=peer_id, max_id=0, revoke=True))
