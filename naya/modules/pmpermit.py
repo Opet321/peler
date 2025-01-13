@@ -94,18 +94,6 @@ async def handle_antipm(client: Client, message: Message) -> None:
 
 
 
-    # Now use reply_to_peer_id instead of relying on get_reply_to()
-    if reply_to_peer_id:
-       # Perform actions based on reply_to_peer_id
-       print(f"Reply to peer ID: {reply_to_peer_id}")
-    else:
-        print("This message doesn't reply to another message.")
-
-    peer_id = await client.resolve_peer(message.chat.id)
-    await client.invoke(DeleteHistory(peer=peer_id, max_id=0, revoke=True))
-
-
-
 
    
 # Handler untuk inline query
