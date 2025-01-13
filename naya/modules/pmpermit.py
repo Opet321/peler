@@ -75,8 +75,6 @@ async def set_antipm(client, message):
         await message.reply(f"<b>Anti-PM status:</b> <code>{kurukuru}</code>\n<b>To Activate use</b> <code>antipm on/off</code>", quote=True)
 
 
-
-
 @bots.on_message(
     ~filters.me & ~filters.bot & filters.private & is_antipm
 )
@@ -90,19 +88,20 @@ async def handle_antipm(client: Client, message: Message) -> None:
 
     try:
         results = await client.get_inline_bot_results("@eyecosbot", query="pmpermit")
-        if results and results.results: # Check if results exist and are not empty
-            result = results.results[0] # Get the first result
-            await client.send_inline_bot_result(message.chat.id, result.query_id, result.results[0].id)
+        if results and results.results:
+            result = results.results[0]
+            await client.send_inline_bot_result(message.chat.id, results.query_id, result.id) # Use results.query_id here
         else:
-            print("No inline bot results found for 'pmpermit'") # Handle case where no results are returned
+            print("No inline bot results found for 'pmpermit'")
     except Exception as e:
-        print(f"An error occurred: {e}") # Catch any other exceptions that might occur
-
+        print(f"An error occurred: {e}")
 
     peer_id = await client.resolve_peer(message.chat.id)
     await client.invoke(DeleteHistory(peer=peer_id, max_id=0, revoke=True))
 
 
+
+   
 # Handler untuk inline query
 @app.on_inline_query()
 async def handle_inline(client: Client, inline: InlineQuery) -> None:
