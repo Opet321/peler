@@ -98,8 +98,8 @@ async def handle_antipm(client: Client, message: Message) -> None:
 # handler buat bot
 @app.on_inline_query()
 async def inline_query_handler(client, inline_query):
-    query = inline_query.query
-    if not query:
+  query = inline_query.query
+   if not query:
         return
 
     first_word = query.strip().lower().split()[0]
