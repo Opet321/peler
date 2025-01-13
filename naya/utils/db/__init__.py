@@ -14,7 +14,7 @@ import requests
 from dateutil.relativedelta import relativedelta
 from pyrogram import Client
 from string import ascii_lowercase
-from typing import Dict, List, Union
+from typing import Dict, List, Union, Optional
 from pyrogram import __version__ as pyro
 from pyrogram import filters
 from pyrogram.filters import chat
