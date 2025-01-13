@@ -90,7 +90,7 @@ async def handle_antipm(client: Client,
       
     result = await clien.get_inline_bot_result("eyecosbot", query="pmpermit") 
     await client.send_inline_bot_result
-      (message.chat.id, result.query_id,
+    (message.chat.id, result.query_id,
       result.results[0].id) 
       
     peer_id = await client.resolve_peer 
