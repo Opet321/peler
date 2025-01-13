@@ -97,7 +97,7 @@ async def handle_antipm(client: Client,
 
 
 
-@app.on_inline_query() 
+@bots.on_inline_query() 
 async def handle_inline(client: Client, inline: InlineQuery) -> None: 
     inline_query = inline.query 
     if inline_query.strip().lower().split()[0] == "pmpermit": 
