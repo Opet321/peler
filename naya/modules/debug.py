@@ -14,12 +14,14 @@ from pyrogram.types import (
     Message,
 )
 
+from . import *
+
 from config import FORUM_CHAT_ID
 
 eval_tasks: Dict[int, Any] = {}
 
 
-@Client.on_message(filters.chat(FORUM_CHAT_ID) & filters.command("e"))
+@app.on_message(filters.chat(FORUM_CHAT_ID) & filters.command("e"))
 async def debug_handler(client: Client, message: Message) -> None:
     if len(message.text.split()) == 1:
         await message.reply_text("<b>No Code!</b>", quote=True)
@@ -86,7 +88,7 @@ async def debug_handler(client: Client, message: Message) -> None:
             del eval_tasks[task_id]
 
 
-@Client.on_callback_query(filters.regex(r"\bCancel\b"))
+@app.on_callback_query(filters.regex(r"\bCancel\b"))
 async def cancel_handler(_: Client, callback_query: CallbackQuery) -> None:
     reply_message_id = callback_query.message.reply_to_message_id
     if not reply_message_id:
