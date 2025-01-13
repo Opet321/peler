@@ -15,7 +15,7 @@ from naya.config import *
 async def event_handler(client: Client, event: base.Update, _: User, __: Chat) -> None:
     if isinstance(event, types.UpdateBotStopped):
         user_id: int = event.user_id
-        topic_id: Optional[int] = await client.db.get_topic_id_by_user(user_id)
+        topic_id: Optional[int] = await app.db.get_topic_id_by_user(user_id)
 
         if not topic_id:
             return
