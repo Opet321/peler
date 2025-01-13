@@ -83,11 +83,11 @@ async def set_antipm(client, message):
     & is_antipm
 )
 async def handle_antipm(client: Client, message: Message) -> None:
-    if message.from_user.is_contact is True:
+  if message.from_user.is_contact is True:
         return
-    if message.from_user.is_support is True:
+  if message.from_user.is_support is True:
         return
-    if message.from_user.id == OWNER:
+  if message.from_user.id == OWNER:
         return
 
     result = await client.get_inline_bot_result("@eyecosbot", query="pmpermit")
