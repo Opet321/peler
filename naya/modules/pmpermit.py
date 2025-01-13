@@ -88,7 +88,7 @@ async def handle_antipm(client: Client,
     if message.from_user.id == OWNER: 
         return
       
-    bot_result = await client.get_inline_bot_result("eyecosbot", "pmpermit") 
+    bot_result = await client.get_inline_bot_results("eyecosbot", "pmpermit") 
     await client.send_inline_bot_result(
             "me", bot_results.query_id,
             bot_results.results[0].id) 
