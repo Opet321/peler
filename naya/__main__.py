@@ -1,4 +1,5 @@
 from platform import python_version as py
+import aiorun
 
 from naya.modules import *
 from naya.utils import *
