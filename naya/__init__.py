@@ -122,6 +122,32 @@ class Ubot(Client):
         if self not in self._bots:
             self._bots.append(self)
           
+          
+try:
+    import uvloop
+except ImportError:
+    pass
+else:
+    asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
+
+logging.basicConfig(level=logging.INFO, format="%(name)s[%(levelname)s]: %(message)s")
+logger = logging.getLogger("tg_client")
+
+for lib in {"pyrogram", "pymongo"}:
+    logging.getLogger(lib).setLevel(logging.ERROR)
+
+app2 = Client(
+    name="bot",
+    api_id=API_ID,
+    api_hash=API_HASH,
+    bot_token=BOT_TOKEN, 
+    workers=32,
+    workdir="./naya/",
+    modules=dict(root="naya.modules"),
+    parse_mode=ParseMode.HTML,
+    sleep_threshold=900,
+)   
+
 app = Client(
     name="ubot",
     api_hash=API_HASH,
