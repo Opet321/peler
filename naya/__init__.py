@@ -7,7 +7,8 @@ from datetime import datetime
 from logging.handlers import RotatingFileHandler
 from typing import Any, Dict
 
-import pyrogram 
+import pyrogram  
+from pyrogram.enums import ParseMode
 from aiohttp import ClientSession
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from pyrogram import Client, __version__, enums, filters
