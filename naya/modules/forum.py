@@ -8,7 +8,7 @@ from . import *
 from naya.config import *
 
 
-@app2.on_message(
+@bots.on_message(
     (filters.chat(FORUM_CHAT_ID) & ~filters.me)
     & (~filters.service & ~filters.command(["e", "del", "start"]))
 )
