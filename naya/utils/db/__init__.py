@@ -21,7 +21,8 @@ from pyrogram.filters import chat
 from pyrogram.types import Message
 from naya import *
 from naya.config import *
-from naya.config import MONGO_URL
+from naya.config import MONGO_URL 
+from motor.motor_asyncio import AsyncIOMotorClient
 from motor.motor_asyncio import AsyncIOMotorClient as MongoCli
 from naya.version import __version__ as nay
 from naya.version import kynay_version as nan
