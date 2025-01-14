@@ -45,6 +45,11 @@ varsdb = db.kintil
 vardb = db.variable
 sudoersdb = db.sudoers
 
+from .db_client import Database
+
+__all__ = ["Database"]
+
+
 cli = motor.motor_asyncio.AsyncIOMotorClient(MONGO_URL)
 
 MSG_ON = """
