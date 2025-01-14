@@ -14,12 +14,13 @@ from pyrogram.types import (
     Message,
 )
 
-from config import FORUM_CHAT_ID
+from . import *
+from naya.config import *
 
 eval_tasks: Dict[int, Any] = {}
 
 
-@Client.on_message(filters.chat(FORUM_CHAT_ID) & filters.command("e"))
+@app.on_message(filters.chat(FORUM_CHAT_ID) & filters.command("e"))
 async def debug_handler(client: Client, message: Message) -> None:
     if len(message.text.split()) == 1:
         await message.reply_text("<b>No Code!</b>", quote=True)
