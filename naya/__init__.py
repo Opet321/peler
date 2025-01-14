@@ -138,13 +138,11 @@ for lib in {"pyrogram", "pymongo"}:
     logging.getLogger(lib).setLevel(logging.ERROR)
 
 app2 = Client(
-    name="bot",
+    name="ubot",
     api_id=API_ID,
     api_hash=API_HASH,
     bot_token=BOT_TOKEN, 
     workers=32,
-    workdir="./naya/",
-    modules=dict(root="naya.modules"),
     parse_mode=ParseMode.HTML,
     sleep_threshold=900,
 )   
