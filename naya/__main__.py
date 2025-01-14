@@ -60,16 +60,16 @@ async def main():
 async def start_client() -> None:
     LOGGER("Logger").info("Starting the bot...")
     try:
-        await app.start()
+        await app2.start()
         with contextlib.suppress(TopicNotModified):
-            await app.reopen_general_topic(FORUM_CHAT_ID)
+            await app2.reopen_general_topic(FORUM_CHAT_ID)
     except RPCError as rpc_error:
         logger.error(str(rpc_error.MESSAGE))
 
-    setattr(app, "db", Database(app))
-    await app.db.connect()
+    setattr(app2, "db", Database(app))
+    await app2.db.connect()
 
-    await app.set_bot_commands(
+    await app2.set_bot_commands(
         commands=[
             BotCommand("del", "Delete by Reply"),
             BotCommand("start", "Show User Info"),
