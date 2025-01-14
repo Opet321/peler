@@ -90,8 +90,6 @@ async def stop_client() -> None:
     LOGGER("Logger").info("Bot stopped and database connection closed.")
 
 if __name__ == "__main__": 
-    aiorun.logger.disabled = True
-    aiorun.run(start_client(), loop=app.loop, shutdown_callback=stop_client())
     install()
     try:
         loop.run_until_complete(main())
