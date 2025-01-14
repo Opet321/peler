@@ -125,16 +125,6 @@ class Ubot(Client):
           
           
 
-app2 = Client(
-    name="ubot",
-    api_id=API_ID,
-    api_hash=API_HASH,
-    bot_token=BOT_TOKEN, 
-    workers=32,
-    parse_mode=ParseMode.HTML,
-    sleep_threshold=900,
-)   
-
 app = Client(
     name="ubot",
     api_hash=API_HASH,
