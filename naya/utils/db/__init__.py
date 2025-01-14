@@ -44,8 +44,6 @@ varsdb = db.kintil
 vardb = db.variable
 sudoersdb = db.sudoers
 
-__all__ = ["Database"]
-
 logger = logging.getLogger("db_client") 
 
 cli = motor.motor_asyncio.AsyncIOMotorClient(MONGO_URL)
