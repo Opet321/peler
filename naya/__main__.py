@@ -31,10 +31,10 @@ async def main():
     LOGGER("Startup").info("Memulai Xel-Pyro Premium..")
     for bot in botlist:
         try:
-            await bot.start()
-            ex = bot.me
+            await bot.start() 
+            ex = bot.me 
             user = ex.id
-            await ajg(bot)
+            await ajg(bot) 
             await babi(bot)
             botlog = await get_botlog(user)
             LOGGER("✓").info(f"Started as {ex.first_name} | {ex.id} ")
@@ -43,7 +43,7 @@ async def main():
             except BaseException as a:
                 LOGGER("Info").warning(f"{a}")
 
-            ids.append(ex.id)
+            ids.append(ex.id)   
             LOGGER("Info").info("Startup Completed")
 
         except Exception as e:
