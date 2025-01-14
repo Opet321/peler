@@ -8,7 +8,6 @@ from pyrogram import Client
 
 from naya.config import *
 
-logger = logging.getLogger("db_client") 
 
 mongo = AsyncIOMotorClient(MONGO_URL)
 
