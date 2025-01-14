@@ -53,7 +53,7 @@ async def main():
     await aiosession.close()
 
 async def start_client() -> None:
-    logger.info("Starting the bot...")
+    LOGGER("Logger").info("Starting the bot...")
     try:
         await app.start()
         with contextlib.suppress(TopicNotModified):
@@ -72,17 +72,17 @@ async def start_client() -> None:
         scope=BotCommandScopeChatAdministrators(chat_id=FORUM_CHAT_ID),
     )
 
-    logger.info("Bot activated successfully.")
+    LOGGER("Logger").info("Bot activated successfully.")
 
 
 async def stop_client() -> None:
-    logger.info("Stopping the bot...")
+    LOGGER("Logger").info("Stopping the bot...")
     with contextlib.suppress(Exception):
         await app.close_general_topic(FORUM_CHAT_ID)
         await app.stop()
 
     await app.db.close()
-    logger.info("Bot stopped and database connection closed.")
+    LOGGER("Logger").info("Bot stopped and database connection closed.")
 
 if __name__ == "__main__":
     install()
