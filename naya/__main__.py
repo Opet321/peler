@@ -52,6 +52,37 @@ async def main():
     await idle()
     await aiosession.close()
 
+async def start_client() -> None:
+    logger.info("Starting the bot...")
+    try:
+        await app.start()
+        with contextlib.suppress(TopicNotModified):
+            await app.reopen_general_topic(FORUM_CHAT_ID)
+    except RPCError as rpc_error:
+        logger.error(str(rpc_error.MESSAGE))
+
+    setattr(app, "db", Database(app))
+    await app.db.connect()
+
+    await app.set_bot_commands(
+        commands=[
+            BotCommand("del", "Delete by Reply"),
+            BotCommand("start", "Show User Info"),
+        ],
+        scope=BotCommandScopeChatAdministrators(chat_id=FORUM_CHAT_ID),
+    )
+
+    logger.info("Bot activated successfully.")
+
+
+async def stop_client() -> None:
+    logger.info("Stopping the bot...")
+    with contextlib.suppress(Exception):
+        await app.close_general_topic(FORUM_CHAT_ID)
+        await app.stop()
+
+    await app.db.close()
+    logger.info("Bot stopped and database connection closed.")
 
 if __name__ == "__main__":
     install()
