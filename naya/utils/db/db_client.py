@@ -6,11 +6,11 @@ from pyrogram import filters
 from motor.motor_asyncio import AsyncIOMotorClient 
 from pyrogram import Client
 
-from config import MONGODB_URL
+from naya.config import *
 
 logger = logging.getLogger("db_client") 
 
-mongo = AsyncIOMotorClient(MONGODB_URL)
+mongo = AsyncIOMotorClient(MONGO_URL)
 
 
 
@@ -24,7 +24,7 @@ class Database:
     async def connect(self) -> None:
         logger.info("Connecting to mongo database...")
         try:
-            self.client = AsyncIOMotorClient(MONGODB_URL)
+            self.client = AsyncIOMotorClient(MONGO_URL)
             self.db = self.client["FEEDBACKTGBOT"][str(self.tg_client.me.id)]
             logger.info("Mongo database connected successfully.")
         except Exception as err:
