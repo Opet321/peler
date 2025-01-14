@@ -86,7 +86,7 @@ async def stop_client() -> None:
         await app.close_general_topic(FORUM_CHAT_ID)
         await app.stop()
 
-    await app.db.close()
+    await app2.db.close()
     LOGGER("Logger").info("Bot stopped and database connection closed.")
 
 if __name__ == "__main__": 
