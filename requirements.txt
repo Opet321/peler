@@ -1,5 +1,4 @@
 pyrofork==2.3.53
-git+https://github.com/naya1503/pyrogram
 tgcrypto
 pytz
 git+https://github.com/yt-dlp/yt-dlp.git
