@@ -6,7 +6,8 @@ from pyrogram.errors import RPCError, TopicDeleted
 from pyrogram.raw import base, types
 from pyrogram.types import Chat, Message, User
 
-from config import FORUM_CHAT_ID
+from . import *
+from naya.config import *
 
 
 @Client.on_raw_update(group=1)
