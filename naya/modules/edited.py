@@ -15,7 +15,7 @@ from . import *
 from naya.config import *
 
 
-@app2.on_edited_message(filters.private & ~filters.me)
+@bots.on_edited_message(filters.private & ~filters.me)
 async def edited_private_handler(client: Client, message: Message) -> None:
     user_id = message.from_user.id
 
@@ -39,7 +39,7 @@ async def edited_private_handler(client: Client, message: Message) -> None:
     )
 
 
-@app2.on_edited_message(filters.chat(FORUM_CHAT_ID))
+@bots.on_edited_message(filters.chat(FORUM_CHAT_ID))
 async def edited_forum_handler(client: Client, message: Message) -> None:
     topic_id = message.message_thread_id
 
