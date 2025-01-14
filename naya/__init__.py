@@ -57,7 +57,7 @@ logging.basicConfig(level=logging.INFO)
 LOGS = logging.getLogger(__name__)
 
  
-def LOGGER(name: str) -> logging.Logger:
+def LOGGER(db_client: str) -> logging.Logger:
     return logging.getLogger("db_client")
     
 def LOGGER(name: str) -> logging.Logger:
