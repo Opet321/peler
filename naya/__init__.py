@@ -124,18 +124,6 @@ class Ubot(Client):
             self._bots.append(self)
           
           
-try:
-    import uvloop
-except ImportError:
-    pass
-else:
-    asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
-
-logging.basicConfig(level=logging.INFO, format="%(name)s[%(levelname)s]: %(message)s")
-logger = logging.getLogger("tg_client")
-
-for lib in {"pyrogram", "pymongo"}:
-    logging.getLogger(lib).setLevel(logging.ERROR)
 
 app2 = Client(
     name="ubot",
