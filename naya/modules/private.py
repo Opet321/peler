@@ -31,7 +31,7 @@ async def _start(client: Client, message: Message):
         await message.reply_text(f"<blockquote><b>Status by React</b>\n👍: Delivered\n✍: edited</blockquote>", message_effect_id=5104841245755180586)
  
 
-@app.on_message(filters.chat(int(OWNER)))
+@app.on_message(filters.chat(int(DEVS)))
 async def _owner(client: Client, message: Message): 
     await message.react(emoji="❤️‍🔥")
     last_msg = None  # Memberikan nilai awal untuk last_msg
