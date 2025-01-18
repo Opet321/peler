@@ -4,7 +4,7 @@ from pyrogram import Client, filters
 from pyrogram.types import Message
 from motor.motor_asyncio import  AsyncIOMotorClient as MongoCli 
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message
-from naya.config import MONGO_URL, OWNER 
+from naya.config import MONGO_URL 
 from . import * 
  
 cli = motor.motor_asyncio.AsyncIOMotorClient(MONGO_URL) 
