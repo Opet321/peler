@@ -4,7 +4,7 @@ from pyrogram import Client, filters
 from pyrogram.types import Message
 from motor.motor_asyncio import  AsyncIOMotorClient as MongoCli 
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message
-from naya.config import MONGO_URL 
+from naya.config import MONGO_URL, OWNER
 from . import * 
  
 cli = motor.motor_asyncio.AsyncIOMotorClient(MONGO_URL) 
@@ -31,7 +31,7 @@ async def _start(client: Client, message: Message):
         await message.reply_text(f"<blockquote><b>Status by React</b>\n👍: Delivered\n✍: edited</blockquote>", message_effect_id=5104841245755180586)
  
 
-@app.on_message(filters.chat(int(6190309715)))
+@app.on_message(filters.chat(int(OWNER)))
 async def _owner(client: Client, message: Message): 
     await message.react(emoji="❤️‍🔥")
     last_msg = None  # Memberikan nilai awal untuk last_msg
