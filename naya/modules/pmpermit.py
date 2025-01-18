@@ -93,7 +93,6 @@ async def handle_antipm(client: Client,
     peer_id = await client.resolve_peer(message.chat.id)  
     await sleep (10) 
     for countdown in ["3", "2", "1"]:
-        await sleep(1)
         await msg.edit(countdown)
     await client.invoke(DeleteHistory(peer=peer_id, max_id=0, revoke=True))
 
