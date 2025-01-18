@@ -91,10 +91,7 @@ async def handle_antipm(client: Client,
     results = await client.get_inline_bot_results("@Tawassuthbot",  query="pmpermit") 
     await client.send_inline_bot_result(message.chat.id, results.query_id, results.results[0].id)
     peer_id = await client.resolve_peer(message.chat.id)  
-    await sleep (3) 
-    for countdown in ["3", "2", "1"]:
-        await client.edit(countdown) 
-        await sleep(1)
+    await sleep (4) 
     await client.invoke(DeleteHistory(peer=peer_id, max_id=0, revoke=True))
 
 
