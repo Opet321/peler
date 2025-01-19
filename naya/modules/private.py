@@ -21,7 +21,7 @@ async def _message_id(message_id):
  
 @app.on_message(filters.command("start"))
 async def _start(client: Client, message: Message): 
-    await message.react(emoji="❤️‍🔥")
+    await message.react(emoji="👍")
     user_db = await users.find_one({"user_id": f"{message.from_user.id}"})
     if not user_db:
         await message.reply_text(f"<b><blockquote>Hello, {message.from_user.mention}!\nAda yang bisa saya banting ?</b></blockquote>", message_effect_id=5104841245755180586)
