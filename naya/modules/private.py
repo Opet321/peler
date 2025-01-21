@@ -84,7 +84,7 @@ async def _user(client: Client, message: Message):
     await message.react([ReactionTypeEmoji(emoji="👀")])
     user_db = await users.find_one({"user_id": f"{message.from_user.id}"})
     if not user_db:
-        await message.reply_text(f"<b>You are not in the database, enter /start to use the bot!</b>", reply_to_message_id=message.id)
+        await client.get_messages(chat_id=chat_id, reply_to_message_ids=message_id)
     else:
         forwarded_message = await message.forward(OWNER)  
         chat_id = message.chat.id
