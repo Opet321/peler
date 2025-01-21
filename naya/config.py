@@ -5,9 +5,9 @@ from dotenv import load_dotenv
 load_dotenv(".env")
 
 
-API_ID = int(getenv("API_ID", "16712780"))
+API_ID = int(getenv("API_ID", "209235"))
 OWNER = int(getenv("OWNER", "6989350560"))
-API_HASH = getenv("API_HASH", "7941450f5313966647b6d6fde5f933dc")
+API_HASH = getenv("API_HASH", "169ee702e1df4b6e66d80311db36cc43")
 MONGO_URL = getenv("MONGO_URL", "mongodb+srv://apem:apem@cluster0.iraog.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
 BOT_TOKEN = getenv("BOT_TOKEN", "7475167651:AAG5HfghERHt1zZG7naLjppk_my4awIOwNw")
 OPENAI_API = getenv("OPENAI_API", "") 
