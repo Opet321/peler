@@ -43,7 +43,7 @@ async def _owner(client: Client, message: Message):
         if message_id:
             sent_message = await message.copy(int(message_id['user_id']), reply_to_message_id=int(message_id['message_id']))
             
-            reply_message = await message.reply_text(f"<b><blockquote>terkirim ke {message_id['user_id']}</b></blockquote>", reply_parameters=message.id, disable_notification=True)
+            reply_message = await message.reply_text(f"<b><blockquote>terkirim ke {message_id['user_id']}</b></blockquote>", reply_parameters=ReplyParameter(message_id=message_id, disable_notification=True)
             
             await asyncio.sleep(3)
             
@@ -67,7 +67,7 @@ async def _owner(client: Client, message: Message):
             if message_id:
                 sent_message = await message.copy(int(message_id['user_id']))
                 
-                reply_message = await message.reply_text(f"<b><blockquote>terkirim ke {message_id['user_id']}</b></blockquote>", reply_parameters=message.id, disable_notification=True)
+                reply_message = await message.reply_text(f"<b><blockquote>terkirim ke {message_id['user_id']}</b></blockquote>", reply_parameters=ReplyParameter(message_id=message_id, disable_notification=True)
                 
                 await asyncio.sleep(3)
                 try:
@@ -84,7 +84,7 @@ async def _user(client: Client, message: Message):
     await message.react([ReactionTypeEmoji(emoji="👀")])
     user_db = await users.find_one({"user_id": f"{message.from_user.id}"})
     if not user_db:
-        await message.reply_text("<b>You are not in the database, enter /start to use the bot!</b>", reply_parameters=message.id)
+        await message.reply_text("<b>You are not in the database, enter /start to use the bot!</b>", reply_parameters=ReplyParameter(message_id=message_id)
     else:
         forwarded_message = await message.forward(OWNER)  
         chat_id = message.chat.id
