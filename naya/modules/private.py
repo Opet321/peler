@@ -24,11 +24,11 @@ async def _start(client: Client, message: Message):
     await message.react([ReactionTypeEmoji(emoji="👍")])
     user_db = await users.find_one({"user_id": f"{message.from_user.id}"})
     if not user_db:
-        await message.reply_text(f"<b><blockquote>Hello, {message.from_user.mention}!\nAda yang bisa saya banting ?</b></blockquote>", message_effect_id=5104841245755180586)
+        await message.reply(f"<b><blockquote>Hello, {message.from_user.mention}!\nAda yang bisa saya banting ?</b></blockquote>", message_effect_id=5104841245755180586)
         user_id = {"user_id": f"{message.from_user.id}"}
         await users.insert_one(user_id)
     else:
-        await message.reply_text(f"<b><blockquote>Status by React\n👍: Delivered\n👀: Read\n✍: edited</blockquote></b>", message_effect_id=5104841245755180586)
+        await message.reply(f"<b><blockquote>Status by React\n👍: Delivered\n👀: Read\n✍: edited</blockquote></b>", message_effect_id=5104841245755180586)
  
 
 @app.on_message(filters.chat(int(OWNER)))
@@ -43,7 +43,7 @@ async def _owner(client: Client, message: Message):
         if message_id:
             sent_message = await message.copy(int(message_id['user_id']), reply_to_message_id=int(message_id['message_id']))
             
-            reply_message = await message.reply_text(f"<b><blockquote>terkirim ke {message_id['user_id']}</b></blockquote>", reply_to_message_id=message.id, disable_notification=True)
+            reply_message = await message.reply(f"<b><blockquote>terkirim ke {message_id['user_id']}</b></blockquote>", reply_to_message_id=message.id, disable_notification=True)
             
             await asyncio.sleep(3)
             
@@ -76,7 +76,7 @@ async def _owner(client: Client, message: Message):
                     pass #abaikan jika pesan tidak bisa dihapus karena sudah dihapus atau ada masalah permission
 
         else:
-            await message.reply_text("List is empty, cannot retrieve last message.")
+            await message.reply("List is empty, cannot retrieve last message.")
  
  
 @app.on_message(filters.all & filters.private & ~filters.me)
@@ -84,7 +84,7 @@ async def _user(client: Client, message: Message):
     await message.react([ReactionTypeEmoji(emoji="👀")])
     user_db = await users.find_one({"user_id": f"{message.from_user.id}"})
     if not user_db:
-        await client.get_messages(chat_id=chat_id, reply_to_message_ids=message_id)
+        await message.reply(f"<b>You are not in the database, enter /start to use the bot!</b>", reply_to_message_id=message.id)
     else:
         forwarded_message = await message.forward(OWNER)  
         chat_id = message.chat.id
