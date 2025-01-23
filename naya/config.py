@@ -6,10 +6,10 @@ load_dotenv(".env")
 
 
 API_ID = int(getenv("API_ID", "209235"))
-OWNER = int(getenv("OWNER", "6989350560"))
+OWNER = int(getenv("OWNER", "6190309715"))
 API_HASH = getenv("API_HASH", "169ee702e1df4b6e66d80311db36cc43")
 MONGO_URL = getenv("MONGO_URL", "mongodb+srv://apem:apem@cluster0.iraog.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
-BOT_TOKEN = getenv("BOT_TOKEN", "7475167651:AAG5HfghERHt1zZG7naLjppk_my4awIOwNw")
+BOT_TOKEN = getenv("BOT_TOKEN", "7647918583:AAFRli68VM40AJJk_7-L4XZ2m5NFGDbSzU0")
 OPENAI_API = getenv("OPENAI_API", "") 
 FORUM_CHAT_ID = getenv("FORUM_CHAT_ID", "-1002314627378")
 GIT_TOKEN = getenv("GIT_TOKEN", "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")
