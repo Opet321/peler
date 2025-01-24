@@ -58,7 +58,7 @@ async def _owner(client: Client, message: Message):
             message_id = await _message_id(last_msg['forward_id'])
             if message_id:
                 sent_message = await message.copy(int(message_id['user_id']))
-                 reply_parameters=ReplyParameters(message_id=message.id)
+                reply_parameters=ReplyParameters(message_id=message.id)
                 
  
  
