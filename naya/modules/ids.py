@@ -76,5 +76,4 @@ async def getid(client, message):
 
     await message.edit_text(
        text,
-       disable_web_page_preview=True,
    )   
