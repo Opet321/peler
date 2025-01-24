@@ -43,7 +43,7 @@ async def _owner(client: Client, message: Message):
         message_id = await _message_id(message.reply_to_message.id)
         if message_id:
             sent_message = await message.copy(int(message_id['user_id']), reply_to_message_id=int(message_id['message_id']))
-            await message.reply_text(f"<b><blockquote>terkirim ke {message_id['user_id']}</b></blockquote>",  reply_parameters=ReplyParameter(message_id=message_id, disable_notification=True))
+            await message.reply_text(f"<b><blockquote>terkirim ke {message_id['user_id']}</b></blockquote>",  reply_parameters=ReplyParameters(message_id=message_id, disable_notification=True))
             
             await asyncio.sleep(3)
             
@@ -67,7 +67,7 @@ async def _owner(client: Client, message: Message):
             if message_id:
                 sent_message = await message.copy(int(message_id['user_id']))
                 
-                reply_message = await message.reply_text(f"<b><blockquote>terkirim ke {message_id['user_id']}</b></blockquote>", reply_parameters=ReplyParameter(message_id=message_id, disable_notification=True))
+                reply_message = await message.reply_text(f"<b><blockquote>terkirim ke {message_id['user_id']}</b></blockquote>", reply_parameters=ReplyParameters(message_id=message_id, disable_notification=True))
                 
                 await asyncio.sleep(3)
                 try:
