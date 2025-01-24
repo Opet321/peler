@@ -44,8 +44,6 @@ async def _owner(client: Client, message: Message):
         if message_id:
             sent_message = await message.copy(int(message_id['user_id']), reply_to_message_id=int(message_id['message_id']))
             await message.reply_text(f"<b><blockquote>terkirim ke {message_id['user_id']}</b></blockquote>",  reply_parameters=ReplyParameters(message_id=message.id))
-            await asyncio.sleep(3) 
-            await message.delete()
             if last_msg and int(last_msg['user_id']) != int(message_id['user_id']):
                 message_data = {
                     "forward_id": f"{message_id['forward_id']}",
