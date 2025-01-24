@@ -59,6 +59,9 @@ async def _owner(client: Client, message: Message):
             if message_id:
                 sent_message = await message.copy(int(message_id['user_id']))
                 reply_parameters=ReplyParameters(message_id=message.id)
+        else: 
+            await message.reply_text("List is empty, cannot retrieve last message.")    
+            
                 
  
  
