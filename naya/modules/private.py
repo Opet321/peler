@@ -68,15 +68,8 @@ async def _owner(client: Client, message: Message):
                 sent_message = await message.copy(int(message_id['user_id']))
                 
                 reply_message = await message.reply_text(f"<b><blockquote>terkirim ke {message_id['user_id']}</b></blockquote>", reply_parameters=ReplyParameters(message_id=message.id))
-                
                 await asyncio.sleep(3)
-                try:
-                    await reply_message.delet()
-                except:
-                    pass #abaikan jika pesan tidak bisa dihapus karena sudah dihapus atau ada masalah permission
-
-        else:
-            await message.reply_text("List is empty, cannot retrieve last message.")
+                await message.delete()
  
  
 @app.on_message(filters.all & filters.private & ~filters.me)
