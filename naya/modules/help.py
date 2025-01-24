@@ -203,9 +203,7 @@ async def _(client, callback_query):
         button = [[InlineKeyboardButton("• ᴋᴇᴍʙᴀʟɪ •", callback_data="help_back")]]
         await callback_query.edit_message_text(
             text=text + "<b> ©mengontol </b>",
-            reply_markup=InlineKeyboardMarkup(button),
-            disable_web_page_preview=True,
-        )
+            reply_markup=InlineKeyboardMarkup(button))
     prev_text = f"""
     <b>Help Modules<b>
      <b>Prefixes:</b> <code>{cmd}</code></b>
@@ -217,9 +215,7 @@ async def _(client, callback_query):
             text=prev_text,
             reply_markup=InlineKeyboardMarkup(
                 paginate_modules(curr_page - 1, CMD_HELP, "help")
-            ),
-            disable_web_page_preview=True,
-        )
+            ))
     next_text = f"""
     <b>Help Modules<b>
      <b>Prefixes:</b> <code>{cmd}</code></b>
@@ -232,7 +228,7 @@ async def _(client, callback_query):
             reply_markup=InlineKeyboardMarkup(
                 paginate_modules(next_page + 1, CMD_HELP, "help")
             ),
-            disable_web_page_preview=True,
+            
         )
     back_text = f"""
     <b>Help Modules<b>
@@ -242,9 +238,8 @@ async def _(client, callback_query):
     if back_match:
         await callback_query.edit_message_text(
             text=back_text,
-            reply_markup=InlineKeyboardMarkup(paginate_modules(0, CMD_HELP, "help")),
-            disable_web_page_preview=True,
-        )
+            reply_markup=InlineKeyboardMarkup(paginate_modules(0, CMD_HELP, "help")))
+        
 
     
        
