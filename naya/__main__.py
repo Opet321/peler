@@ -7,7 +7,6 @@ from naya.utils import *
 from naya.load import *
 from naya.utils import * 
 from pyrogram.enums import ParseMode
-from pyrogram.errors import RPCError, TopicNotModified
 from pyrogram.types import BotCommand, BotCommandScopeChatAdministrators
 from naya.utils.db import * 
 from naya.version import __version__ as nay
