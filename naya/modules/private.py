@@ -42,7 +42,7 @@ async def _owner(client: Client, message: Message):
     if message.reply_to_message:
         message_id = await _message_id(message.reply_to_message.id)
         if message_id:
-            sent_message = await message.copy(int(message_id['user_id']), reply_to_message_id=int(message_id['message_id'])) 
+            await message.copy(int(message_id['user_id']), reply_to_message_id=int(message_id['message_id'])) 
             peler = await message.reply_text(f"<b>Pesan Anda telah terkirim ke {(message_id['user_id'])}</b>", reply_parameters=ReplyParameters(message_id=message.id))
             await asyncio.sleep(1)
             await peler.delete()
@@ -59,7 +59,7 @@ async def _owner(client: Client, message: Message):
         if last_msg:
             message_id = await _message_id(last_msg['forward_id'])
             if message_id:
-                sent_message = await message.copy(int(message_id['user_id'])) 
+                await message.copy(int(message_id['user_id'])) 
                 peler = await message.reply_text(f"<b>Pesan Anda telah terkirim ke {(message_id['user_id'])}</b>", reply_parameters=ReplyParameters(message_id=message.id))
                 await asyncio.sleep(1) 
                 await peler.delete()
