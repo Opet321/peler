@@ -71,7 +71,7 @@ async def _owner(client: Client, message: Message):
                 
                 await asyncio.sleep(3)
                 try:
-                    await reply_message.delete()
+                    await reply_message.delet()
                 except:
                     pass #abaikan jika pesan tidak bisa dihapus karena sudah dihapus atau ada masalah permission
 
