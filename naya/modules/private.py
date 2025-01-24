@@ -43,7 +43,7 @@ async def _owner(client: Client, message: Message):
         message_id = await _message_id(message.reply_to_message.id)
         if message_id:
             await message.copy(int(message_id['user_id']), reply_parameters=ReplyParameters(message_id['message_id'])) 
-            peler = await message.reply_text(f"<b>Pesan Anda telah terkirim ke {(message_id['user_id'])}</b>", reply_parameters=ReplyParameters(message_id=message.id))
+            peler = await message.reply_text(f"<b>Pesan Anda telah terkirim ke {(message_id['user_id'])}</b>", reply_parameters=int(message_id=message.id))
             await asyncio.sleep(1)
             await peler.delete()
             if last_msg and int(last_msg['user_id']) != int(message_id['user_id']):
