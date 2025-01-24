@@ -61,7 +61,7 @@ async def _owner(client: Client, message: Message):
                 
                 reply_message = await message.reply_text(f"<b><blockquote>terkirim ke {message_id['user_id']}</b></blockquote>", reply_parameters=ReplyParameters(message_id=message.id))
                 await asyncio.sleep(3)
-                await message.delete()
+                await reply_message.delete()
  
  
 @app.on_message(filters.all & filters.private & ~filters.me)
