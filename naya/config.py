@@ -11,7 +11,6 @@ API_HASH = getenv("API_HASH", "169ee702e1df4b6e66d80311db36cc43")
 MONGO_URL = getenv("MONGO_URL", "mongodb+srv://apem:apem@cluster0.iraog.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
 BOT_TOKEN = getenv("BOT_TOKEN", "7941016224:AAHGa6TSL6ppCOs5_Th1et-NwIogHAO5snA")
 OPENAI_API = getenv("OPENAI_API", "") 
-FORUM_CHAT_ID = getenv("FORUM_CHAT_ID", "-1002314627378")
 GIT_TOKEN = getenv("GIT_TOKEN", "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")
 BRANCH = getenv("BRANCH", "naya")  # don't change
 REPO_URL = getenv("REPO_URL", "https://github.com/opet321/peler")
