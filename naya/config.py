@@ -9,7 +9,7 @@ API_ID = int(getenv("API_ID", "209235"))
 OWNER = int(getenv("OWNER", "6190309715"))
 API_HASH = getenv("API_HASH", "169ee702e1df4b6e66d80311db36cc43")
 MONGO_URL = getenv("MONGO_URL", "mongodb+srv://apem:apem@cluster0.iraog.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
-BOT_TOKEN = getenv("BOT_TOKEN", "7941016224:AAHGa6TSL6ppCOs5_Th1et-NwIogHAO5snA")
+BOT_TOKEN = getenv("BOT_TOKEN", "7591149334:AAEFrGJ02EjfUGPxoXff88AqmA0tb2zQJ1k")
 OPENAI_API = getenv("OPENAI_API", "") 
 GIT_TOKEN = getenv("GIT_TOKEN", "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")
 BRANCH = getenv("BRANCH", "naya")  # don't change
