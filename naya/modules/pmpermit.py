@@ -88,30 +88,30 @@ async def handle_antipm(client: Client,
     if message.from_user.id == OWNER: 
         return
       
-    #results = await client.get_inline_bot_results("@usridsbot",  query="pmpermit") 
-    #await client.send_inline_bot_result(message.chat.id, results.query_id, results.results[0].id)
+    results = await client.get_inline_bot_results("@memekz_bot",  query="pmpermit") 
+    await client.send_inline_bot_result(message.chat.id, results.query_id, results.results[0].id)
     peer_id = await client.resolve_peer(message.chat.id)  
-    #await sleep (4) 
+    await sleep (5) 
     await client.invoke(DeleteHistory(peer=peer_id, max_id=0, revoke=True))
 
 
 
 
-#@app.on_inline_query() 
-#async def handle_inline(client: Client, inline: InlineQuery) -> None: 
-    #inline_query = inline.query 
-    #if inline_query.strip().lower().split()[0] == "pmpermit": 
-        #keyboard = InlineKeyboardMarkup([[InlineKeyboardButton(text="contact me", user_id=client.me.id)]] 
-        #) 
-        #await inline.answer( 
-            #results=[InlineQueryResultArticle(
-                #id=str(uuid4()), 
-                #title="Pmpermit",
-                #input_message_content 
-                  #=InputTextMessageContent("<b><blockquote>Maaf saya tidak bisa menerima PM, Silahkan hubungi saya melalui bot, klik tombol di bawah ini</b></blockquote>"), 
-                #reply_markup=keyboard 
-            #)]
-        #)
+@app.on_inline_query() 
+async def handle_inline(client: Client, inline: InlineQuery) -> None: 
+    inline_query = inline.query 
+    if inline_query.strip().lower().split()[0] == "pmpermit": 
+        keyboard = InlineKeyboardMarkup([[InlineKeyboardButton(text="contact me", user_id=client.me.id)]] 
+        ) 
+        await inline.answer( 
+            results=[InlineQueryResultArticle(
+                id=str(uuid4()), 
+                title="Pmpermit",
+                input_message_content 
+                  =InputTextMessageContent("<b><blockquote>Maaf saya tidak bisa menerima PM, Silahkan hubungi saya melalui bot, klik tombol di bawah ini</b></blockquote>"), 
+                reply_markup=keyboard 
+            )]
+        )
 
 
         
