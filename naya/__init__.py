@@ -91,14 +91,14 @@ class Bot(Client):
 
 
 class Ubot(Client):
-    __module__ = "kymang.client"
+    __module__ = "pler.client"
     _bots = []
     _get_my_id = [] 
     _translate = {}
     
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.group_call = GroupCallFactory(self).get_group_call()
+        #self.group_call = GroupCallFactory(self).get_group_call()
 
     def on_message(self, filters=filters.Filter, group=-1):
         def decorator(func):
