@@ -15,31 +15,6 @@ from . import *
 
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-@bots.on_message(
-    filters.group
-    & filters.mentioned
-    & filters.incoming
-    & ~filters.bot
-    & ~filters.via_bot,
-    group=69,
-)
-async def log_tagged_messages(client, message):
-    message.chat.id
-    user_id = client.me.id
-    botlog_chat_id = await get_botlog(user_id)
-    knl = f"📨<b><u>ANDA TELAH DI TAG</u></b>\n<b> • Dari : </b>{message.from_user.mention}"
-    knl += f"\n<b> • Grup : </b>{message.chat.title}"
-    knl += f"\n<b> • 👀 </b><a href = '{message.link}'>Lihat Pesan</a>"
-    knl += f"\n<b> • Message : </b><code>{message.text}</code>"
-    await asyncio.sleep(0.5)
-    await client.send_message(
-        botlog_chat_id,
-        knl,
-        parse_mode=enums.ParseMode.HTML,
-        disable_web_page_preview=True,
-        reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Lihat Pesan", url=message.link)]]),
-    )
-    
 
 @bots.on_message(filters.command("setlog", cmd) & filters.me)
 async def set_log(client, message):
